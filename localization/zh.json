@@ -1,0 +1,457 @@
+{
+    "common": {
+        "screenTitles": {
+            "wallet": {
+                "deposit": "存款",
+                "withdraw": "收回",
+                "settings": "钱包设定",
+                "transactionDetails": "交易明细",
+                "tokens": "代币",
+                "qrRequest": "二维码请求",
+                "swap": "Swap",
+                "swapDetails": "交换详情",
+                "NFTDetails": "NFT Details"
+            },
+            "settings": {
+                "globalSettings": "设定值",
+                "language": "语言",
+                "qrCodeScanner": "QR码扫描仪",
+                "networks": "网路",
+                "depositRequest": "存款要求"
+            },
+            "addressBook": {
+                "addressBook": "地址簿",
+                "addAddress": "新增地址"
+            },
+            "onboarding": {
+                "legal": "法律",
+                "recoveryPhrase": "恢复短语"
+            },
+            "password": {
+                "changePasswordMethod": "认证变更"
+            }
+        },
+        "migration": {
+            "alerts": {
+                "message": "密码",
+                "description": "您取消了指纹/面部识别码确认。要使用指纹/面部识别码，请在“设置”中再次创建一个密码。"
+            }
+        },
+        "network": {
+            "alerts": {
+                "message": "网络状态",
+                "description": "与网络断开连接。请检查您的网络连接。"
+            }
+        },
+        "optional": "可选的",
+        "comingSoon": "即将推出"
+    },
+    "chooseWallet": {
+        "title": "选择钱包",
+        "description": "选择您的钱包之一通过二维码请求提取硬币",
+        "noWallets": "尚未创建钱包"
+    },
+    "factoryReset": {
+        "erasingData": "清除资料"
+    },
+    "qrCodeScanner": {
+        "addToAddressBook": "添加到地址簿",
+        "withdraw": "收回"
+    },
+    "deleteWallet": {
+        "alerts": {
+            "notFound": {
+                "message": "钱包设定",
+                "description": "找不到钱包！"
+            },
+            "deleted": {
+                "message": "钱包设定",
+                "description": "电子钱包已成功删除。"
+            }
+        },
+        "deletingWallet": "删除钱包"
+    },
+    "withdraw": {
+        "withdrawAddress": {
+            "title": "提款地址",
+            "placeholder": "amNiyWFJ6svS2ZnVA2y5cHHLf228TNmmtv"
+        },
+        "addressBook": "地址簿",
+        "qrScanner": "QR扫描仪",
+        "clipboard": "剪贴板",
+        "amount": {
+            "title": "量",
+            "placeholder": "0.00000000"
+        },
+        "timelockDate": {
+            "title": "时间锁定日期",
+            "placeholder": "2020年10月12日上午6:54"
+        },
+        "customFee": "自费",
+        "fee": {
+            "title": "费用",
+            "placeholder": "0.00000000"
+        },
+        "totalSend": "总发送",
+        "transactionFee": "手续费 {{balance}} {{coin}}",
+        "confirmButton": "发送",
+        "token": "代币",
+        "alerts": {
+            "withdrawConfirmation": {
+                "message": "收回",
+                "description": "您确定要从钱包中提取{{amount}} {{coin}}吗？",
+                "cancel": "取消",
+                "confirm": "是"
+            },
+            "transactionSent": {
+                "message": "收回",
+                "description": "交易已成功发送。请等待几分钟，以通过区块链进行确认。"
+            },
+            "error": {
+                "message": "收回"
+            }
+        },
+        "datepicker": {
+            "cancelIOS": "取消",
+            "confirmIOS": "确认",
+            "headerIOS": "选择一个日期"
+        },
+        "selectCurrency": "选择货币"
+    },
+    "wallet": {
+        "addNewWallet": "添加新钱包",
+        "history": "历史",
+        "tokens": "代币",
+        "p2p": "P2P",
+        "withdraw": "收回",
+        "deposit": "存款",
+        "search": "搜索",
+        "settings": "设置",
+        "addressBook": "地址簿",
+        "qrScanner": "QR扫描仪"
+    },
+    "deposit": {
+        "alerts": {
+            "copiedAddress": {
+                "message": "存款",
+                "description": "接收地址已成功复制到剪贴板。"
+            }
+        },
+        "copy": "复制",
+        "share": "分享",
+        "qrRequest": "二维码请求"
+    },
+    "tokens": {
+        "noTokens": "还没有代币。"
+    },
+    "p2p": {
+        "p2pCommingSoon": "P2P 功能即将推出."
+    },
+    "transactions": {
+        "noHistory": "没有存款或提款历史。",
+        "noSearch": "没有您要搜索的交易。"
+    },
+    "settings": {
+        "walletTitle": {
+            "title": "钱包标题",
+            "placeholder": "我的钱包"
+        },
+        "alerts": {
+            "titleChanged": {
+                "message": "钱包设定",
+                "description": "电子钱包标题已成功更改。"
+            },
+            "seedPhraseCopied": {
+                "message": "钱包设定",
+                "description": "恢复短语已成功复制到剪贴板。"
+            },
+            "seedPhraseCopyConfirmation": {
+                "message": "钱包设定",
+                "description": "您要复制恢复短语吗？将恢复短语用于第三方应用程序或将其提供给任何其他人时，请务必小心。",
+                "cancel": "取消",
+                "confirm": "复制"
+            },
+            "cacheDeleted": {
+                "message": "钱包设定",
+                "description": "电子钱包缓存已成功删除。"
+            },
+            "cacheDeleteConfirmation": {
+                "message": "钱包设定",
+                "description": "您要删除钱包缓存吗？您不会从应用程序中丢失钱包。",
+                "cancel": "取消",
+                "confirm": "删除"
+            },
+            "deleteWalletConfirmation": {
+                "message": "钱包设定",
+                "description": "您要删除钱包吗？如果您之前没有保存恢复短语，则将失去对它的访问权限。",
+                "cancel": "取消",
+                "confirm": "删除"
+            }
+        },
+        "deleteHistoryCache": "删除钱包缓存",
+        "copySeedPhrase": "复制恢复短语",
+        "deleteWallet": "删除钱包",
+        "enter": "输入"
+    },
+    "changePasswordMethod": {
+        "pinTitle": "6位PIN码",
+        "passwordTitle": "密码",
+        "description": "请在使用钱包时选择所需的身份验证方法。"
+    },
+    "password": {
+        "alerts": {
+            "newPasswordCreated": {
+                "message": "密码",
+                "description": "您的密码已成功安装。"
+            },
+            "useBiometric": {
+                "message": "密码",
+                "description": "您要使用指纹认证吗？",
+                "ok": "好",
+                "cancel": "取消"
+            },
+            "passwordsNotMatch": {
+                "message": "密码",
+                "description": "您的密码不匹配。请再试一次。"
+            },
+            "passwordTooShort": {
+                "message": "密码",
+                "description": "密码太短。至少4位数字！"
+            },
+            "passwordIncorrect": {
+                "message": "密码",
+                "description": "您的密码不正确。再试一次！"
+            },
+            "appNotUplocked": {
+                "message": "密码",
+                "description": "该应用程序未使用先前的密码解锁。请重新加载应用程序以继续。"
+            }
+        },
+        "androidBiometric": {
+            "description": "密码",
+            "header": "使用传感器解锁应用"
+        },
+        "iosBiometric": {
+            "prompt": "我们需要您的许可才能检索加密的数据"
+        },
+        "title": {
+            "newPassword": {
+                "pin": "创建您的PIN码",
+                "password": "创建你的密码"
+            },
+            "unlock": "解锁你的钱包"
+        },
+        "description": {
+            "newPassword": {
+                "pin": "输入新的6位数密码",
+                "password": "输入新密码",
+                "repeat": {
+                    "pin": "重复新的6位数密码",
+                    "password": "重复您的新密码"
+                }
+            },
+            "unlock": {
+                "pin": "输入您的6位数密码",
+                "password": "输入密码"
+            }
+        },
+        "enterButton": "输入",
+        "changeAuthMethod": "变更认证方式"
+    },
+    "finished": {
+        "title": "确认书",
+        "description": "我已将其记录在一个安全的地方，并且我完全理解，我对丢失它后发生的一切情况负责。",
+        "confirmButton": "完",
+        "alerts": {
+            "errorAgreement": {
+                "message": "恢复短语协议",
+                "description": "您必须同意已保存恢复短语才能继续创建新的钱包。"
+            }
+        },
+        "agreement": "我已经按顺序写下了以上所有12个单词。"
+    },
+    "generateWallet": {
+        "title": "生成钱包",
+        "description": "可能需要一些时间，请耐心等待。",
+        "alerts": {
+            "error": {
+                "notFound": {
+                    "seedPhrase": "找不到还原短语！",
+                    "title": "找不到钱包标题！",
+                    "unlockedPassword": "钱包未解锁！"
+                }
+            }
+        }
+    },
+    "legal": {
+        "alerts": {
+            "errorAgreement": {
+                "message": "法律协议",
+                "description": "您必须同意隐私政策和服务条款，才能继续创建新的钱包。"
+            }
+        },
+        "termsOfService": "服务条款",
+        "privacyPolicy": "隐私政策",
+        "description": "请查看WONPAY钱包服务条款和隐私政策",
+        "agreement": "我已阅读并接受服务条款和隐私权政策。",
+        "confirmButton": "继续"
+    },
+    "protect": {
+        "title": "保护您的钱包",
+        "description": "解锁钱包，汇款和重访恢复天堂时，请确保钱包安全。",
+        "confirmButton": "继续"
+    },
+    "recoveryPhrase": {
+        "initialTitle": "钱包",
+        "confirmButton": "继续",
+        "standard": "标准",
+        "unsecured": "无担保",
+        "alerts": {
+            "fillRecoveryPhrase": {
+                "message": "恢复短语",
+                "description": "您必须先填写恢复短语，然后才能继续导入钱包。"
+            }
+        },
+        "recoveryPhrase": {
+            "title": "恢复短语",
+            "placeholder": "一二三四有五六七七八九十十一十二"
+        },
+        "walletTitle": {
+            "placeholder": "钱包标题"
+        }
+    },
+    "recoveryTips": {
+        "slides": {
+            "first": {
+                "title": "重要！",
+                "subtitle": "什么是恢复短语？",
+                "description": "它是您的钱包的主私钥，只有您可以访问并且应该完全控制它的资产。"
+            },
+            "second": {
+                "title": "重要！",
+                "subtitle": "你为什么需要它？",
+                "description": "您可以使用它来导入和恢复新设备的钱包。如果您失去了它，您将永远无法收回资产"
+            },
+            "third": {
+                "title": "重要！",
+                "subtitle": "您应该在哪里存放它？",
+                "description": "应该将其记录下来并存储在安全的脱机位置。绝对不要截屏，因为所有在线内容都是可入侵的"
+            },
+            "fourth": {
+                "title": "让我们开始吧！",
+                "subtitle": "",
+                "description": "您的恢复短语将在下一个屏幕中显示为12个单词"
+            }
+        },
+        "confirmButton": {
+            "gotIt": "得到它了",
+            "next": "下一个"
+        }
+    },
+    "welcome": {
+        "slides": {
+            "first": {
+                "title": "欢迎！",
+                "description": "世界上最先进的加密钱包。"
+            },
+            "second": {
+                "title": "安全！",
+                "description": "您的私钥在设备上本地加密，没有人能得到它。"
+            },
+            "third": {
+                "title": "强大！",
+                "description": "WONPAY是最强大，最先进的第三代产品。"
+            }
+        },
+        "create": "创建一个新钱包",
+        "import": "导入现有钱包"
+    },
+    "globalSettings": {
+        "changeLanguage": "改变语言",
+        "changePassword": "更改密码",
+        "useTouchID": "使用Touch ID",
+        "deleteAddressBook": "删除通讯录",
+        "factoryReset": "恢复出厂设置",
+        "alerts": {
+            "addressBookDeleted": {
+                "message": "设定值",
+                "description": "通讯簿已成功删除。"
+            },
+            "addressBookDeleteConfirmation": {
+                "message": "设定值",
+                "description": "您要删除通讯录吗？您将在那里失去所有地址联系人。",
+                "cancel": "取消",
+                "confirm": "删除"
+            },
+            "factoryResetConfirmation": {
+                "message": "设定值",
+                "description": "您要删除所有数据吗？您将丢失所有钱包，通讯录和密码。",
+                "cancel": "取消",
+                "confirm": "擦除"
+            },
+            "nameChanged": {
+                "message": "设定值",
+                "description": "名称已成功更改。"
+            }
+        },
+        "enter": "输入",
+        "name": {
+            "title": "名称",
+            "placeholder": "约翰"
+        },
+        "changeNetwork": "变更联播网"
+    },
+    "home": {
+        "welcome": "欢迎",
+        "totalAmount": "总金额",
+        "addressBook": "地址簿",
+        "qrScanner": "QR扫描仪",
+        "settings": "设定值",
+        "deposit": "存款",
+        "withdraw": "收回",
+        "addNewWallet": "添加新钱包",
+        "alerts": {
+            "noTokensFound": {
+                "message": "主页",
+                "description": "没有找到Tokens"
+            }
+        }
+    },
+    "addressBook": {
+        "edit": "编辑",
+        "delete": "删除",
+        "noAddresses": "地址簿中还没有地址。"
+    },
+    "manageAddressBookItem": {
+        "editAddress": "编辑地址",
+        "addAddress": "新增地址",
+        "title": {
+            "title": "标题",
+            "placeholder": "约翰"
+        },
+        "address": {
+            "title": "地址",
+            "placeholder": "amNiyWFJ6svS2ZnVA2y5cHHLf228TNmmtv"
+        },
+        "qrScanner": "QR扫描仪",
+        "clipboard": "剪贴板",
+        "favorite": "喜爱",
+        "confirmButton": {
+            "save": "救",
+            "add": "加"
+        }
+    },
+    "transactionDetails": {
+        "withdraw": "收回",
+        "deposit": "存款",
+        "toAddress": "讲话",
+        "fromAddress": "发件人地址",
+        "addToAddressBook": "添加到地址簿",
+        "transactionHash": "交易哈希",
+        "confirmations": "确认书",
+        "timelockDate": "时间锁定日期",
+        "timelockHeight": "时间锁高度",
+        "fee": "费用",
+        "backToList": "返回目录"
+    }
+}

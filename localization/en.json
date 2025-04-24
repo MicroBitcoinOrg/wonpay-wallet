@@ -1,0 +1,465 @@
+{
+    "common": {
+        "screenTitles": {
+            "wallet": {
+                "deposit": "Deposit",
+                "withdraw": "Withdraw",
+                "settings": "Wallet Settings",
+                "transactionDetails": "Transaction Details",
+                "tokens": "Tokens",
+                "qrRequest": "QR Code Request",
+                "swap": "Swap",
+                "swapDetails": "Swap Details",
+                "NFTDetails": "NFT Details"
+            },
+            "settings": {
+                "globalSettings": "Settings",
+                "language": "Language",
+                "qrCodeScanner": "QR Code Scanner",
+                "networks": "Networks",
+                "chooseWallet": "Choose Wallet",
+                "depositRequest": "Deposit Request"
+            },
+            "addressBook": {
+                "addressBook": "Address Book",
+                "addAddress": "Add Address"
+            },
+            "onboarding": {
+                "legal": "Legal",
+                "recoveryPhrase": "Recovery Phrase"
+            },
+            "password": {
+                "changePasswordMethod": "Change of authentication"
+            }
+        },
+        "migration": {
+            "alerts": {
+                "message": "Password",
+                "description": "You canceled a fingerprint/Face ID confirmation. To use fingerprint/Face ID please create a password again from Settings."
+            }
+        },
+        "network": {
+            "alerts": {
+                "message": "Network Status",
+                "description": "Disconnected from the network. Please, check your network connection."
+            }
+        },
+        "optional": "optional",
+        "comingSoon": "Coming soon"
+    },
+    "chooseWallet": {
+        "title": "Choose Wallet",
+        "description": "Choose one of your wallets to withdraw coins by QR Code Request",
+        "noWallets": "No created wallets yet."
+    },
+    "factoryReset": {
+        "erasingData": "Erasing data"
+    },
+    "qrCodeScanner": {
+        "addToAddressBook": "Add To Address Book",
+        "withdraw": "Withdraw"
+    },
+    "deleteWallet": {
+        "alerts": {
+            "notFound": {
+                "message": "Wallet Settings",
+                "description": "Wallet not found!"
+            },
+            "deleted": {
+                "message": "Wallet Settings",
+                "description": "Wallet has been successfully deleted."
+            }
+        },
+        "deletingWallet": "Deleting Wallet"
+    },
+    "withdraw": {
+        "withdrawAddress": {
+            "title": "Withdraw Address",
+            "placeholder": "amNiyWFJ6svS2ZnVA2y5cHHLf228TNmmtv"
+        },
+        "addressBook": "Address Book",
+        "qrScanner": "QR Scanner",
+        "clipboard": "Clipboard",
+        "amount": {
+            "title": "Amount",
+            "placeholder": "0.00000000"
+        },
+        "timelockDate": {
+            "title": "Timelock Date",
+            "placeholder": "12 October 2020 6:54 AM"
+        },
+        "customFee": "Custom Fee",
+        "fee": {
+            "title": "Fee",
+            "placeholder": "0.00000000"
+        },
+        "totalSend": "Total Send",
+        "transactionFee": "Transaction fee {{balance}} {{coin}}",
+        "confirmButton": "Send",
+        "token": "Token",
+        "alerts": {
+            "withdrawConfirmation": {
+                "message": "Withdraw",
+                "description": "Are you sure you want to withdraw {{amount}} {{coin}} from your wallet?",
+                "cancel": "Cancel",
+                "confirm": "Yes"
+            },
+            "transactionSent": {
+                "message": "Withdraw",
+                "description": "The transaction has been successfully sent. Please, wait a few minutes to confirm it by blockchain."
+            },
+            "error": {
+                "message": "Withdraw"
+            }
+        },
+        "datepicker": {
+            "cancelIOS": "Cancel",
+            "confirmIOS": "Confirm",
+            "headerIOS": "Pick a date"
+        },
+        "selectCurrency": "Select Currency",
+        "selectAddress": "Select Address"
+    },
+    "wallet": {
+        "addNewWallet": "Add New Wallet",
+        "history": "TX",
+        "tokens": "Tokens",
+        "p2p": "P2P",
+        "withdraw": "Withdraw",
+        "deposit": "Deposit",
+        "settings": "Settings",
+        "search": "Search",
+        "addressBook": "Address Book",
+        "qrScanner": "QR Scanner"
+    },
+    "deposit": {
+        "alerts": {
+            "copiedAddress": {
+                "message": "Deposit",
+                "description": "Receive address successfully copied to the clipboard."
+            }
+        },
+        "copy": "Copy",
+        "share": "Share",
+        "qrRequest": "QR Request"
+    },
+    "tokens": {
+        "noTokens": "There is no tokens yet."
+    },
+    "p2p": {
+        "p2pCommingSoon": "P2P feature is comming soon."
+    },
+    "transactions": {
+        "noHistory": "There is no deposit or withdrawal history.",
+        "noSearch": "There are no transactions you are searching for."
+    },
+    "settings": {
+        "walletTitle": {
+            "title": "Wallet Title",
+            "placeholder": "My Wallet"
+        },
+        "alerts": {
+            "titleChanged": {
+                "message": "Wallet Settings",
+                "description": "Wallet title has been successfully changed."
+            },
+            "seedPhraseCopied": {
+                "message": "Wallet Settings",
+                "description": "Recovery phrase has been successfully copied to the clipboard."
+            },
+            "seedPhraseCopyConfirmation": {
+                "message": "Wallet Settings",
+                "description": "Do you want to copy recovery phrase? Be careful using your recovery phrase for third party applications or giving it to any other person.",
+                "cancel": "Cancel",
+                "confirm": "Copy"
+            },
+            "cacheDeleted": {
+                "message": "Wallet Settings",
+                "description": "Wallet cache has been successfully deleted."
+            },
+            "cacheDeleteConfirmation": {
+                "message": "Wallet Settings",
+                "description": "Do you want to delete your wallet cache? You won't lose your wallet from the application.",
+                "cancel": "Cancel",
+                "confirm": "Delete"
+            },
+            "deleteWalletConfirmation": {
+                "message": "Wallet Settings",
+                "description": "Do you want to delete your wallet? You will lose you access to it, if you haven't save recovery phrase before.",
+                "cancel": "Cancel",
+                "confirm": "Delete"
+            }
+        },
+        "enter": "Enter",
+        "deleteHistoryCache": "Delete Wallet Cache",
+        "copySeedPhrase": "Copy Recovery Phrase",
+        "deleteWallet": "Delete Wallet"
+    },
+    "changePasswordMethod": {
+        "description": "Please select the authentication method you want when using wallet.",
+        "pinTitle": "6-digit PIN code",
+        "passwordTitle": "Password"
+    },
+    "password": {
+        "alerts": {
+            "newPasswordCreated": {
+                "message": "Password",
+                "description": "Your password has been successfully installed."
+            },
+            "useBiometric": {
+                "message": "Password",
+                "description": "Do you want to use fingerprint authentication?",
+                "ok": "OK",
+                "cancel": "Cancel"
+            },
+            "passwordsNotMatch": {
+                "message": "Password",
+                "description": "Your passwords do not match. Please try again."
+            },
+            "passwordTooShort": {
+                "message": "Password",
+                "description": "Too short password. At least 4 digits!"
+            },
+            "passwordIncorrect": {
+                "message": "Password",
+                "description": "Your password is incorrect. Try again!"
+            },
+            "appNotUplocked": {
+                "message": "Password",
+                "description": "The application is not unlocked by previous password. Please, reload the application to continue."
+            }
+        },
+        "androidBiometric": {
+            "description": "Password",
+            "header": "Use your sensor to unlock your app"
+        },
+        "iosBiometric": {
+            "prompt": "We need your permission to retrieve encrypted data"
+        },
+        "title": {
+            "newPassword": {
+                "pin": "Create your PIN code",
+                "password": "Create your password"
+            },
+            "unlock": "Unlock your wallet"
+        },
+        "description": {
+            "newPassword": {
+                "pin": "Enter your new 6-digital passcode",
+                "password": "Enter your new password",
+                "repeat": {
+                    "pin": "Repeat your new 6-digital passcode",
+                    "password": "Repeat your new password"
+                }
+            },
+            "unlock": {
+                "pin": "Enter your 6-digital passcode",
+                "password": "Enter your password"
+            }
+        },
+        "enterButton": "Enter",
+        "changeAuthMethod": "Change authentication method"
+    },
+    "finished": {
+        "title": "Confirmation",
+        "description": "I have written it down in a secure place and I fully understand that I am responsible for everything that happens after losing it.",
+        "confirmButton": "Finish",
+        "alerts": {
+            "errorAgreement": {
+                "message": "Recovery Phrase Agreement",
+                "description": "You must agree that you saved your recovery phrase to continue creating a new wallet."
+            }
+        },
+        "agreement": "I've written down all the above 12 words in order."
+    },
+    "generateWallet": {
+        "title": "Generating wallet",
+        "description": "It may take some time, please be patient.",
+        "alerts": {
+            "error": {
+                "notFound": {
+                    "seedPhrase": "Restore phrase not found!",
+                    "title": "Wallet title not found!",
+                    "unlockedPassword": "Wallet is not unlocked!"
+                }
+            }
+        }
+    },
+    "legal": {
+        "alerts": {
+            "errorAgreement": {
+                "message": "Legal Agreement",
+                "description": "You must agree with Privacy Policy and Terms of Service to continue creating a new wallet."
+            }
+        },
+        "termsOfService": "Terms Of Service",
+        "privacyPolicy": "Privacy Policy",
+        "description": "Please review the WONPAY Terms of Service and Privacy Policy",
+        "agreement": "I've read and accept the Terms of Service and Privacy Policy.",
+        "confirmButton": "Continue"
+    },
+    "protect": {
+        "title": "Protect your Wallet",
+        "description": "Keep your Wallet secure when you unlock your wallets, send money and revisit recovery parase.",
+        "confirmButton": "Continue"
+    },
+    "recoveryPhrase": {
+        "initialTitle": "Wallet",
+        "confirmButton": "Continue",
+        "standard": "Standard",
+        "unsecured": "Unsecured",
+        "alerts": {
+            "fillRecoveryPhrase": {
+                "message": "Recovery Phrase",
+                "description": "You have to fill your recovery phrase before continue importing wallet."
+            }
+        },
+        "recoveryPhrase": {
+            "title": "Recovery Phrase",
+            "placeholder": "one two three four five six seven eight nine ten eleven twelve"
+        },
+        "walletTitle": {
+            "placeholder": "Wallet Title"
+        }
+    },
+    "recoveryTips": {
+        "slides": {
+            "first": {
+                "title": "Important!",
+                "subtitle": "What's a recovery phrase?",
+                "description": "It's the master private key to your wallet and the assets within only you can access and should take full control of it."
+            },
+            "second": {
+                "title": "Important!",
+                "subtitle": "Why do you need it?",
+                "description": "You can use it to import and recover your wallet a new device. If you lose it, you will never get your assets back"
+            },
+            "third": {
+                "title": "Important!",
+                "subtitle": "Where should your store it?",
+                "description": "It should be written down and stored in a secure offline location. Never take screen shots of it as everything online is hackable"
+            },
+            "fourth": {
+                "title": "Let's get Started!",
+                "subtitle": "",
+                "description": "Your recovery phrase will be shown to you in the next screen as a 12-word phrase"
+            }
+        },
+        "confirmButton": {
+            "gotIt": "Got it",
+            "next": "Next"
+        }
+    },
+    "welcome": {
+        "slides": {
+            "first": {
+                "title": "Welcome!",
+                "description": "The most advanced crypto wallet in the world."
+            },
+            "second": {
+                "title": "Secure!",
+                "description": "Your private keys are encrypted locally on your device and no one can get it."
+            },
+            "third": {
+                "title": "Powerful!",
+                "description": "WONPAY is the most powerful and advanced cryptocurrency payment system."
+            }
+        },
+        "create": "Create a new wallet",
+        "import": "Import an existing wallet"
+    },
+    "globalSettings": {
+        "changeLanguage": "Change Language",
+        "changePassword": "Change Password",
+        "changeNetwork": "Change Network",
+        "useTouchID": "Use Touch ID",
+        "deleteAddressBook": "Delete Address Book",
+        "factoryReset": "Factory Reset",
+        "enter": "Enter",
+        "alerts": {
+            "addressBookDeleted": {
+                "message": "Settings",
+                "description": "Address Book has been successfully deleted."
+            },
+            "nameChanged": {
+                "message": "Settings",
+                "description": "Name has been successfully changed."
+            },
+            "addressBookDeleteConfirmation": {
+                "message": "Settings",
+                "description": "Do you want to delete the address book? You will lose all your address contacts there.",
+                "cancel": "Cancel",
+                "confirm": "Delete"
+            },
+            "factoryResetConfirmation": {
+                "message": "Settings",
+                "description": "Do you want to erase all data you have? You will lose all your wallets, address book and password.",
+                "cancel": "Cancel",
+                "confirm": "Erase"
+            }
+        },
+        "name": {
+            "title": "Name",
+            "placeholder": "John"
+        }
+    },
+    "home": {
+        "welcome": "Welcome",
+        "totalAmount": "Total amount",
+        "addressBook": "Address Book",
+        "qrScanner": "QR Scanner",
+        "settings": "Settings",
+        "deposit": "Deposit",
+        "withdraw": "Withdraw",
+        "addNewWallet": "Add New Wallet",
+        "alerts": {
+            "noTokensFound": {
+                "message": "Home",
+                "description": "No tokens have been found"
+            }
+        }
+    },
+    "addressBook": {
+        "edit": "Edit",
+        "delete": "Delete",
+        "noAddresses": "There is no addresses in adreess book yet."
+    },
+    "manageAddressBookItem": {
+        "editAddress": "Edit Address",
+        "addAddress": "Add Address",
+        "title": {
+            "title": "Title",
+            "placeholder": "John"
+        },
+        "address": {
+            "title": "Address",
+            "placeholder": "amNiyWFJ6svS2ZnVA2y5cHHLf228TNmmtv"
+        },
+        "qrScanner": "QR Scanner",
+        "clipboard": "Clipboard",
+        "favorite": "Favorite",
+        "confirmButton": {
+            "save": "Save",
+            "add": "Add"
+        },
+        "alerts": {
+            "addressSaved": {
+                "message": "Address Book",
+                "description": "Address Book item has been successfully saved."
+            }
+        }
+    },
+    "transactionDetails": {
+        "withdraw": "Withdraw",
+        "deposit": "Deposit",
+        "toAddress": "To Address",
+        "fromAddress": "From Address",
+        "addToAddressBook": "Add To Address Book",
+        "transactionHash": "Transaction Hash",
+        "confirmations": "Confirmations",
+        "timelockDate": "Timelock Date",
+        "timelockHeight": "Timelock Height",
+        "fee": "Fee",
+        "backToList": "Back To List"
+    }
+}

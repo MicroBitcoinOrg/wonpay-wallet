@@ -1,0 +1,463 @@
+{
+    "common": {
+        "screenTitles": {
+            "wallet": {
+                "deposit": "입금",
+                "withdraw": "보내기",
+                "settings": "지갑설정",
+                "transactionDetails": "전송내역",
+                "tokens": "토큰",
+                "qrRequest": "QR 코드 요청",
+                "swap": "Swap",
+                "swapDetails": "Swap Details",
+                "NFTDetails": "NFT Details"
+            },
+            "settings": {
+                "globalSettings": "설정",
+                "language": "언어",
+                "qrCodeScanner": "QR코드",
+                "networks": "네트워크",
+                "depositRequest": "입금 요청"
+            },
+            "addressBook": {
+                "addressBook": "주소록",
+                "addAddress": "주소 추가"
+            },
+            "onboarding": {
+                "legal": "법률",
+                "recoveryPhrase": "복구 단어"
+            },
+            "password": {
+                "changePasswordMethod": "인증방식 변경"
+            }
+        },
+        "migration": {
+            "alerts": {
+                "message": "비밀번호",
+                "description": "지문/얼굴 인증을 취소하였습니다. 지문/얼굴 인증을 다시 사용하려면 설정에서 재설정하십시오."
+            }
+        },
+        "network": {
+            "alerts": {
+                "message": "네트워크 상태",
+                "description": "네트워크 접속이 끊어졌습니다. 다시 접속을 시도하세요."
+            }
+        },
+        "optional": "옵션",
+        "comingSoon": "곧 출시 예정"
+    },
+    "chooseWallet": {
+        "title": "지갑 선택",
+        "description": "QR 코드 요청으로 코인을 출금할 지갑 중 하나를 선택해주세요.",
+        "noWallets": "아직 생성 된 지갑이 없습니다"
+    },
+    "factoryReset": {
+        "erasingData": "데이타 삭제"
+    },
+    "qrCodeScanner": {
+        "addToAddressBook": "주소록에 입력",
+        "withdraw": "출금"
+    },
+    "deleteWallet": {
+        "alerts": {
+            "notFound": {
+                "message": "지갑 설정",
+                "description": "지갑이 없습니다!"
+            },
+            "deleted": {
+                "message": "지갑 설정",
+                "description": "지갑이 성공적으로 삭제되었습니다"
+            }
+        },
+        "deletingWallet": "지갑 삭제 중 입니다"
+    },
+    "withdraw": {
+        "withdrawAddress": {
+            "title": "출금 주소",
+            "placeholder": "amNiyWFJ6svS2ZnVA2y5cHHLf228TNmmtv"
+        },
+        "addressBook": "주소록",
+        "qrScanner": "QR 스캐너",
+        "clipboard": "클립보드",
+        "amount": {
+            "title": "수량",
+            "placeholder": "0.00000000"
+        },
+        "timelockDate": {
+            "title": "락업 날짜",
+            "placeholder": "2020년 10월 12일 6:54 AM"
+        },
+        "customFee": "자신의 수수료",
+        "fee": {
+            "title": "수수료",
+            "placeholder": "0.00000000"
+        },
+        "totalSend": "총 전송 수량",
+        "transactionFee": "거래 수수료 {{balance}} {{coin}}",
+        "confirmButton": "송금",
+        "token": "토큰",
+        "alerts": {
+            "withdrawConfirmation": {
+                "message": "출금",
+                "description": "{{amount}} {{coin}}출금에 동의하십니까?",
+                "cancel": "취소",
+                "confirm": "확인"
+            },
+            "transactionSent": {
+                "message": "출금",
+                "description": "성공적으로 전송했습니다. 몇 분만 기다리시면 승인이 완료됩니다."
+            },
+            "error": {
+                "message": "출금"
+            }
+        },
+        "datepicker": {
+            "cancelIOS": "취소",
+            "confirmIOS": "확인",
+            "headerIOS": "날짜 선택"
+        },
+        "selectCurrency": "통화 선택"
+    },
+    "wallet": {
+        "addNewWallet": "새로운 지갑 추가",
+        "history": "내역",
+        "tokens": "토큰",
+        "p2p": "P2P",
+        "deposit": "입금",
+        "withdraw": "출금",
+        "settings": "설정",
+        "search": "검색",
+        "addressBook": "주소록",
+        "qrScanner": "QR 스캐너"
+    },
+    "deposit": {
+        "alerts": {
+            "copiedAddress": {
+                "message": "입금",
+                "description": "주소가 클립보드로 복사되었습니다."
+            }
+        },
+        "copy": "복사",
+        "share": "공유",
+        "qrRequest": "QR 코드 요청"
+    },
+    "tokens": {
+        "noTokens": "보유하고 있는 토큰이 없습니다."
+    },
+    "p2p": {
+        "p2pCommingSoon": "P2P 기능이 곧 출시될 예정입니다."
+    },
+    "transactions": {
+        "noHistory": "입출금 내역이 없습니다",
+        "noSearch": "검색하신 거래가 없습니다."
+    },
+    "settings": {
+        "walletTitle": {
+            "title": "지갑 이름",
+            "placeholder": "내 지갑"
+        },
+        "alerts": {
+            "titleChanged": {
+                "message": "지갑 설정",
+                "description": "지갑이름이 성공적으로 변경되었습니다"
+            },
+            "seedPhraseCopied": {
+                "message": "지갑 설정",
+                "description": "복구 단어가 클립보드에 잘 복사되었습니다"
+            },
+            "seedPhraseCopyConfirmation": {
+                "message": "지갑 설정",
+                "description": "복구 단어를 복사 하시겠습니까? 타사 응용 프로그램에 복구 단어를 사용하거나 다른 사람에게 제공하는 데주의하십시오.",
+                "cancel": "취소",
+                "confirm": "복사"
+            },
+            "cacheDeleted": {
+                "message": "지갑 설정",
+                "description": "지갑 임시파일이 정상적으로 삭제되었습니다"
+            },
+            "cacheDeleteConfirmation": {
+                "message": "지갑 설정",
+                "description": "지갑 임시파일을 삭제 하시겠습니까? 지갑이 삭제되지는 않습니다.",
+                "cancel": "취소",
+                "confirm": "삭제"
+            },
+            "deleteWalletConfirmation": {
+                "message": "지갑 설정",
+                "description": "복구 단어를 잘 보관하셨나요? 복구 단어가 없으면 지갑이 완전히 삭제되고 되찾을 수 없습니다.",
+                "cancel": "취소",
+                "confirm": "삭제"
+            }
+        },
+        "deleteHistoryCache": "지갑 임시저장 지우기",
+        "copySeedPhrase": "복구 단어 복사하기",
+        "deleteWallet": "지갑 삭제",
+        "enter": "확인"
+    },
+    "changePasswordMethod": {
+        "pinTitle": "6자리 핀코드",
+        "passwordTitle": "비밀번호",
+        "description": "인증방법을 선택해주세요."
+    },
+    "password": {
+        "alerts": {
+            "newPasswordCreated": {
+                "message": "비밀번호",
+                "description": "비밀번호가 성공적으로 설정되었습니다"
+            },
+            "useBiometric": {
+                "message": "비밀번호",
+                "description": "생체 인증을 사용하시겠습니까?",
+                "ok": "예",
+                "cancel": "취소"
+            },
+            "passwordsNotMatch": {
+                "message": "비밀번호",
+                "description": "비밀번호가 일치하지 않습니다. 다시 시도하세요."
+            },
+            "passwordTooShort": {
+                "message": "비밀번호",
+                "description": "비밀번호가 너무 짧습니다. 최소한 4자리 이상 써주세요."
+            },
+            "passwordIncorrect": {
+                "message": "비밀번호",
+                "description": "비밀번호가 바르지 않습니다. 다시 시도하세요."
+            },
+            "appNotUplocked": {
+                "message": "비밀번호",
+                "description": "이전 비밀번호로 지갑을 열 수 없습니다. 지갑을 다시 실행하고 진행해주세요."
+            }
+        },
+        "androidBiometric": {
+            "description": "비밀번호",
+            "header": "앱을 열기위해 생체인증을 사용하세요"
+        },
+        "iosBiometric": {
+            "prompt": "암호화된 데이터를 복구하기 위해 권한이 필요합니다"
+        },
+        "title": {
+            "newPassword": {
+                "pin": "핀코드 생성",
+                "password": "비밀번호 생성"
+            },
+            "unlock": "지갑 열기"
+        },
+        "description": {
+            "newPassword": {
+                "pin": "6자리 PIN 코드 입력",
+                "password": "새 비밀번호를 입력하세요",
+                "repeat": {
+                    "pin": "6자리 PIN 코드를 다시 입력하세요",
+                    "password": "비밀번호를 다시 입력하세요"
+                }
+            },
+            "unlock": {
+                "pin": "6자리 PIN코드를 입력하세요",
+                "password": "비밀번호 입력"
+            }
+        },
+        "enterButton": "실행",
+        "changeAuthMethod": "인증방법 변경"
+    },
+    "finished": {
+        "title": "확인",
+        "description": "복구코드를 분실하면 모든 코인을 다 잃게 되고 모두 나의 책임임을 알고 있습니다. 복구코드를 매우 안전한 곳에 보관하였습니다.",
+        "confirmButton": "끝내기",
+        "alerts": {
+            "errorAgreement": {
+                "message": "복구 단어 동의",
+                "description": "새 지갑을 만들기 위해 복구 단어를 잘 저장했음을 확인합니다."
+            }
+        },
+        "agreement": "12 단어를 순서대로 잘 적어두었습니다."
+    },
+    "generateWallet": {
+        "title": "지갑 생성",
+        "description": "지갑생성에는 다소 시간이 걸릴 수 있습니다. 잠시만 기다려주세요",
+        "alerts": {
+            "error": {
+                "notFound": {
+                    "seedPhrase": "복구 단어가 발견되지 않았습니다!",
+                    "title": "지갑 주소가 발견되지 않았습니다!",
+                    "unlockedPassword": "지갑이 열리지 않았습니다!"
+                }
+            }
+        }
+    },
+    "legal": {
+        "alerts": {
+            "errorAgreement": {
+                "message": "법률 약정",
+                "description": "새 지갑을 만들기 위해 개인정보 정책과 서비스 정책에 동의하셔야 합니다."
+            }
+        },
+        "termsOfService": "서비스 정책",
+        "privacyPolicy": "개인정보 정책",
+        "description": "WONPAY 지갑의 서비스 정책과 개인정보 정책을 확인하세요.",
+        "agreement": "나는 서비스 정책과 개인정보 정책을 읽고 동의합니다.",
+        "confirmButton": "계속"
+    },
+    "protect": {
+        "title": "지갑 보호",
+        "description": "지갑을 열었을 때는 반드시 안전하게 상황을 유지하세요",
+        "confirmButton": "계속"
+    },
+    "recoveryPhrase": {
+        "initialTitle": "지갑",
+        "confirmButton": "계속",
+        "standard": "기준",
+        "unsecured": "보안되지 않음",
+        "alerts": {
+            "fillRecoveryPhrase": {
+                "message": "복구 단어",
+                "description": "지갑을 가져오려면 복구 단어를 입력하여야 합니다."
+            }
+        },
+        "recoveryPhrase": {
+            "title": "복구 단어",
+            "placeholder": "첫번쨰 두번째 세번째 네번째 다섯번째 여섯번째 일곱번째 여덟번째 아홉번째 열번째 열한번째 열두번째"
+        },
+        "walletTitle": {
+            "placeholder": "지갑 이름"
+        }
+    },
+    "recoveryTips": {
+        "slides": {
+            "first": {
+                "title": "주의!",
+                "subtitle": "복구 단어가 무엇인가요?",
+                "description": "복구 단어는 당신이 소유한 지갑의 고유한 값이며, 복구 단어를 알아야만 지갑에 접근 및 모든 서비스 이용이 가능합니다."
+            },
+            "second": {
+                "title": "주의!",
+                "subtitle": "복구 단어가 왜 필요한가요?",
+                "description": "당신은 복구 단어를 기억해야만 새로운 디바이스에서도 기존의 자산 및 모든 서비스 이용이 가능해 집니다."
+            },
+            "third": {
+                "title": "주의!",
+                "subtitle": "어디에 보관해야 하나요?",
+                "description": "복구 단어를 기록해 오프라인 상의 안전한 곳에 보관하셔야 합니다. 해킹 방지를 위해 스크린 샷은 가급적 이용하지 말아주세요."
+            },
+            "fourth": {
+                "title": "지갑 사용을 시작합니다.",
+                "subtitle": "부제목",
+                "description": "다음 화면에서 당신 지갑의 12개의 복구 단어를 확인하세요."
+            }
+        },
+        "confirmButton": {
+            "gotIt": "알겠습니다.",
+            "next": "다음"
+        }
+    },
+    "welcome": {
+        "slides": {
+            "first": {
+                "title": "환영합니다!",
+                "description": "세계에서 가장 진보된 암호화폐 지갑입니다."
+            },
+            "second": {
+                "title": "보안이 뛰어납니다.!",
+                "description": "당신의 키는 암호화 되어 아무도 가져갈 수 없습니다."
+            },
+            "third": {
+                "title": "강력합니다!",
+                "description": "WONPAY는 가장 강력하고 진보된 암호화폐 결제 시스템입니다."
+            }
+        },
+        "create": "새로운 지갑 생성",
+        "import": "이전 지갑 불러오기"
+    },
+    "globalSettings": {
+        "changeLanguage": "언어선택",
+        "changePassword": "비밀번호 변경",
+        "useTouchID": "생체인증 사용",
+        "deleteAddressBook": "주소록 삭제",
+        "factoryReset": "공장초기화",
+        "alerts": {
+            "addressBookDeleted": {
+                "message": "설정",
+                "description": "주소록이 성공적으로 삭제되었습니다."
+            },
+            "addressBookDeleteConfirmation": {
+                "message": "설정",
+                "description": "주소록을 삭제하시겠습니까? 주소록의 모든 연락처가 삭제됩니다.",
+                "cancel": "취소",
+                "confirm": "지우기"
+            },
+            "factoryResetConfirmation": {
+                "message": "설정",
+                "description": "모든 데이터를 모두 지우시겠습니까? 지갑, 주소록, 암호등이 모두 삭제됩니다.",
+                "cancel": "취소",
+                "confirm": "지우기"
+            },
+            "nameChanged": {
+                "message": "설정",
+                "description": "이름이 성공적으로 변경되었습니다."
+            }
+        },
+        "enter": "확인",
+        "name": {
+            "title": "이름",
+            "placeholder": "홍길동"
+        },
+        "changeNetwork": "네트워크 변경"
+    },
+    "home": {
+        "welcome": "환영합니다.",
+        "totalAmount": "합계",
+        "addressBook": "주소록",
+        "qrScanner": "QR스캐너",
+        "settings": "설정",
+        "deposit": "입금",
+        "withdraw": "출금",
+        "addNewWallet": "새로운 지갑 추가",
+        "alerts": {
+            "noTokensFound": {
+                "message": "홈",
+                "description": "토큰을 찾을 수 없습니다."
+            }
+        }
+    },
+    "addressBook": {
+        "edit": "수정",
+        "delete": "지우기",
+        "noAddresses": "아직 주소록에 주소가 없습니다."
+    },
+    "manageAddressBookItem": {
+        "editAddress": "주소록 수정",
+        "addAddress": "주소록에 추가",
+        "title": {
+            "title": "이름",
+            "placeholder": "홍길동"
+        },
+        "address": {
+            "title": "주소",
+            "placeholder": "amNiyWFJ6svS2ZnVA2y5cHHLf228TNmmtv"
+        },
+        "qrScanner": "QR 코드",
+        "clipboard": "클립보드",
+        "favorite": "즐겨찾기",
+        "confirmButton": {
+            "save": "저장",
+            "add": "추가"
+        },
+        "alerts": {
+            "addressSaved": {
+                "message": "주소록",
+                "description": "주소록에 저장되었습니다"
+            }
+        }
+    },
+    "transactionDetails": {
+        "withdraw": "출금",
+        "deposit": "입금",
+        "toAddress": "받는 주소",
+        "fromAddress": "보내는 주소",
+        "addToAddressBook": "주소록에 추가",
+        "transactionHash": "트랜잭션 해시",
+        "confirmations": "승인횟수",
+        "timelockDate": "락업일자",
+        "timelockHeight": "타임락업 블록번호",
+        "fee": "수수료",
+        "backToList": "목록으로 돌아가기"
+    }
+}
