@@ -48,7 +48,7 @@ const GenerateWallet: React.FC<GenerateWalletProps> = ({
     const findAddresses = async () => {
         let addressesWithHistory: Wallet.Address[] = [];
         let synced = false;
-        const offset = 1;
+        const offset = 20;
         const searchRange = [0, offset];
 
         while (!synced) {
