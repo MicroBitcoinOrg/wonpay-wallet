@@ -19,7 +19,7 @@ async function fetch(params: Params) {
             const {
                 data: {result, error},
             } = await axios.get(
-                `${MICROBITCOIN.apiLink}/wallet/balance/${params.addresses[i].address}`,
+                `${MICROBITCOIN.apiLink}/balance/${params.addresses[i].address}`,
             );
 
             if (result === null && error) {
@@ -28,14 +28,10 @@ async function fetch(params: Params) {
                 throw Error(error.message);
             }
 
-            for (let k = 0; k < result.length; k++) {
-                if (result[k].currency === MICROBITCOIN.currency.ticker) {
-                    balance = {
-                        ...balance,
-                        balance: balance.balance + result[k].balance,
-                    };
-                }
-            }
+            balance = {
+                ...balance,
+                balance: balance.balance + result.balance,
+            };
         }
 
         for (let i = 0; i < params.addresses.length; i++) {
