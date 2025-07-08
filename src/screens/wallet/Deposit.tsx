@@ -16,7 +16,6 @@ import {WalletContext} from '../../providers';
 import {Container, HStack, Text, VStack} from '../../components/common';
 import {Colors} from '../../theme';
 import {IconButton} from '../../components/extended';
-// import ScreenBrightness from 'react-native-screen-brightness';
 
 const styles = StyleSheet.create({
     buttonsContainer: {

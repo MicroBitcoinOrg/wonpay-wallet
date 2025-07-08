@@ -3,7 +3,7 @@ import {Alert, StyleSheet, useColorScheme, View} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {showMessage} from 'react-native-flash-message';
 import {useTranslation} from 'react-i18next';
-import SInfo from 'react-native-sensitive-info';
+import SInfo from '../../utils/keychain';
 import {
     Container,
     DismissKeyboard,

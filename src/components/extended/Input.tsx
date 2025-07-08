@@ -5,6 +5,7 @@ import {
     TextInput,
     TextInputProps,
     TouchableWithoutFeedback,
+    Pressable,
     useColorScheme,
     ViewStyle,
 } from 'react-native';
@@ -21,9 +22,7 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 
-const AnimatedTouchable = Animated.createAnimatedComponent(
-    TouchableWithoutFeedback,
-);
+const AnimatedTouchable = Animated.createAnimatedComponent(Pressable);
 
 const styles = StyleSheet.create({
     container: {

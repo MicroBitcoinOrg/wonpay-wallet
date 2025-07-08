@@ -8,38 +8,68 @@ const addUnspentAndSign = (data: {
     withdrawAddress: string;
     amount: number;
     fee: number;
-    unspent: MBC.UTXO[];
+    unspent: {
+        utxos: MBC.UTXO[];
+        address: string;
+    }[];
     txb: bitcoin.TransactionBuilder;
     wallet: Wallet.Wallet;
     password: string;
 }) => {
-    data.txb.addOutput(data.withdrawAddress, data.amount);
-
-    const unspentSum = data.unspent.reduce((sum, curr) => {
-        return sum + Number(curr.value);
-    }, 0);
-
-    for (let i = 0; i < data.unspent.length; i++) {
-        data.txb.addInput(data.unspent[i].txid, data.unspent[i].index);
+    // Add output to withdraw address with amount
+    if (data.amount) {
+        data.txb.addOutput(data.withdrawAddress, data.amount);
     }
 
+    // Calculate total unspent amount based on utxos
+    const unspentSum = data.unspent
+        .map(u => u.utxos)
+        .flat()
+        .reduce((sum, curr) => {
+            return sum + Number(curr.value);
+        }, 0);
+
+    console.log(
+        'Unspent sum',
+        unspentSum,
+        'Fee',
+        data.fee,
+        'Amount',
+        data.amount,
+    );
+
+    // Add all inputs to transaction builder
+    data.unspent.forEach(u => {
+        u.utxos.forEach(utxo => {
+            data.txb.addInput(utxo.txid, utxo.index);
+        });
+    });
+
+    // Add output to deposit address with remaining amount
     if (unspentSum > data.fee + data.amount) {
         data.txb.addOutput(
             data.wallet.depositAddress!,
             unspentSum - data.fee - data.amount,
         );
+
+        console.log('Remaining output', unspentSum - data.fee - data.amount);
     }
 
-    const wif = decryptData(
-        data.wallet!.addresses.find(
-            a => a.address === data.wallet?.depositAddress!,
-        )!.wif,
-        data.password,
-    );
-    const key = bitcoin.ECPair.fromWIF(wif, MICROBITCOIN.network);
+    let signIndex = 0;
 
     for (let i = 0; i < data.unspent.length; i++) {
-        data.txb.sign(i, key);
+        const wif = decryptData(
+            data.wallet!.addresses.find(
+                a => a.address === data.unspent[i].address,
+            )!.wif,
+            data.password,
+        );
+        const key = bitcoin.ECPair.fromWIF(wif, MICROBITCOIN.network);
+
+        data.unspent[i].utxos.forEach(_utxo => {
+            data.txb.sign(signIndex, key);
+            signIndex++;
+        });
     }
 };
 
@@ -69,9 +99,20 @@ export const sendTokenTransaction =
 
         txb.addOutput(payloadScript, 0);
 
-        const unspent = await getUTXO({
-            address: walletData.wallet.depositAddress!,
-        });
+        const unspent: {
+            utxos: MBC.UTXO[];
+            address: string;
+        }[] = [];
+
+        await Promise.all(
+            walletData.wallet.addresses.map(async address => {
+                const utxos = await getUTXO({
+                    address: address.address,
+                });
+
+                unspent.push({utxos, address: address.address});
+            }),
+        );
 
         addUnspentAndSign({
             ...data,
@@ -94,9 +135,20 @@ export const sendTransaction =
         const txb = new bitcoin.TransactionBuilder(MICROBITCOIN.network);
         txb.setVersion(2);
 
-        const unspent = await getUTXO({
-            address: walletData.wallet.depositAddress!,
-        });
+        const unspent: {
+            utxos: MBC.UTXO[];
+            address: string;
+        }[] = [];
+
+        await Promise.all(
+            walletData.wallet.addresses.map(async address => {
+                const utxos = await getUTXO({
+                    address: address.address,
+                });
+
+                unspent.push({utxos, address: address.address});
+            }),
+        );
 
         addUnspentAndSign({...data, ...walletData, unspent, txb});
 

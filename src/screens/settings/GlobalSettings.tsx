@@ -5,7 +5,7 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTranslation} from 'react-i18next';
 import {getVersion} from 'react-native-device-info';
 import {showMessage} from 'react-native-flash-message';
-import SInfo from 'react-native-sensitive-info';
+import SInfo from '../../utils/keychain';
 import {
     Container,
     DismissKeyboard,
@@ -169,7 +169,7 @@ const GlobalSettings: React.FC<GlobalSettingsProps> = ({
                 setSensorAvailability(false);
             }
         });
-    });
+    }, []);
 
     return (
         <DismissKeyboard>

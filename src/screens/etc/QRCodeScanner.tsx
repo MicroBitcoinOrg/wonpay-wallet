@@ -1,7 +1,19 @@
-import React, {useContext} from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
-import QRCodeScannerComponent from 'react-native-qrcode-scanner';
-import {RNCamera as Camera} from 'react-native-camera';
+import React, {useContext, useRef, useState, useEffect} from 'react';
+import {
+    Dimensions,
+    StyleSheet,
+    View,
+    Platform,
+    Alert,
+    Text,
+} from 'react-native';
+import {ReactNativeScannerView} from '@pushpendersingh/react-native-scanner';
+import {
+    request,
+    PERMISSIONS,
+    openSettings,
+    RESULTS,
+} from 'react-native-permissions';
 import {isAddress} from '../../utils/address';
 import {FocusAwareStatusBar, HStack} from '../../components/common';
 import useAppStore from '../../store/appStore';
@@ -41,6 +53,8 @@ type Params =
           callback: string;
       };
 
+const {width, height} = Dimensions.get('window');
+
 const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
     navigation,
     route,
@@ -48,6 +62,43 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
     const {type} = route.params ?? {};
     const store = useAppStore();
     const {walletChain} = useContext(WalletContext);
+    const [isCameraPermissionGranted, setIsCameraPermissionGranted] =
+        useState(false);
+    const scannerRef = useRef(null);
+
+    useEffect(() => {
+        checkCameraPermission();
+    }, []);
+
+    const checkCameraPermission = async () => {
+        request(
+            Platform.OS === 'ios'
+                ? PERMISSIONS.IOS.CAMERA
+                : PERMISSIONS.ANDROID.CAMERA,
+        ).then((result: any) => {
+            switch (result) {
+                case RESULTS.UNAVAILABLE:
+                    break;
+                case RESULTS.DENIED:
+                    Alert.alert(
+                        'Permission Denied',
+                        'You need to grant camera permission first',
+                    );
+                    openSettings();
+                    break;
+                case RESULTS.GRANTED:
+                    setIsCameraPermissionGranted(true);
+                    break;
+                case RESULTS.BLOCKED:
+                    Alert.alert(
+                        'Permission Blocked',
+                        'You need to grant camera permission first',
+                    );
+                    openSettings();
+                    break;
+            }
+        });
+    };
 
     const processAddressBook = (
         params: Params,
@@ -72,28 +123,6 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
         } else {
             navigation.replace('WalletStack', {screen: 'Withdraw', params});
         }
-    };
-
-    const processFinilizeSwap = (params: Params) => {
-        navigation.navigate('WalletStack', {screen: 'Wallet'});
-        navigation.navigate('FinilizeSwap', params);
-    };
-
-    const processCreateSwap = (params: {
-        send: string;
-        receive: string;
-        sendAmount: string;
-        receiveAmount: string;
-        callback: string;
-    }) => {
-        navigation.navigate('WalletStack', {screen: 'Wallet'});
-        navigation.navigate('CreateSwap', {
-            baseCurrency: params?.send,
-            quoteCurrency: params?.receive,
-            sendAmount: params?.sendAmount,
-            receiveAmount: params?.receiveAmount,
-            callback: params?.callback,
-        });
     };
 
     const processData = (
@@ -129,9 +158,9 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
         }
     };
 
-    const onSuccess = (e: any) => {
-        const data = e.data.replace(/ /g, '');
-
+    const onQrScanned = (e: any) => {
+        const data = e.nativeEvent?.data?.replace(/ /g, '');
+        if (!data) return;
         if (data.startsWith('wonpay')) {
             let splited = [];
             let method = 'deposit';
@@ -163,16 +192,34 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
         }
     };
 
+    if (!isCameraPermissionGranted) {
+        return (
+            <View style={styles.container}>
+                <FocusAwareStatusBar barStyle="light-content" />
+                <Text
+                    style={{
+                        color: 'white',
+                        textAlign: 'center',
+                        marginTop: 40,
+                    }}>
+                    You need to grant camera permission first
+                </Text>
+            </View>
+        );
+    }
+
     return (
         <View style={styles.container}>
             <FocusAwareStatusBar barStyle="light-content" />
-            <QRCodeScannerComponent
-                showMarker
-                onRead={onSuccess}
-                reactivateTimeout={2000}
-                reactivate
-                customMarker={
-                    <View style={styles.cornersContainer}>
+            <ReactNativeScannerView
+                ref={scannerRef}
+                style={{height: height, width: width}}
+                onQrScanned={onQrScanned}
+                pauseAfterCapture={true}
+                isActive={true}
+                // Custom marker overlay
+                renderBox={() => (
+                    <View style={styles.cornersContainer} pointerEvents="none">
                         <HStack justifyContent="space-between">
                             <View
                                 style={[
@@ -218,14 +265,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
                             />
                         </HStack>
                     </View>
-                }
-                cameraStyle={{
-                    height: Dimensions.get('window').height,
-                    width: '100%',
-                }}
-                topViewStyle={{flex: 0}}
-                bottomViewStyle={{flex: 0}}
-                cameraProps={{flashMode: Camera.Constants.FlashMode.off}}
+                )}
             />
         </View>
     );

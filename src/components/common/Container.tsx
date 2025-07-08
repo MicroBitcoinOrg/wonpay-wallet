@@ -19,6 +19,7 @@ import Animated, {
     withTiming,
 } from 'react-native-reanimated';
 import {useIsFocused} from '@react-navigation/native';
+import {AnimatedGradientBackground} from './AnimatedGradientBackground';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
@@ -75,7 +76,7 @@ const Container = ({
     ...props
 }: ContainerProps) => {
     const scheme = useColorScheme();
-    const isFocused = useIsFocused();
+
     const containerStyles = {
         backgroundColor: transparent
             ? 'transparent'
@@ -85,47 +86,13 @@ const Container = ({
         paddingBottom: paddingBottom ? PADDING_BOTTOM : 0,
         flex: flex !== undefined ? flex : 1,
     };
-    const linearGradientStyles = {
-        ...containerStyles,
-        backgroundColor: '#00665E',
-    };
+
     const areaStyles = {marginTop: header ? 0 : HEADER_HEIGHT};
 
-    const changing = useSharedValue(animated ? 0 : 1);
-    const animatedProps = useAnimatedProps(() => {
-        const cTop = interpolateColor(
-            changing.value,
-            [0, 1],
-            ['#000F92', '#0214B0'],
-        );
-        const cBottom = interpolateColor(
-            changing.value,
-            [0, 1],
-            ['#0214B0', '#000F92'],
-        );
-
-        return {
-            colors: [cTop, cBottom],
-        };
-    });
-
-    useEffect(() => {
-        if (animated) {
-            if (isFocused) {
-                changing.value = withTiming(1, {duration: 1500});
-            } else {
-                changing.value = withTiming(0, {duration: 1500});
-            }
-        }
-    }, [isFocused]);
-
     return gradient ? (
-        <AnimatedLinearGradient
-            colors={['#00665E', '#003B34']}
-            animatedProps={animatedProps}
-            angle={120}
-            useAngle
-            style={[styles.container, linearGradientStyles, style]}>
+        <AnimatedGradientBackground
+            colors={['#000F92', '#0214B0']}
+            style={[styles.container, containerStyles, style]}>
             {safeArea ? (
                 <SafeAreaView
                     style={[styles.areaContainer, areaStyles, areaStyle]}>
@@ -134,7 +101,7 @@ const Container = ({
             ) : (
                 children
             )}
-        </AnimatedLinearGradient>
+        </AnimatedGradientBackground>
     ) : (
         <View style={[styles.container, containerStyles, style]} {...props}>
             {safeArea ? (
