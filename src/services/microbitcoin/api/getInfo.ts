@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Config from 'react-native-config';
 import {MICROBITCOIN} from '../../../utils/constants';
 
 export default async function (): Promise<{
@@ -7,9 +5,15 @@ export default async function (): Promise<{
     mediantime: number;
 }> {
     try {
-        const {
-            data: {result, error},
-        } = await axios.get(`${MICROBITCOIN.links.api.url}/wallet/info`);
+        const response = await fetch(
+            `${MICROBITCOIN.links.api.url}/wallet/info`,
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const {result, error} = await response.json();
 
         if (result === null && error) {
             console.error({error});

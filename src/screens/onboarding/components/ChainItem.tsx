@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    Image,
     StyleSheet,
     TouchableHighlight,
     TouchableHighlightProps,
@@ -68,13 +69,15 @@ const ChainItem: React.FC<ChainItemProps> = ({style, chain, ...props}) => {
                     style,
                 ]}>
                 <Avatar
+                    source={chain.logo}
                     title={chain.name}
-                    backgroundColor={`#${base64ToHex(chain.name).substring(
-                        0,
-                        6,
-                    )}`}
+                    backgroundColor={
+                        chain.color ??
+                        `#${base64ToHex(chain.name).substring(0, 6)}`
+                    }
                     color="white"
                 />
+
                 <View style={styles.contentContainer}>
                     <HStack
                         justifyContent="space-between"

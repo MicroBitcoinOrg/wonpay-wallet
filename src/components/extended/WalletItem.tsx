@@ -1,11 +1,13 @@
 import React, {useContext} from 'react';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {Colors} from '../../theme';
-import {StyleSheet, useColorScheme, View} from 'react-native';
+import {Image, StyleSheet, useColorScheme, View} from 'react-native';
 import {Avatar, HStack, Text} from '../common';
 import Config from 'react-native-config';
 import {WalletContext} from '../../providers';
 import {Wallet} from '../../types/Wallet';
+import {base64ToHex} from '../../utils/common';
+import {CHAINS} from '../../utils/constants';
 
 const styles = StyleSheet.create({
     container: {
@@ -16,6 +18,7 @@ const styles = StyleSheet.create({
     },
     contentContainer: {
         marginLeft: 10,
+        flex: 1,
     },
 });
 
@@ -23,7 +26,14 @@ interface Props extends Wallet.Wallet {
     onPress: any;
 }
 
-const WalletItem: React.FC<Props> = ({title, balances, uuid, ...props}) => {
+const WalletItem: React.FC<Props> = ({
+    title,
+    balances,
+    uuid,
+    chain,
+    depositAddress,
+    ...props
+}) => {
     const scheme = useColorScheme();
 
     const mainBalance = balances.find(b => b.main);
@@ -37,8 +47,11 @@ const WalletItem: React.FC<Props> = ({title, balances, uuid, ...props}) => {
                 ]}>
                 <Avatar
                     title={title}
-                    backgroundColor={Colors[scheme!].card}
-                    color="textSecondary"
+                    backgroundColor={`#${base64ToHex(depositAddress).substring(
+                        0,
+                        6,
+                    )}`}
+                    color="white"
                 />
                 <View style={styles.contentContainer}>
                     <HStack justifyContent="flex-start">
@@ -52,6 +65,14 @@ const WalletItem: React.FC<Props> = ({title, balances, uuid, ...props}) => {
                         {mainBalance!.currency.ticker}
                     </Text>
                 </View>
+                {CHAINS[chain].logo && (
+                    <Image
+                        resizeMode="contain"
+                        tintColor={Colors[scheme!].textSecondary}
+                        source={CHAINS[chain].logo}
+                        style={{width: 20, height: 20}}
+                    />
+                )}
             </View>
         </TouchableHighlight>
     );

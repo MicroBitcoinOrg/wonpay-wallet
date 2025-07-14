@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Config from 'react-native-config';
 import {MICROBITCOIN} from '../../../utils/constants';
 
 type Params = {
@@ -10,13 +8,24 @@ type Params = {
     count?: number | undefined;
 };
 
-export default async function fetch(params: Params) {
+export default async function getTransactions(params: Params): Promise<any[]> {
     try {
-        const {
-            data: {result, error},
-        } = await axios.post(`${MICROBITCOIN.links.api.url}/wallet/history/`, {
-            ...params,
-        });
+        const response = await fetch(
+            `${MICROBITCOIN.links.api.url}/wallet/history/`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(params),
+            },
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const {result, error} = await response.json();
 
         if (result === null && error) {
             console.error({error});

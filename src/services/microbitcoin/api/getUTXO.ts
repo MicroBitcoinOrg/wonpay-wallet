@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Config from 'react-native-config';
 import {MICROBITCOIN} from '../../../utils/constants';
 
 type Params = {
@@ -10,14 +8,25 @@ type Params = {
 
 export default async function (params: Params): Promise<MBC.UTXO[]> {
     try {
-        const {
-            data: {result, error},
-        } = await axios.get(
+        const url = new URL(
             `${MICROBITCOIN.links.api.url}/wallet/unspent/${params.address}`,
-            {
-                params,
-            },
         );
+        const queryParams: Record<string, string> = {address: params.address};
+        if (params.amount) {
+            queryParams.amount = params.amount.toString();
+        }
+        if (params.token) {
+            queryParams.token = params.token;
+        }
+        url.search = new URLSearchParams(queryParams).toString();
+
+        const response = await fetch(url.toString());
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const {result, error} = await response.json();
 
         if (result === null && error) {
             console.error({error});

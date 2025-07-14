@@ -10,7 +10,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import {Coin, HStack, Text, VStack} from '../../../../components/common';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import Config from 'react-native-config';
-import moment from 'moment';
+import {format} from 'date-fns';
 import {Colors} from '../../../../theme';
 import NumberFormat from 'react-number-format';
 import useAppStore from '../../../../store/appStore';
@@ -152,8 +152,9 @@ const TransactionItem = memo(
                             color="textSecondary"
                             opacity={transaction.confirmations === 0 ? 0.5 : 1}
                             variant="sub1">
-                            {moment(transaction.time * 1000).format(
-                                'D MMM YYYY',
+                            {format(
+                                new Date(transaction.time * 1000),
+                                'd MMM yyyy',
                             )}
                         </Text>
                     </VStack>

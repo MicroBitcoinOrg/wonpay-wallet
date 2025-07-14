@@ -128,14 +128,6 @@ export const sendTokenTransaction = async (data: {
             data.amount * Math.pow(10, decimals),
         );
 
-        // Debug: Log the transaction details
-        console.log('TRON transaction details:', {
-            contract: data.currency.contract,
-            from: fromAddress,
-            to: data.withdrawAddress,
-            amount: amountInSmallestUnit,
-        });
-
         // Send TRC20 transfer transaction using contract interface
         const txid = await contract
             .transfer(data.withdrawAddress, amountInSmallestUnit)

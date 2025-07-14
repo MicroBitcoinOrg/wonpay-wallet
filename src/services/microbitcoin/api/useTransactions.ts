@@ -1,5 +1,4 @@
 import {useMutation} from '@tanstack/react-query';
-import axios from 'axios';
 import {createTransactionFromAPI} from '../utils/transaction';
 import {MICROBITCOIN} from '../../../utils/constants';
 import {Wallet} from '../../../types/Wallet';
@@ -11,22 +10,34 @@ type Params = {
     count?: number | undefined;
 };
 
-async function fetch(params: Params) {
+async function fetchTransactions(params: Params) {
     try {
         const walletAddresses = [
             ...new Set(params.addresses.map((address: any) => address.address)),
         ];
 
-        const {
-            data: {result, error},
-        } = await axios.post(`${MICROBITCOIN.links.api.url}/wallet/history/`, {
-            ...params,
-            addresses: walletAddresses,
-        });
+        const response = await fetch(
+            `${MICROBITCOIN.links.api.url}/wallet/history/`,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    ...params,
+                    addresses: walletAddresses,
+                }),
+            },
+        );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const {result, error} = await response.json();
 
         if (result === null && error) {
             console.error({error});
-
             throw Error(error.message);
         }
 
@@ -53,5 +64,5 @@ async function fetch(params: Params) {
 }
 
 export default function (options?: Record<string, any>) {
-    return useMutation({mutationFn: fetch, ...options});
+    return useMutation({mutationFn: fetchTransactions, ...options});
 }

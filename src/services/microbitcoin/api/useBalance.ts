@@ -1,5 +1,4 @@
 import {useQuery} from '@tanstack/react-query';
-import axios from 'axios';
 import {MICROBITCOIN} from '../../../utils/constants';
 import {Wallet} from '../../../types/Wallet';
 
@@ -17,15 +16,18 @@ export async function getBalance(params: Params) {
         };
 
         for (let i = 0; i < params.addresses.length; i++) {
-            const {
-                data: {result, error},
-            } = await axios.get(
+            const response = await fetch(
                 `${MICROBITCOIN.links.api.url}/balance/${params.addresses[i].address}`,
             );
 
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const {result, error} = await response.json();
+
             if (result === null && error) {
                 console.error({error});
-
                 throw Error(error.message);
             }
 
@@ -36,13 +38,17 @@ export async function getBalance(params: Params) {
         }
 
         for (let i = 0; i < params.addresses.length; i++) {
-            const {
-                data: {balances, stats},
-            } = await axios.get(
+            const response = await fetch(
                 `${MICROBITCOIN.links.tokensApi!.url}/layer/address/${
                     params.addresses[i].address
                 }`,
             );
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const {balances} = await response.json();
 
             for (let k = 0; k < balances.length; k++) {
                 const tokenIndex = tokens.findIndex(

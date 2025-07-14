@@ -1,8 +1,9 @@
+/// <reference path="../../../types/MBC.d.ts" />
+
 import * as bitcoin from 'bitcoinjs-lib';
 import {decryptData} from '../../../utils/common';
 import {broadcast, getUTXO} from '../../microbitcoin/api';
 import {MICROBITCOIN} from '../../../utils/constants';
-import axios from 'axios';
 import {Wallet} from '../../../types/Wallet';
 
 const addUnspentAndSign = (data: {
@@ -82,15 +83,25 @@ export const sendTokenTransaction = async (data: {
     password: string;
     currency: Wallet.Currency;
 }) => {
-    const {
-        data: {data: payload},
-    } = await axios.post(
+    const response = await fetch(
         `${MICROBITCOIN.links.tokensApi!.url}/message/transfer`,
         {
-            ticker: data.currency.ticker,
-            value: 10 ** data.currency.units * data.amount,
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                ticker: data.currency.ticker,
+                value: 10 ** data.currency.units * data.amount,
+            }),
         },
     );
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const {data: payload} = await response.json();
 
     const txb = new bitcoin.TransactionBuilder(MICROBITCOIN.network);
     txb.setVersion(2);

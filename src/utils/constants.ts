@@ -37,6 +37,8 @@ export const MICROBITCOIN: Wallet.Chain = {
     minFee: 1,
     active: true,
     key: Wallet.ChainEnum.MICROBITCOIN,
+    logo: require('../assets/chains/microbitcoin/microbitcoin-logo.png'),
+    color: '#0214B0',
 };
 
 export const TRON: Wallet.Chain = {
@@ -88,6 +90,8 @@ export const TRON: Wallet.Chain = {
     minFee: 1,
     active: true,
     key: Wallet.ChainEnum.TRON,
+    logo: require('../assets/chains/tron/tron-logo.png'),
+    color: '#FF060A',
 };
 
 export const ETHEREUM: Partial<Wallet.Chain> = {
@@ -122,8 +126,8 @@ export const BINANCECHAIN: Partial<Wallet.Chain> = {
 
 export const CHAINS = {
     microbitcoin: MICROBITCOIN,
+    tron: TRON,
     ethereum: ETHEREUM,
     solana: SOLANA,
-    tron: TRON,
     binancechain: BINANCECHAIN,
 };

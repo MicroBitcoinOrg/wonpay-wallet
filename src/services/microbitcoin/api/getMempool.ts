@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Config from 'react-native-config';
 import {MICROBITCOIN} from '../../../utils/constants';
 
 type Mempool = {
@@ -18,11 +16,15 @@ interface Response {
 
 export default async function (params: {address: string}): Promise<Response> {
     try {
-        const {
-            data: {result, error},
-        } = await axios.get(
+        const response = await fetch(
             `${MICROBITCOIN.links.api.url}/mempool/${params.address}`,
         );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const {result, error} = await response.json();
 
         if (result === null && error) {
             console.error({error});

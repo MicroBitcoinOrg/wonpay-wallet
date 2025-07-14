@@ -49,7 +49,7 @@ const Avatar: React.FC<AvatarProps> = ({
 }: AvatarProps) => {
     const scheme = useColorScheme();
 
-    return !source ? (
+    return (
         <View
             style={[
                 styles.container,
@@ -69,22 +69,23 @@ const Avatar: React.FC<AvatarProps> = ({
                 },
             ]}
             {...props}>
-            <Text
-                textTransform="uppercase"
-                variant={size === 'md' ? 'h3' : 'body2'}
-                color={color}>
-                {title ? title[0] : children}
-            </Text>
+            {!source && (
+                <Text
+                    textTransform="uppercase"
+                    variant={size === 'md' ? 'h3' : 'body2'}
+                    color={color}>
+                    {title ? title[0] : children}
+                </Text>
+            )}
+            {source && (
+                <Image
+                    source={source}
+                    resizeMode="contain"
+                    style={{width: 20, height: 20}}
+                    tintColor={Colors[scheme!].white}
+                />
+            )}
         </View>
-    ) : (
-        <Image
-            source={source}
-            style={[
-                styles.container,
-                size === 'md' ? styles.mdSizeContainer : styles.smSizeContainer,
-                style,
-            ]}
-        />
     );
 };
 

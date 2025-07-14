@@ -1,3 +1,5 @@
+import {ImageSourcePropType} from 'react-native';
+
 export namespace Wallet {
     export type Address = {
         address: string;
@@ -84,6 +86,8 @@ export namespace Wallet {
         minFee: number;
         active: boolean;
         key: ChainEnum;
+        logo?: ImageSourcePropType;
+        color?: string;
     };
 
     export enum ChainEnum {

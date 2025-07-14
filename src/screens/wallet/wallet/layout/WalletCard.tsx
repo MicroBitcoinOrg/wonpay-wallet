@@ -55,7 +55,6 @@ const WalletCard = () => {
     const store = useAppStore();
     const scheme = useColorScheme();
     const mainBalance = wallet!.balances.find(b => b.main);
-    console.log('wallet', wallet);
     const formattedBalance =
         mainBalance!.balance / 10 ** mainBalance!.currency.units;
 

@@ -1,5 +1,3 @@
-import axios from 'axios';
-import Config from 'react-native-config';
 import {MICROBITCOIN} from '../../../utils/constants';
 
 type Params = {
@@ -9,13 +7,17 @@ type Params = {
 
 export default async function req(params: Params) {
     try {
-        const {
-            data: {list, pagination},
-        } = await axios.get(
+        const response = await fetch(
             `${MICROBITCOIN.links.tokensApi!.url}/layer/address/${
                 params.address
             }/transfers${params.currency ? `/${params.currency}` : ''}`,
         );
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const {list} = await response.json();
 
         return list;
     } catch (e) {

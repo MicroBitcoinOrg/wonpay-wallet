@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
-import moment from 'moment';
+import {format} from 'date-fns';
 import {
     Coin,
     Container,
@@ -118,7 +118,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                             />
                         </HStack>
                         <Text variant="sub1" color="white" opacity={0.5}>
-                            {moment(transaction.time * 1000).format('LLL')}
+                            {format(new Date(transaction.time * 1000), 'PPpp')}
                         </Text>
                     </View>
                     <IconButton
