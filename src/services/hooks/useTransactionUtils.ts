@@ -29,11 +29,9 @@ const useTransactionUtils = ({chain}: Props) => {
                     }),
                 };
             default:
-                return {
-                    getWalletTransactions: getWalletTransactionsMicrobitcoin({
-                        wallet: wallet!,
-                    }),
-                };
+                throw new Error(
+                    `useTransactionUtils: unsupported chain: ${chain}`,
+                );
         }
     };
 

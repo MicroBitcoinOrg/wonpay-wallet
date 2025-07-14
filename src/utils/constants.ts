@@ -87,7 +87,7 @@ export const TRON: Wallet.Chain = {
             url: 'https://nileapi.tronscan.org',
         },
     },
-    minFee: 1,
+    minFee: 0,
     active: true,
     key: Wallet.ChainEnum.TRON,
     logo: require('../assets/chains/tron/tron-logo.png'),

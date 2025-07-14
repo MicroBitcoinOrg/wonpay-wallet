@@ -67,6 +67,7 @@ const GenerateWallet: React.FC<GenerateWalletProps> = ({
         queryFn: handleCreateWallet,
         retry: false,
         enabled:
+            onboarding?.wallet.chain !== undefined &&
             onboarding?.wallet.seedPhrase !== undefined &&
             onboarding?.wallet.title !== undefined &&
             onboarding?.processType !== undefined,

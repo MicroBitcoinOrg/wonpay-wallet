@@ -42,7 +42,10 @@ const CurrencyItem = ({style, balance, ...props}: CurrencyItemProps) => {
             <View
                 style={[
                     styles.container,
-                    {borderBottomWidth: 1, borderColor: Colors[scheme!].border},
+                    {
+                        borderBottomWidth: 0.5,
+                        borderColor: Colors[scheme!].border,
+                    },
                     style,
                 ]}>
                 <Avatar

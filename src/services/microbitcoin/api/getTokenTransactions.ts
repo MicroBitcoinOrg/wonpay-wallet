@@ -5,7 +5,7 @@ type Params = {
     currency?: string;
 };
 
-export default async function req(params: Params) {
+export async function getTokenTransactions(params: Params) {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.tokensApi!.url}/layer/address/${

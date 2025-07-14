@@ -6,7 +6,7 @@ type Params = {
     token?: string;
 };
 
-export default async function (params: Params): Promise<MBC.UTXO[]> {
+export async function getUTXO(params: Params): Promise<MBC.UTXO[]> {
     try {
         const url = new URL(
             `${MICROBITCOIN.links.api.url}/wallet/unspent/${params.address}`,

@@ -1,6 +1,6 @@
 import {MICROBITCOIN} from '../../../utils/constants';
 
-export default async function (): Promise<{
+export async function getInfo(): Promise<{
     blocks: number;
     mediantime: number;
 }> {

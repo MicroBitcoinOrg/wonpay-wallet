@@ -43,7 +43,10 @@ const WalletItem: React.FC<Props> = ({
             <View
                 style={[
                     styles.container,
-                    {borderBottomWidth: 1, borderColor: Colors[scheme!].border},
+                    {
+                        borderBottomWidth: 0.5,
+                        borderColor: Colors[scheme!].border,
+                    },
                 ]}>
                 <Avatar
                     title={title}

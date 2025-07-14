@@ -160,7 +160,9 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                                 setAmount={setAmount}
                                 balance={balance!}
                             />
-                            <Fee fee={fee} setFee={setFee} />
+                            {walletChain!.minFee > 0 && (
+                                <Fee fee={fee} setFee={setFee} />
+                            )}
                         </VStack>
                     </ScrollView>
                     <Container

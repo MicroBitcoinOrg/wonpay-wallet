@@ -59,7 +59,7 @@ const TableItem: React.FC<TableItemProps> = ({
                 styles.container,
                 style,
                 bottomDivider && {
-                    borderBottomWidth: 1,
+                    borderBottomWidth: 0.5,
                     borderColor: Colors[scheme!].border,
                 },
             ]}>

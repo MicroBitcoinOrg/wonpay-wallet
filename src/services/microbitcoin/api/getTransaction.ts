@@ -5,7 +5,9 @@ type Params = {
     txid: string;
 };
 
-export default async function (params: Params): Promise<Wallet.Transaction> {
+export async function getTransaction(
+    params: Params,
+): Promise<Wallet.Transaction> {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.api.url}/wallet/transaction/${params.txid}`,

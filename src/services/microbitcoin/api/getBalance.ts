@@ -1,4 +1,3 @@
-import {useQuery} from '@tanstack/react-query';
 import {MICROBITCOIN} from '../../../utils/constants';
 import {Wallet} from '../../../types/Wallet';
 
@@ -84,12 +83,4 @@ export async function getBalance(params: Params) {
         console.error(e);
         throw e;
     }
-}
-
-export default function (params: Params, options?: Record<string, any>) {
-    return useQuery<Wallet.Balance[], Error>({
-        queryKey: ['balance', params],
-        queryFn: () => getBalance(params),
-        ...options,
-    });
 }

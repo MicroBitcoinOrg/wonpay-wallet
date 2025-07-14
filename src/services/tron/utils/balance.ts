@@ -1,5 +1,6 @@
 import {Wallet} from '../../../types/Wallet';
 import {CHAINS} from '../../../utils/constants';
+import {getAddressTokens} from '../api/getBalance';
 
 export const getBalance = async ({
     addresses,
@@ -9,11 +10,7 @@ export const getBalance = async ({
     const result: Wallet.Balance[] = [];
     const address = addresses[0];
 
-    const res = await fetch(
-        `${CHAINS.tron.links.tronscanApi.url}/api/account/tokens/v2?address=${address.address}&start=0&limit=50&hidden=1&show=0&showAvailable=0`,
-    );
-    const data = await res.json();
-    const tokens = data?.data || [];
+    const tokens = await getAddressTokens(address.address);
 
     let trxFound = false;
 

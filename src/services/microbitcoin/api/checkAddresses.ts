@@ -5,7 +5,7 @@ type Params = {
     addresses: Wallet.Address[];
 };
 
-export default async function (params: Params): Promise<string[]> {
+export async function checkAddresses(params: Params): Promise<string[]> {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.api.url}/wallet/check`,

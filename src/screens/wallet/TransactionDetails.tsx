@@ -234,29 +234,31 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                 />
                             </View>
                         </View>
-                        <View style={styles.inputContainer}>
-                            <Text variant="body1">{t('fee')}</Text>
-                            <HStack
-                                style={styles.content}
-                                justifyContent="flex-end">
-                                <NumberFormat
-                                    displayType="text"
-                                    value={
-                                        transaction.fee /
-                                        10 ** walletChain!.currency.units
-                                    }
-                                    suffix={` ${walletChain?.currency.ticker}`}
-                                    decimalScale={8}
-                                    thousandSeparator
-                                    fixedDecimalScale
-                                    renderText={value => (
-                                        <Text variant="body2" selectable>
-                                            {value}
-                                        </Text>
-                                    )}
-                                />
-                            </HStack>
-                        </View>
+                        {transaction.fee > 0 && (
+                            <View style={styles.inputContainer}>
+                                <Text variant="body1">{t('fee')}</Text>
+                                <HStack
+                                    style={styles.content}
+                                    justifyContent="flex-end">
+                                    <NumberFormat
+                                        displayType="text"
+                                        value={
+                                            transaction.fee /
+                                            10 ** walletChain!.currency.units
+                                        }
+                                        suffix={` ${walletChain?.currency.ticker}`}
+                                        decimalScale={8}
+                                        thousandSeparator
+                                        fixedDecimalScale
+                                        renderText={value => (
+                                            <Text variant="body2" selectable>
+                                                {value}
+                                            </Text>
+                                        )}
+                                    />
+                                </HStack>
+                            </View>
+                        )}
                     </VStack>
                 </ScrollView>
             </Container>

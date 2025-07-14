@@ -8,7 +8,7 @@ type Params = {
     count?: number | undefined;
 };
 
-export default async function getTransactions(params: Params): Promise<any[]> {
+export async function getTransactions(params: Params): Promise<any[]> {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.api.url}/wallet/history/`,

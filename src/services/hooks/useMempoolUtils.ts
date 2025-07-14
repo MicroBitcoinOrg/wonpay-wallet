@@ -1,7 +1,6 @@
 import {Wallet} from '../../types/Wallet';
 
-import getMicrobitcoinMempool from '../microbitcoin/api/getMempool';
-import {getMempool as getTronMempool} from '../tron/utils/mempool';
+import {getMempool as getMicrobitcoinMempool} from '../microbitcoin/api';
 
 interface Props {
     chain: Wallet.ChainEnum;
@@ -19,9 +18,7 @@ const useMempoolUtils = ({chain}: Props) => {
                     getMempool: undefined,
                 };
             default:
-                return {
-                    getMempool: getMicrobitcoinMempool,
-                };
+                throw new Error(`useMempoolUtils: unsupported chain: ${chain}`);
         }
     };
 

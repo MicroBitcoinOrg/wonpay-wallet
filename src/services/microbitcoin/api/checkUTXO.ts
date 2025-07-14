@@ -4,7 +4,7 @@ type Params = {
     outputs: MBC.UTXO[];
 };
 
-export default async function (params: Params): Promise<MBC.UTXO[]> {
+export async function checkUTXO(params: Params): Promise<MBC.UTXO[]> {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.api.url}/wallet/utxo`,

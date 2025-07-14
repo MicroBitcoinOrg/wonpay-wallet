@@ -1,28 +1,25 @@
 import {Wallet} from '../../../types/Wallet';
 import {TRON} from '../../../utils/constants';
+import {fetchTrc20Transfers, fetchTrxTransfers} from '../api/getTransactions';
 
-// Helper to extract wallet addresses from wallet data
 const extractWalletAddresses = (wallet: Wallet.Wallet): string[] => {
     return wallet
         ? [...new Set(wallet.addresses.map((a: Wallet.Address) => a.address))]
         : [];
 };
 
-// Helper to map TRX transaction from new API format to Wallet.Transaction
-const mapTrxTransactionNew = (
+const mapTrxTransaction = (
     tx: any,
     walletAddresses: string[],
 ): Wallet.Transaction => {
     const isSent = walletAddresses.includes(tx.transferFromAddress);
     const amount = Number(tx.amount || 0);
-    const ticker = tx.tokenInfo?.tokenAbbr || 'TRX';
-    const units = tx.tokenInfo?.tokenDecimal || 6;
 
     return {
         hash: tx.transactionHash,
         confirmations: tx.confirmed ? 1 : 0,
         amount: amount,
-        fee: 0, // New API doesn't provide fee information
+        fee: 0,
         time: Math.floor(tx.timestamp / 1000),
         type: isSent ? 'sent' : 'received',
         currency: TRON.currency,
@@ -31,7 +28,6 @@ const mapTrxTransactionNew = (
     };
 };
 
-// Helper to map TRC20 transaction from new API format to Wallet.Transaction
 const mapTrc20Transaction = (
     tx: any,
     walletAddresses: string[],
@@ -45,7 +41,7 @@ const mapTrc20Transaction = (
         hash: tx.transaction_id,
         confirmations: tx.confirmed ? 1 : 0,
         amount: amount,
-        fee: 0, // New API doesn't provide fee information in the same way
+        fee: 0,
         time: Math.floor(tx.block_ts / 1000),
         type: isSent ? 'sent' : 'received',
         currency: {
@@ -59,7 +55,6 @@ const mapTrc20Transaction = (
     };
 };
 
-// Fetch TRX (native) transactions using new API endpoint
 export const getWalletMainTransactions = async (data: {
     wallet: Wallet.Wallet;
 }): Promise<Wallet.Transaction[]> => {
@@ -67,31 +62,17 @@ export const getWalletMainTransactions = async (data: {
     const address = data.wallet.depositAddress;
 
     try {
-        // Use the new TRX transfer endpoint
-        const url = `${TRON.links.tronscanApi.url}/api/new/trx/transfer`;
-        const params = new URLSearchParams({
-            sort: '-timestamp',
-            count: 'true',
-            limit: '50',
-            start: '0',
-            address: address,
-            filterTokenValue: '0',
-        });
+        const responseData = await fetchTrxTransfers(address);
 
-        const res = await fetch(`${url}?${params}`);
-        const responseData = await res.json();
-
-        // The new API returns data array
         const txs = responseData.data || [];
 
-        return txs.map((tx: any) => mapTrxTransactionNew(tx, walletAddresses));
+        return txs.map((tx: any) => mapTrxTransaction(tx, walletAddresses));
     } catch (e) {
         console.error('Error fetching TRX transactions:', e);
         return [];
     }
 };
 
-// Fetch TRC20 token transactions using new API
 export const getWalletTokenTransactions = async (data: {
     wallet: Wallet.Wallet;
     currency: Wallet.Currency;
@@ -103,22 +84,11 @@ export const getWalletTokenTransactions = async (data: {
     try {
         if (!contractAddress) return [];
 
-        // Use the new API endpoint for TRC20 tokens
-        const url = `${TRON.links.tronscanApi.url}/api/new/filter/trc20/transfers`;
-        const params = new URLSearchParams({
-            limit: '50',
-            start: '0',
-            sort: '-timestamp',
-            count: 'true',
-            filterTokenValue: '0',
-            relatedAddress: address,
-            tokens: contractAddress,
-        });
+        const responseData = await fetchTrc20Transfers(
+            address,
+            contractAddress,
+        );
 
-        const res = await fetch(`${url}?${params}`);
-        const responseData = await res.json();
-
-        // The new API returns token_transfers array
         const txs = responseData.token_transfers || [];
 
         return txs.map((tx: any) => mapTrc20Transaction(tx, walletAddresses));
@@ -128,7 +98,6 @@ export const getWalletTokenTransactions = async (data: {
     }
 };
 
-// Unified function to get wallet transactions - decides between TRX and TRC20
 export const getWalletTransactions =
     (walletData: {wallet: Wallet.Wallet}) =>
     async (data: {

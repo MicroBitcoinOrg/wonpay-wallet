@@ -67,7 +67,7 @@ const TransactionItem = memo(
                     style={[
                         styles.container,
                         {
-                            borderBottomWidth: 1,
+                            borderBottomWidth: 0.5,
                             borderColor: Colors[scheme!].border,
                             opacity: transaction.confirmations === 0 ? 0.5 : 1,
                         },

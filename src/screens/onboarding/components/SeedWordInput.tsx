@@ -12,7 +12,7 @@ import {Colors, Typography} from '../../../theme';
 const styles = StyleSheet.create({
     container: {
         borderRadius: 2,
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 5,

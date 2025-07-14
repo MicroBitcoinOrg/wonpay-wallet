@@ -7,7 +7,7 @@ const styles = StyleSheet.create({
     container: {
         borderRadius: 2,
         borderColor: 'rgba(256,256,256, 0.5)',
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 5,

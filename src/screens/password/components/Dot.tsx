@@ -1,12 +1,17 @@
 import React from 'react';
-import { StyleSheet, ViewProps } from 'react-native';
-import Animated, { interpolate, useAnimatedStyle, useDerivedValue, withTiming } from 'react-native-reanimated';
+import {StyleSheet, ViewProps} from 'react-native';
+import Animated, {
+    interpolate,
+    useAnimatedStyle,
+    useDerivedValue,
+    withTiming,
+} from 'react-native-reanimated';
 
 const styles = StyleSheet.create({
     container: {
         paddingVertical: 15,
         paddingHorizontal: 10,
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
         borderColor: 'white',
     },
     dot: {
@@ -21,9 +26,9 @@ interface DotProps extends ViewProps {
     filled?: boolean;
 }
 
-const Dot: React.FC<DotProps> = ({ filled, style }) => {
+const Dot: React.FC<DotProps> = ({filled, style}) => {
     const filling = useDerivedValue(() => {
-        return withTiming(filled ? 1 : 0, { duration: 125 });
+        return withTiming(filled ? 1 : 0, {duration: 125});
     });
 
     const animatedContainerStyles = useAnimatedStyle(() => {
@@ -40,12 +45,13 @@ const Dot: React.FC<DotProps> = ({ filled, style }) => {
 
         return {
             opacity,
-            transform: [{ translateY }],
+            transform: [{translateY}],
         };
     });
 
     return (
-        <Animated.View style={[styles.container, animatedContainerStyles, style]}>
+        <Animated.View
+            style={[styles.container, animatedContainerStyles, style]}>
             <Animated.View style={[styles.dot, animatedDotStyles]} />
         </Animated.View>
     );

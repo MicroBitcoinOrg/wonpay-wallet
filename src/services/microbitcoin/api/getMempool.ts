@@ -14,7 +14,7 @@ interface Response {
     txcount: number;
 }
 
-export default async function (params: {address: string}): Promise<Response> {
+export async function getMempool(params: {address: string}): Promise<Response> {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.api.url}/mempool/${params.address}`,

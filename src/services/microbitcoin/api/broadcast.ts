@@ -4,7 +4,7 @@ type Params = {
     raw: string;
 };
 
-export default async function (params: Params): Promise<string> {
+export async function broadcast(params: Params): Promise<string> {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.api.url}/wallet/broadcast`,

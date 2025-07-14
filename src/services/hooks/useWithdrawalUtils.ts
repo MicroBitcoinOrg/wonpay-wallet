@@ -32,12 +32,9 @@ const useWithdrawalUtils = ({chain}: Props) => {
                     }),
                 };
             default:
-                return {
-                    sendTransaction: sendTransactionMicrobitcoin({
-                        wallet: wallet!,
-                        password: unlockedPassword!,
-                    }),
-                };
+                throw new Error(
+                    `useWithdrawalUtils: unsupported chain: ${chain}`,
+                );
         }
     };
 

@@ -4,7 +4,7 @@ type Params = {
     raw: string;
 };
 
-export default async function (params: Params): Promise<any> {
+export async function decode(params: Params): Promise<any> {
     try {
         const response = await fetch(
             `${MICROBITCOIN.links.api.url}/wallet/decode`,

@@ -1,15 +1,17 @@
-import useBalance from './useBalance';
-import getUTXO from './getUTXO';
-import broadcast from './broadcast';
-import getInfo from './getInfo';
-import checkAddresses from './checkAddresses';
-import checkUTXO from './checkUTXO';
-import decode from './decode';
-import getTransaction from './getTransaction';
-import getTransactions from './getTransactions';
+import {getBalance} from './getBalance';
+import {getUTXO} from './getUTXO';
+import {broadcast} from './broadcast';
+import {getInfo} from './getInfo';
+import {checkAddresses} from './checkAddresses';
+import {checkUTXO} from './checkUTXO';
+import {decode} from './decode';
+import {getTransaction} from './getTransaction';
+import {getTransactions} from './getTransactions';
+import {getMempool} from './getMempool';
+import {getTokenTransactions} from './getTokenTransactions';
 
 export {
-    useBalance,
+    getBalance,
     getUTXO,
     broadcast,
     getInfo,
@@ -18,4 +20,6 @@ export {
     decode,
     getTransaction,
     getTransactions,
+    getMempool,
+    getTokenTransactions,
 };

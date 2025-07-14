@@ -1,6 +1,6 @@
 import {getTransactions} from '../api';
 import {MICROBITCOIN} from '../../../utils/constants';
-import getTokenTransactions from '../api/getTokenTransactions';
+import {getTokenTransactions} from '../api';
 import {Wallet} from '../../../types/Wallet';
 
 export const createTransactionFromAPI = async (

@@ -12,6 +12,13 @@ interface Props {
 const useWalletUtils = ({chain}: Props) => {
     const {unlockedPassword} = useContext(PasswordContext);
 
+    if (!chain)
+        return {
+            createWallet: () => {
+                throw new Error('useWalletUtils: chain is undefined');
+            },
+        };
+
     const getWalletUtils = () => {
         switch (chain) {
             case Wallet.ChainEnum.MICROBITCOIN:
@@ -29,12 +36,7 @@ const useWalletUtils = ({chain}: Props) => {
                     }),
                 };
             default:
-                return {
-                    createWallet: createMicrobitcoinWallet({
-                        walletChain: CHAINS.microbitcoin,
-                        password: unlockedPassword!,
-                    }),
-                };
+                throw new Error(`useWalletUtils: unsupported chain: ${chain}`);
         }
     };
 

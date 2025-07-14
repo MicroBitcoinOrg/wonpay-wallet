@@ -1,6 +1,6 @@
 import {Wallet} from '../../types/Wallet';
 
-import {getBalance as getMicrobitcoinBalance} from '../microbitcoin/api/useBalance';
+import {getBalance as getMicrobitcoinBalance} from '../microbitcoin/api/getBalance';
 import {getBalance as getTronBalance} from '../tron/utils/balance';
 
 interface Props {
@@ -19,9 +19,7 @@ const useBalanceUtils = ({chain}: Props) => {
                     getBalance: getTronBalance,
                 };
             default:
-                return {
-                    getBalance: getMicrobitcoinBalance,
-                };
+                throw new Error(`useBalanceUtils: unsupported chain: ${chain}`);
         }
     };
 
