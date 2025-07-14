@@ -8,7 +8,7 @@
         "lint": "eslint .",
         "start": "react-native start",
         "test": "jest",
-        "postinstall": "rn-nodeify --install buffer,stream,assert,events,crypto,vm,process --hack"
+        "postinstall": "rn-nodeify --install buffer,stream,assert,events,crypto,vm,process --hack && patch-package"
     },
     "dependencies": {
         "@bitcoinerlab/secp256k1": "^1.1.1",
@@ -111,6 +111,7 @@
         "babel-plugin-transform-remove-console": "^6.9.4",
         "eslint": "^8.19.0",
         "jest": "^29.6.3",
+        "patch-package": "^8.0.0",
         "prettier": "2.8.8",
         "react-devtools": "5.3.0",
         "react-native-svg-transformer": "1.4.0",
