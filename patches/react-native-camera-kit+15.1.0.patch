@@ -1,0 +1,17 @@
+diff --git a/node_modules/react-native-camera-kit/ios/ReactNativeCameraKit/CameraView.swift b/node_modules/react-native-camera-kit/ios/ReactNativeCameraKit/CameraView.swift
+index ad161e5..d56c683 100644
+--- a/node_modules/react-native-camera-kit/ios/ReactNativeCameraKit/CameraView.swift
++++ b/node_modules/react-native-camera-kit/ios/ReactNativeCameraKit/CameraView.swift
+@@ -162,6 +162,12 @@ public class CameraView: UIView {
+         self.updateSubviewsBounds(frame)
+     }
+     
++    // MARK: Layout - Fabric compatibility
++    override public func layoutSubviews() {
++        super.layoutSubviews()
++        self.updateSubviewsBounds(self.bounds)
++    }
++    
+     @objc public func updateSubviewsBounds(_ frame: CGRect) {
+         camera.previewView.frame = bounds
+ 

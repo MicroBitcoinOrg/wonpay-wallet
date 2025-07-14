@@ -10,6 +10,8 @@ import {Navigation} from '../../../../types/Navigation';
 import {useColorScheme} from 'react-native';
 import useAppStore from '../../../../store/appStore';
 import {WalletContext} from '../../../../providers';
+import {isMatch} from '../../../../utils/address';
+import {Wallet} from '../../../../types/Wallet';
 
 interface WithdrawAddressProps {
     address: string;
@@ -45,12 +47,10 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
 
     const getFromClipboard = () => {
         Clipboard.getString().then(string => {
-            const addresses = string.match(
-                new RegExp(walletChain!.regex.address),
-            );
+            const match = isMatch(string, walletChain!.regex.address);
 
-            if (addresses && addresses.length > 0) {
-                setAddress(addresses[0]);
+            if (match) {
+                setAddress(string);
             }
         });
     };

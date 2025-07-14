@@ -17,154 +17,232 @@ import Animated, {
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'row',
-        gap: 4,
-        borderRadius: 10,
-    },
-    leftContentContainer: {
-        marginRight: 5,
-    },
-    rightContentContainer: {
-        marginLeft: 5,
-    },
-    lgContainer: {
+// Constants
+const SIZES = {
+    lg: {
         height: 48,
         paddingHorizontal: 10,
         paddingVertical: 10,
-    },
-    mdContainer: {
-        height: 30,
-        paddingVertical: 5,
-        paddingHorizontal: 10,
-        borderRadius: 8,
-    },
-    text: {
-        fontWeight: 'bold',
-        color: 'black',
-    },
-    lgText: {
+        borderRadius: 10,
         fontSize: 14,
     },
-    mdText: {
+    md: {
+        height: 30,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 8,
         fontSize: 12,
     },
-    leftPosition: {
-        borderBottomLeftRadius: 45,
-        borderTopLeftRadius: 45,
-        borderBottomRightRadius: 0,
-        borderTopRightRadius: 0,
-    },
-    rightPosition: {
-        borderBottomLeftRadius: 0,
-        borderTopLeftRadius: 0,
-        borderBottomRightRadius: 45,
-        borderTopRightRadius: 45,
-    },
-});
+} as const;
+
+const ANIMATION_CONFIG = {
+    stiffness: 250,
+    damping: 15,
+} as const;
+
+const SCALE_RANGE = {
+    pressed: 0.95,
+    normal: 1,
+} as const;
+
+const BORDER_RADIUS = {
+    rounded: 45,
+    normal: 10,
+} as const;
+
+// Types
+type ButtonSize = 'lg' | 'md';
+type ButtonType = 'contained' | 'text' | 'outlined';
+type ButtonPosition = 'left' | 'right';
+type ColorKey = keyof typeof Colors.dark & keyof typeof Colors.light;
 
 interface ButtonProps extends PressableProps {
     style?: Record<string, any>;
     textStyle?: Record<string, any>;
     title: string;
     border?: boolean;
-    borderColor?: keyof typeof Colors.dark & keyof typeof Colors.light;
-    color?: keyof typeof Colors.dark & keyof typeof Colors.light;
-    type?: 'contained' | 'text' | 'outlined';
-    size?: 'lg' | 'md';
+    borderColor?: ColorKey;
+    color?: ColorKey;
+    type?: ButtonType;
+    size?: ButtonSize;
     leftContent?: React.ReactNode;
     rightContent?: React.ReactNode;
     flex?: 0 | 1;
-    position?: 'left' | 'right';
+    position?: ButtonPosition;
     fullWidth?: boolean;
 }
 
+// Styles
+const createStyles = (size: ButtonSize) =>
+    StyleSheet.create({
+        container: {
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'row',
+            gap: 4,
+            height: SIZES[size].height,
+            paddingHorizontal: SIZES[size].paddingHorizontal,
+            paddingVertical: SIZES[size].paddingVertical,
+            borderRadius: SIZES[size].borderRadius,
+        },
+        leftContentContainer: {
+            marginRight: 5,
+        },
+        rightContentContainer: {
+            marginLeft: 5,
+        },
+        text: {
+            fontWeight: 'bold',
+            fontSize: SIZES[size].fontSize,
+        },
+        leftPosition: {
+            borderBottomLeftRadius: BORDER_RADIUS.rounded,
+            borderTopLeftRadius: BORDER_RADIUS.rounded,
+            borderBottomRightRadius: 0,
+            borderTopRightRadius: 0,
+        },
+        rightPosition: {
+            borderBottomLeftRadius: 0,
+            borderTopLeftRadius: 0,
+            borderBottomRightRadius: BORDER_RADIUS.rounded,
+            borderTopRightRadius: BORDER_RADIUS.rounded,
+        },
+    });
+
+// Helper functions
+const getTextColor = (
+    type: ButtonType,
+    color: ColorKey,
+    scheme: 'dark' | 'light',
+): string => {
+    if (type === 'contained') {
+        // Handle primary color
+        if (color === 'primary') {
+            return Colors[scheme].primaryContrast;
+        }
+
+        // Handle secondary color
+        if (color === 'secondary') {
+            return Colors[scheme].secondaryContrast;
+        }
+
+        // Handle colors with contrast variants
+        const contrastColorKey = `${color}Contrast` as ColorKey;
+        if (contrastColorKey in Colors[scheme]) {
+            return Colors[scheme][contrastColorKey];
+        }
+
+        // Fallback to primary text color
+        return Colors[scheme].textPrimary;
+    }
+
+    // For text and outlined types, use the color directly
+    return Colors[scheme][color];
+};
+
+const getBackgroundColor = (
+    type: ButtonType,
+    color: ColorKey,
+    scheme: 'dark' | 'light',
+): string => {
+    return type === 'contained' ? Colors[scheme][color] : 'transparent';
+};
+
+const getBorderColor = (
+    borderColor: ColorKey | undefined,
+    color: ColorKey,
+    scheme: 'dark' | 'light',
+): string => {
+    return borderColor ? Colors[scheme][borderColor] : Colors[scheme][color];
+};
+
+const getPositionStyles = (position: ButtonPosition | undefined) => {
+    if (!position) return {};
+
+    const positionStyles = {
+        left: {
+            borderBottomLeftRadius: BORDER_RADIUS.rounded,
+            borderTopLeftRadius: BORDER_RADIUS.rounded,
+            borderBottomRightRadius: 0,
+            borderTopRightRadius: 0,
+        },
+        right: {
+            borderBottomLeftRadius: 0,
+            borderTopLeftRadius: 0,
+            borderBottomRightRadius: BORDER_RADIUS.rounded,
+            borderTopRightRadius: BORDER_RADIUS.rounded,
+        },
+    };
+
+    return positionStyles[position];
+};
+
+// Main component
 const Button: React.FC<ButtonProps> = ({
     style,
     leftContent,
     rightContent,
     textStyle,
     title,
-    border,
+    border = false,
     borderColor,
-    disabled,
-    color,
-    type,
-    flex,
-    size,
+    disabled = false,
+    color = 'primary',
+    type = 'contained',
+    flex = 0,
+    size = 'lg',
     position,
-    fullWidth,
+    fullWidth = false,
     ...props
-}: ButtonProps) => {
-    const scheme = useColorScheme();
+}) => {
+    const scheme = useColorScheme() as 'dark' | 'light';
     const isPressed = useSharedValue(0);
+    const styles = createStyles(size);
 
     const animatedStyles = useAnimatedStyle(() => {
-        const scale = interpolate(isPressed.value, [0, 1], [1, 0.95]);
+        const scale = interpolate(
+            isPressed.value,
+            [0, 1],
+            [SCALE_RANGE.normal, SCALE_RANGE.pressed],
+        );
 
         return {
             transform: [{scale}],
         };
     });
 
-    const getColor = () => {
-        if (type === 'contained') {
-            if (color === 'primary') {
-                return Colors[scheme!].primaryContrast;
-            }
-
-            if (color === 'secondary') {
-                return Colors[scheme!].secondaryContrast;
-            }
-
-            if (color + 'Contrast' in Colors[scheme!]) {
-                return Colors[scheme!][
-                    (color + 'Contrast') as keyof typeof Colors.dark &
-                        keyof typeof Colors.light
-                ]!;
-            }
-
-            return Colors[scheme!].textPrimary;
-        }
-
-        return Colors[scheme!][color!];
+    const handlePressIn = () => {
+        isPressed.value = withSpring(1, ANIMATION_CONFIG);
     };
+
+    const handlePressOut = () => {
+        isPressed.value = withSpring(0, ANIMATION_CONFIG);
+    };
+
+    const textColor = getTextColor(type, color, scheme);
+    const backgroundColor = getBackgroundColor(type, color, scheme);
+    const resolvedBorderColor = getBorderColor(borderColor, color, scheme);
+    const positionStyles = getPositionStyles(position);
 
     return (
         <AnimatedPressable
             disabled={disabled}
             style={[
                 styles.container,
-                position &&
-                    (position === 'left'
-                        ? styles.leftPosition
-                        : styles.rightPosition),
+                positionStyles,
                 {
                     borderWidth: border ? 1 : 0,
-                    borderColor: borderColor
-                        ? Colors[scheme!][borderColor]
-                        : Colors[scheme!][color!],
+                    borderColor: resolvedBorderColor,
                     opacity: disabled ? 0.5 : 1,
-                    backgroundColor:
-                        type === 'contained'
-                            ? Colors[scheme!][color!]
-                            : 'transparent',
+                    backgroundColor,
                     flex,
-                    width: fullWidth && '100%',
+                    width: fullWidth ? '100%' : 'auto',
                 },
-                size === 'lg' ? styles.lgContainer : styles.mdContainer,
                 animatedStyles,
                 style,
             ]}
-            onPressIn={() =>
-                (isPressed.value = withSpring(1, {stiffness: 250, damping: 15}))
-            }
-            onPressOut={() =>
-                (isPressed.value = withSpring(0, {stiffness: 250, damping: 15}))
-            }
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
             {...props}>
             {leftContent && (
                 <View style={styles.leftContentContainer}>{leftContent}</View>
@@ -172,10 +250,9 @@ const Button: React.FC<ButtonProps> = ({
             <Text
                 style={[
                     styles.text,
-                    size === 'lg' ? styles.lgText : styles.mdText,
                     textStyle,
                     {
-                        color: getColor(),
+                        color: textColor,
                     },
                 ]}>
                 {title}
@@ -185,13 +262,6 @@ const Button: React.FC<ButtonProps> = ({
             )}
         </AnimatedPressable>
     );
-};
-
-Button.defaultProps = {
-    size: 'lg',
-    color: 'primary',
-    flex: 0,
-    type: 'contained',
 };
 
 export default Button;

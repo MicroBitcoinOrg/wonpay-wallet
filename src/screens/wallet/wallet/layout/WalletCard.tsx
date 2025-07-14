@@ -7,16 +7,16 @@ import {
     View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {IconButton} from '../../../../components/extended';
-import {Coin, HStack, Text} from '../../../../components/common';
+import {HStack, Text} from '../../../../components/common';
 import Config from 'react-native-config';
 import {Navigation} from '../../../../types/Navigation';
 import {Colors} from '../../../../theme';
-import {useBalance} from '../../../../services/microbitcoin/api';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import NumberFormat from 'react-number-format';
 import {WalletContext} from '../../../../providers';
 import useAppStore from '../../../../store/appStore';
+import useBalanceUtils from '../../../../services/hooks/useBalanceUtils';
+import {useQuery} from '@tanstack/react-query';
 
 const styles = StyleSheet.create({
     container: {
@@ -55,15 +55,20 @@ const WalletCard = () => {
     const store = useAppStore();
     const scheme = useColorScheme();
     const mainBalance = wallet!.balances.find(b => b.main);
+    console.log('wallet', wallet);
     const formattedBalance =
         mainBalance!.balance / 10 ** mainBalance!.currency.units;
 
+    const {getBalance} = useBalanceUtils({chain: walletChain!.key});
     const {
         data: balance,
         refetch: refetchBalance,
         isLoading: isBalanceLoading,
         isRefetching: isBalanceRefetching,
-    } = useBalance({addresses: wallet!.addresses});
+    } = useQuery({
+        queryKey: ['balance', wallet!.uuid],
+        queryFn: () => getBalance({addresses: wallet!.addresses}),
+    });
 
     useEffect(() => {
         if (balance) {

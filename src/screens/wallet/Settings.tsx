@@ -9,7 +9,7 @@ import {PasswordContext, WalletContext} from '../../providers';
 import {Container, DismissKeyboard, Table, Text} from '../../components/common';
 import {Input, TableItem} from '../../components/extended';
 import {Colors} from '../../theme';
-import {useQueryClient} from 'react-query';
+import {useQueryClient} from '@tanstack/react-query';
 
 const styles = StyleSheet.create({
     inputContainer: {

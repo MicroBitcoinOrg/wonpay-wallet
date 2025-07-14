@@ -1,7 +1,8 @@
-import {useMutation} from 'react-query';
+import {useMutation} from '@tanstack/react-query';
 import axios from 'axios';
 import {createTransactionFromAPI} from '../utils/transaction';
 import {MICROBITCOIN} from '../../../utils/constants';
+import {Wallet} from '../../../types/Wallet';
 
 type Params = {
     addresses: Wallet.Address[];
@@ -18,7 +19,7 @@ async function fetch(params: Params) {
 
         const {
             data: {result, error},
-        } = await axios.post(`${MICROBITCOIN.apiLink}/wallet/history/`, {
+        } = await axios.post(`${MICROBITCOIN.links.api.url}/wallet/history/`, {
             ...params,
             addresses: walletAddresses,
         });
@@ -52,5 +53,5 @@ async function fetch(params: Params) {
 }
 
 export default function (options?: Record<string, any>) {
-    return useMutation(fetch, options);
+    return useMutation({mutationFn: fetch, ...options});
 }

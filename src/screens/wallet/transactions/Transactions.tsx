@@ -24,9 +24,10 @@ import {useFocusEffect, useNavigation} from '@react-navigation/native';
 import {Container, HStack, Text} from '../../../components/common';
 import {Colors} from '../../../theme';
 import {Navigation} from '../../../types/Navigation';
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import MempoolCounter from './components/MempoolCounter';
-import useTransaction from '../../../services/hooks/useTransaction';
+import useTransactionUtils from '../../../services/hooks/useTransactionUtils';
+import {Wallet} from '../../../types/Wallet';
 
 interface TransactionsProps extends ViewProps {
     balance?: Wallet.Balance;
@@ -61,20 +62,21 @@ const Transactions: React.FC<TransactionsProps> = ({
     const {searchActivated, setSearchActivated} = useContext(WalletContext);
     const [search, setSearch] = useState<string>('');
     const {wallet} = useContext(WalletContext);
-    const {updateTransactions} = useTransaction({chain: wallet!.chain});
+    const {updateTransactions} = useTransactionUtils({chain: wallet!.chain});
+    const mainBalance = wallet!.balances.find(b => b.main);
     const {
-        remove,
         refetch,
         data: transactions,
         isLoading: isTransactionsLoading,
         isRefetching: isTransactionsRefetching,
-    } = useQuery<Wallet.Transaction[]>(
-        ['transactions', balance?.currency.ticker],
-        () => updateTransactions(balance?.currency.ticker),
-        {
-            initialData: wallet!.transactions,
-        },
-    );
+    } = useQuery<Wallet.Transaction[]>({
+        queryKey: ['transactions', wallet!.uuid, balance?.currency.ticker],
+        queryFn: () =>
+            updateTransactions({
+                currency: balance ? balance!.currency : mainBalance!.currency,
+            }),
+        initialData: wallet!.transactions,
+    });
 
     useFocusEffect(
         useCallback(() => {
@@ -87,27 +89,10 @@ const Transactions: React.FC<TransactionsProps> = ({
         }, [refetch]),
     );
 
-    /*useEffect(() => {
-        if (wallet!.transactions) {
-            if (token) {
-                setFilteredTransactions(
-                    wallet!.transactions.filter(
-                        (tx: AOK.Transaction) => tx.currency === token.tokenName || tx.currency === token.name,
-                    ),
-                );
-            } else {
-                setFilteredTransactions(wallet!.transactions);
-            }
-        }
-    }, [wallet!.transactions]);*/
-
     useEffect(() => {
         if (wallet!.uuid) {
             refetch();
         }
-        return () => {
-            remove();
-        };
     }, [wallet!.uuid]);
 
     return (

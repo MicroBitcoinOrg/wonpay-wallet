@@ -244,7 +244,6 @@ const TabBar: React.FC<Props> = ({state, descriptors, navigation}) => {
                             accessibilityLabel={
                                 options.tabBarAccessibilityLabel
                             }
-                            testID={options.tabBarTestID}
                             onPress={onPress}
                             style={{
                                 height: '100%',

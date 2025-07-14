@@ -21,7 +21,7 @@ export default async function (params: {address: string}): Promise<Response> {
         const {
             data: {result, error},
         } = await axios.get(
-            `${MICROBITCOIN.apiLink}/mempool/${params.address}`,
+            `${MICROBITCOIN.links.api.url}/mempool/${params.address}`,
         );
 
         if (result === null && error) {

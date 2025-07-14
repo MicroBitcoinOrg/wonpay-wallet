@@ -13,7 +13,7 @@ export default async function (params: Params): Promise<MBC.UTXO[]> {
         const {
             data: {result, error},
         } = await axios.get(
-            `${MICROBITCOIN.apiLink}/wallet/unspent/${params.address}`,
+            `${MICROBITCOIN.links.api.url}/wallet/unspent/${params.address}`,
             {
                 params,
             },

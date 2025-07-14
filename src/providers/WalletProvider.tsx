@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 
 import useAppStore from '../store/appStore';
 import {CHAINS} from '../utils/constants';
+import {Wallet} from '../types/Wallet';
 
 interface WalletProviderProps {
     children: any;
@@ -27,7 +28,9 @@ export const WalletProvider = ({children}: WalletProviderProps) => {
     const store = useAppStore();
     const [searchActivated, setSearchActivated] = useState<boolean>(false);
     const {uuid} = store;
-    const wallet = store.wallets.find((w: Wallet.Wallet) => w.uuid === uuid);
+    const wallet: Wallet.Wallet | undefined = store.wallets.find(
+        (w: Wallet.Wallet) => w.uuid === uuid,
+    );
     const walletChain = wallet ? CHAINS[wallet?.chain] : undefined;
 
     const deleteCache = () => {

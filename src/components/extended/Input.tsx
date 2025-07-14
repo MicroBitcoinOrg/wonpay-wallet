@@ -135,12 +135,13 @@ const Base = ({
 export const Input = ({
     color,
     size,
-    editable,
+    editable = true,
     style,
     value,
     placeholder,
-    placeholderTextColor,
     onBlur,
+    placeholderTextColor = 'gray',
+    clearButtonMode = 'while-editing',
     ...props
 }: InputProps) => {
     const [isFocused, setIsFocused] = useState(false);
@@ -169,16 +170,11 @@ export const Input = ({
                 placeholder={placeholder}
                 placeholderTextColor={placeholderTextColor}
                 editable={editable}
+                clearButtonMode={clearButtonMode}
                 {...props}
             />
         </Base>
     );
-};
-
-Input.defaultProps = {
-    editable: true,
-    clearButtonMode: 'while-editing',
-    placeholderTextColor: 'gray',
 };
 
 export const InputDate = ({
@@ -186,7 +182,7 @@ export const InputDate = ({
     color,
     size,
     placeholder,
-    placeholderTextColor,
+    placeholderTextColor = 'gray',
     ...props
 }: DateProps) => {
     return (
@@ -212,8 +208,4 @@ export const InputDate = ({
             )}
         </Base>
     );
-};
-
-InputDate.defaultProps = {
-    placeholderTextColor: 'gray',
 };

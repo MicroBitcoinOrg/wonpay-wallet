@@ -17,6 +17,7 @@ declare module 'react-native-config' {
         HEADER_HEIGHT_IOS: string;
         HEADER_HEIGHT_ANDROID: string;
         MIN_FEE: string;
+        TRONGRID_API_KEY: string;
     }
 
     export const Config: NativeConfig;

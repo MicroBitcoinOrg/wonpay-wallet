@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { AppState, AppStateStatus, Modal } from 'react-native';
-import { BlurView } from '@react-native-community/blur';
-import { navigationRef } from '../routes';
+import React, {useEffect, useRef, useState} from 'react';
+import {AppState, AppStateStatus, Modal} from 'react-native';
+import {BlurView} from '@react-native-community/blur';
+import {navigationRef} from '../routes';
 
 interface PasswordProviderProps {
     children: any;
@@ -16,28 +16,31 @@ const passwordContextState: PasswordContextType = {
     setUnlockedPassword: () => {},
 };
 
-export const PasswordContext = React.createContext<PasswordContextType>(passwordContextState);
+export const PasswordContext =
+    React.createContext<PasswordContextType>(passwordContextState);
 
-export const PasswordProvider = ({ children }: PasswordProviderProps) => {
+export const PasswordProvider = ({children}: PasswordProviderProps) => {
     const [unlockedPassword, setUnlocked] = useState<string | undefined>();
     const appState = useRef(AppState.currentState);
     const [isBlurActive, setIsBlurActive] = useState<boolean>(false);
-    const lastUnlocked = useRef<number | undefined>();
+    const lastUnlocked = useRef<number | undefined>(undefined);
 
     const setUnlockedPassword = (password: string) => {
         setUnlocked(password);
         lastUnlocked.current = Date.now();
-        console.log(lastUnlocked);
     };
 
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
-        if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
+        if (
+            appState.current.match(/inactive|background/) &&
+            nextAppState === 'active'
+        ) {
             if (lastUnlocked.current !== undefined) {
                 if (Date.now() - lastUnlocked.current > 600000) {
                     // @ts-ignore
                     navigationRef.navigate('PasswordStack', {
                         screen: 'Password',
-                        params: { type: 'unlock' },
+                        params: {type: 'unlock'},
                     });
                 }
             } else {
@@ -58,10 +61,11 @@ export const PasswordProvider = ({ children }: PasswordProviderProps) => {
     }, []);
 
     return (
-        <PasswordContext.Provider value={{ unlockedPassword, setUnlockedPassword }}>
+        <PasswordContext.Provider
+            value={{unlockedPassword, setUnlockedPassword}}>
             <Modal visible={isBlurActive} transparent animationType="fade">
                 <BlurView
-                    style={{ flex: 1 }}
+                    style={{flex: 1}}
                     blurType="light"
                     blurAmount={20}
                     reducedTransparencyFallbackColor="white"

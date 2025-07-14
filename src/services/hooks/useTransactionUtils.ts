@@ -1,64 +1,57 @@
 import {useContext} from 'react';
 import {WalletContext} from '../../providers';
-
-import {
-    getWalletTokenTransactions,
-    getWalletTransactions,
-} from '../microbitcoin/utils/transaction';
+import {getWalletTransactions as getWalletTransactionsTron} from '../tron/utils/transaction';
+import {getWalletTransactions as getWalletTransactionsMicrobitcoin} from '../microbitcoin/utils/transaction';
 import useAppStore from '../../store/appStore';
+import {Wallet} from '../../types/Wallet';
+import {CHAINS} from '../../utils/constants';
 
 interface Props {
-    chain: Wallet.ChainKey;
+    chain: Wallet.ChainEnum;
 }
 
-const useTransaction = ({chain}: Props) => {
+const useTransactionUtils = ({chain}: Props) => {
     const {wallet} = useContext(WalletContext);
     const store = useAppStore();
 
-    const getUtils = () => {
+    const getTransactionUtils = () => {
         switch (chain) {
-            case 'microbitcoin':
+            case Wallet.ChainEnum.MICROBITCOIN:
                 return {
-                    getWalletTokenTransactions: getWalletTokenTransactions({
+                    getWalletTransactions: getWalletTransactionsMicrobitcoin({
                         wallet: wallet!,
                     }),
-                    getWalletTransactions: getWalletTransactions({
+                };
+            case Wallet.ChainEnum.TRON:
+                return {
+                    getWalletTransactions: getWalletTransactionsTron({
                         wallet: wallet!,
                     }),
                 };
             default:
                 return {
-                    getWalletTokenTransactions: getWalletTokenTransactions({
-                        wallet: wallet!,
-                    }),
-                    getWalletTransactions: getWalletTransactions({
+                    getWalletTransactions: getWalletTransactionsMicrobitcoin({
                         wallet: wallet!,
                     }),
                 };
         }
     };
 
-    const utils = getUtils();
+    const utils = getTransactionUtils();
 
-    const updateTransactions = async (currency?: string) => {
+    const updateTransactions = async (data: {currency: Wallet.Currency}) => {
         try {
-            const mainTransactions = !currency
-                ? await utils.getWalletTransactions()
-                : [];
-            const tokenTransactions = currency
-                ? await utils.getWalletTokenTransactions(currency)
-                : [];
+            const apiTransactions = await utils.getWalletTransactions({
+                currency: data.currency,
+            });
 
-            let transactions: Wallet.Transaction[] = !currency
-                ? [...wallet!.transactions]
-                : [];
+            let transactions: Wallet.Transaction[] =
+                data.currency.ticker === CHAINS[chain].currency!.ticker
+                    ? [...wallet!.transactions]
+                    : [];
 
-            if (mainTransactions.length > 0 || tokenTransactions.length > 0) {
-                transactions = [
-                    ...tokenTransactions,
-                    ...mainTransactions,
-                    ...transactions,
-                ]
+            if (apiTransactions.length > 0) {
+                transactions = [...apiTransactions, ...transactions]
                     .filter(
                         (transaction, index, self) =>
                             index ===
@@ -74,7 +67,7 @@ const useTransaction = ({chain}: Props) => {
                         return 0;
                     });
 
-                if (!currency) {
+                if (data.currency.ticker === CHAINS[chain].currency!.ticker) {
                     store.updateWallet(store.uuid!, {
                         transactions: transactions.slice(0, 100),
                     });
@@ -92,4 +85,4 @@ const useTransaction = ({chain}: Props) => {
     return {updateTransactions};
 };
 
-export default useTransaction;
+export default useTransactionUtils;

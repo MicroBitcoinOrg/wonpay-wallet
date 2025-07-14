@@ -1,4 +1,11 @@
-import React, {useContext, useRef, useState, useEffect} from 'react';
+import React, {
+    useContext,
+    useRef,
+    useState,
+    useEffect,
+    useCallback,
+    useMemo,
+} from 'react';
 import {
     Dimensions,
     StyleSheet,
@@ -6,268 +13,417 @@ import {
     Platform,
     Alert,
     Text,
+    useColorScheme,
 } from 'react-native';
-import {ReactNativeScannerView} from '@pushpendersingh/react-native-scanner';
 import {
     request,
     PERMISSIONS,
     openSettings,
     RESULTS,
+    Permission,
 } from 'react-native-permissions';
-import {isAddress} from '../../utils/address';
+import {useTranslation} from 'react-i18next';
+import {isMatch} from '../../utils/address';
 import {FocusAwareStatusBar, HStack} from '../../components/common';
 import useAppStore from '../../store/appStore';
 import {WalletContext} from '../../providers';
+import {Camera, CameraType} from 'react-native-camera-kit';
+import {OnReadCodeData} from 'react-native-camera-kit/dist/CameraProps';
+import {Colors} from '../../theme';
+
+// Constants
+const QR_FRAME_SIZE = 300;
+const CORNER_SIZE = 50;
+const CORNER_PADDING = 20;
+const WONPAY_PROTOCOL = 'wonpay://';
+const WONPAY_DEPOSIT_PREFIX = 'wonpay://deposit?';
+
+// Types
+interface NavigationParams {
+    type?: 'address-book' | 'withdraw' | 'home';
+}
+
+interface AddressParams {
+    address: string;
+    amount?: string;
+    token?: string;
+}
+
+interface MessageParams {
+    message: string;
+    appName: string;
+    callback: string;
+}
+
+interface P2PParams {
+    send: string;
+    receive: string;
+    sendAmount: string;
+    receiveAmount: string;
+    callback: string;
+}
+
+type QRParams = AddressParams | MessageParams | P2PParams;
+
+interface QRCodeScannerProps {
+    navigation: any; // TODO: Replace with proper navigation type
+    route: {
+        params?: NavigationParams;
+    };
+}
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'black',
+        flex: 1,
+    },
+    permissionDeniedContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#000',
+    },
+    permissionDeniedText: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 16,
+        paddingHorizontal: 20,
+    },
+    camera: {
         flex: 1,
     },
     cornersContainer: {
-        height: 300,
-        width: 300,
+        height: QR_FRAME_SIZE,
+        width: QR_FRAME_SIZE,
         justifyContent: 'space-between',
-        padding: 20,
+        padding: CORNER_PADDING,
     },
     cornerContainer: {
-        width: 50,
-        height: 50,
+        width: CORNER_SIZE,
+        height: CORNER_SIZE,
         borderColor: 'white',
     },
 });
 
-interface QRCodeScannerProps {
-    navigation: any;
-    route: any;
-}
-
-type Params =
-    | {address: string; amount?: string; token?: string}
-    | {message: string; appName: string; callback: string}
-    | {
-          send: string;
-          receive: string;
-          sendAmount: string;
-          receiveAmount: string;
-          callback: string;
-      };
-
-const {width, height} = Dimensions.get('window');
-
-const QRCodeScanner: React.FC<QRCodeScannerProps> = ({
-    navigation,
-    route,
-}: QRCodeScannerProps) => {
+const QRCodeScanner: React.FC<QRCodeScannerProps> = ({navigation, route}) => {
     const {type} = route.params ?? {};
     const store = useAppStore();
     const {walletChain} = useContext(WalletContext);
     const [isCameraPermissionGranted, setIsCameraPermissionGranted] =
         useState(false);
-    const scannerRef = useRef(null);
+    const [isProcessing, setIsProcessing] = useState(false);
+    const scheme = useColorScheme();
+    const {t} = useTranslation('qrCodeScanner');
+
+    // Memoized values
+    const cameraPermission: Permission = useMemo(
+        () =>
+            Platform.OS === 'ios'
+                ? PERMISSIONS.IOS.CAMERA
+                : PERMISSIONS.ANDROID.CAMERA,
+        [],
+    );
+
+    const frameColor = useMemo(
+        () => Colors[scheme!]?.white || '#FFFFFF',
+        [scheme],
+    );
+
+    const laserColor = useMemo(
+        () => Colors[scheme!]?.transparent || 'transparent',
+        [scheme],
+    );
 
     useEffect(() => {
         checkCameraPermission();
     }, []);
 
-    const checkCameraPermission = async () => {
-        request(
-            Platform.OS === 'ios'
-                ? PERMISSIONS.IOS.CAMERA
-                : PERMISSIONS.ANDROID.CAMERA,
-        ).then((result: any) => {
+    const checkCameraPermission = useCallback(async () => {
+        try {
+            const result = await request(cameraPermission);
+            handlePermissionResult(result);
+        } catch (error) {
+            showPermissionError(t('permissions.failed'));
+        }
+    }, [cameraPermission, t]);
+
+    const handlePermissionResult = useCallback(
+        (result: string) => {
             switch (result) {
                 case RESULTS.UNAVAILABLE:
+                    showPermissionError(t('permissions.unavailable'));
                     break;
                 case RESULTS.DENIED:
-                    Alert.alert(
-                        'Permission Denied',
-                        'You need to grant camera permission first',
+                    showPermissionAlert(
+                        t('permissions.denied.title'),
+                        t('permissions.denied.message'),
                     );
-                    openSettings();
                     break;
                 case RESULTS.GRANTED:
                     setIsCameraPermissionGranted(true);
                     break;
                 case RESULTS.BLOCKED:
-                    Alert.alert(
-                        'Permission Blocked',
-                        'You need to grant camera permission first',
+                    showPermissionAlert(
+                        t('permissions.blocked.title'),
+                        t('permissions.blocked.message'),
                     );
-                    openSettings();
+                    break;
+                default:
+                    showPermissionError(t('permissions.unknown'));
+            }
+        },
+        [t],
+    );
+
+    const showPermissionAlert = useCallback(
+        (title: string, message: string) => {
+            Alert.alert(title, message, [
+                {text: t('buttons.cancel'), style: 'cancel'},
+                {
+                    text: t('buttons.openSettings'),
+                    onPress: openSettings,
+                },
+            ]);
+        },
+        [t],
+    );
+
+    const showPermissionError = useCallback(
+        (message: string) => {
+            Alert.alert(t('errors.title'), message);
+        },
+        [t],
+    );
+
+    const isAddressParams = (params: QRParams): params is AddressParams => {
+        return 'address' in params;
+    };
+
+    const navigateToAddressBook = useCallback(
+        (
+            params: AddressParams,
+            actionType: 'replace' | 'navigate' = 'navigate',
+        ) => {
+            if (actionType === 'navigate') {
+                navigation.popTo('ManageAddressBookItem', params);
+            } else {
+                navigation.replace('AddressBookStack', {
+                    screen: 'ManageAddressBookItem',
+                    params,
+                });
+            }
+        },
+        [navigation],
+    );
+
+    const navigateToWithdraw = useCallback(
+        (
+            params: AddressParams,
+            actionType: 'replace' | 'navigate' = 'navigate',
+        ) => {
+            if (actionType === 'navigate') {
+                navigation.popTo('MainTabs', {
+                    screen: 'WalletStack',
+                    params: {
+                        screen: 'Withdraw',
+                        params,
+                    },
+                });
+            } else {
+                navigation.replace('MainTabs', {
+                    screen: 'MainTabs',
+                    params: {
+                        screen: 'WalletStack',
+                        params: {
+                            screen: 'Withdraw',
+                            params,
+                        },
+                    },
+                });
+            }
+        },
+        [navigation],
+    );
+
+    const processQRData = useCallback(
+        (params: QRParams, method?: string) => {
+            if (!isAddressParams(params)) {
+                console.warn(t('errors.unsupportedFormat'));
+                return;
+            }
+
+            switch (type) {
+                case 'address-book':
+                    navigateToAddressBook(params);
+                    break;
+                case 'withdraw':
+                    navigateToWithdraw(params);
+                    break;
+                case 'home':
+                    if (method === 'deposit') {
+                        navigateToWithdraw(params);
+                    }
+                    break;
+                default:
+                    if (store.uuid) {
+                        // Handle authenticated user case
+                        console.log(t('debug.authenticatedUser'));
+                    } else {
+                        navigateToAddressBook(params, 'replace');
+                    }
                     break;
             }
-        });
-    };
+        },
+        [type, store.uuid, navigateToAddressBook, navigateToWithdraw, t],
+    );
 
-    const processAddressBook = (
-        params: Params,
-        actionType: 'replace' | 'navigate' = 'navigate',
-    ) => {
-        if (actionType === 'navigate') {
-            navigation.navigate('ManageAddressBookItem', params);
-        } else {
-            navigation.replace('AddressBookStack', {
-                screen: 'ManageAddressBookItem',
-                params,
-            });
+    const createValidQRParams = (
+        params: Record<string, string>,
+    ): QRParams | null => {
+        // Check for AddressParams
+        if ('address' in params && typeof params.address === 'string') {
+            const addressParams: AddressParams = {
+                address: params.address,
+                ...(params.amount && {amount: params.amount}),
+                ...(params.token && {token: params.token}),
+            };
+            return addressParams;
         }
-    };
 
-    const processWithdraw = (
-        params: Params,
-        actionType: 'replace' | 'navigate' = 'navigate',
-    ) => {
-        if (actionType === 'navigate') {
-            navigation.navigate('Withdraw', params);
-        } else {
-            navigation.replace('WalletStack', {screen: 'Withdraw', params});
+        // Check for MessageParams
+        if (
+            'message' in params &&
+            'appName' in params &&
+            'callback' in params
+        ) {
+            const messageParams: MessageParams = {
+                message: params.message,
+                appName: params.appName,
+                callback: params.callback,
+            };
+            return messageParams;
         }
-    };
 
-    const processData = (
-        params: Params,
-        method: string | undefined = undefined,
-    ) => {
-        switch (type) {
-            case 'address-book':
-                if ('address' in params) {
-                    processAddressBook(params);
-                }
-
-                break;
-            case 'withdraw':
-                if ('address' in params) {
-                    processWithdraw(params);
-                }
-
-                break;
-            case 'home':
-                if (method === 'deposit') {
-                    processWithdraw(params);
-                }
-
-                break;
-            default:
-                if (store.uuid) {
-                } else {
-                    processAddressBook(params, 'replace');
-                }
-
-                break;
+        // Check for P2PParams
+        if (
+            'send' in params &&
+            'receive' in params &&
+            'sendAmount' in params &&
+            'receiveAmount' in params &&
+            'callback' in params
+        ) {
+            const p2pParams: P2PParams = {
+                send: params.send,
+                receive: params.receive,
+                sendAmount: params.sendAmount,
+                receiveAmount: params.receiveAmount,
+                callback: params.callback,
+            };
+            return p2pParams;
         }
+
+        return null;
     };
 
-    const onQrScanned = (e: any) => {
-        const data = e.nativeEvent?.data?.replace(/ /g, '');
-        if (!data) return;
-        if (data.startsWith('wonpay')) {
-            let splited = [];
+    const parseWonpayQR = useCallback(
+        (data: string): {params: QRParams | null; method: string} => {
             let method = 'deposit';
 
-            if (data.startsWith(`wonpay://deposit?`)) {
-                splited = data.split('://deposit?');
+            if (!data.startsWith(WONPAY_DEPOSIT_PREFIX)) {
+                return {params: null, method};
             }
 
-            if (splited.length > 1) {
-                splited = splited[1].split('&');
+            const queryString = data.replace(WONPAY_DEPOSIT_PREFIX, '');
+            const urlParams = new URLSearchParams(queryString);
 
-                const params = splited.reduce(
-                    (result: Record<string, any>, param: string) => {
-                        const a = param.split('=');
+            const params: Record<string, string> = {};
+            urlParams.forEach((value, key) => {
+                params[key] = value;
+            });
 
-                        if (a.length > 1) {
-                            return {...result, [a[0]]: a[1]};
-                        }
+            const validParams = createValidQRParams(params);
+            return {params: validParams, method};
+        },
+        [],
+    );
 
-                        return result;
-                    },
-                    {},
-                );
-
-                processData(params, method);
+    const validateAddress = useCallback(
+        (address: string): boolean => {
+            if (!walletChain?.regex?.address) {
+                console.warn('Wallet chain regex not available');
+                return false;
             }
-        } else if (isAddress(data, walletChain!.regex.address)) {
-            processData({address: data});
-        }
-    };
+            return isMatch(address, walletChain.regex.address);
+        },
+        [walletChain],
+    );
 
-    if (!isCameraPermissionGranted) {
-        return (
-            <View style={styles.container}>
+    const onQrScanned = useCallback(
+        (e: OnReadCodeData) => {
+            if (isProcessing) return;
+
+            const rawData = e.nativeEvent.codeStringValue;
+            if (!rawData) return;
+
+            setIsProcessing(true);
+
+            // Clean the data
+            const data = rawData.replace(/\s/g, '');
+
+            try {
+                if (data.startsWith(WONPAY_PROTOCOL)) {
+                    const {params, method} = parseWonpayQR(data);
+                    if (params) {
+                        processQRData(params, method);
+                    }
+                } else if (validateAddress(data)) {
+                    processQRData({address: data});
+                } else {
+                    Alert.alert(
+                        t('errors.invalidQR.title'),
+                        t('errors.invalidQR.message'),
+                    );
+                }
+            } catch (error) {
+                Alert.alert(t('errors.title'), t('errors.processing'));
+            } finally {
+                // Reset processing state after a delay to prevent rapid scanning
+                setTimeout(() => setIsProcessing(false), 1000);
+            }
+        },
+        [isProcessing, parseWonpayQR, validateAddress, processQRData, t],
+    );
+
+    const renderPermissionDenied = useCallback(
+        () => (
+            <View style={styles.permissionDeniedContainer}>
                 <FocusAwareStatusBar barStyle="light-content" />
-                <Text
-                    style={{
-                        color: 'white',
-                        textAlign: 'center',
-                        marginTop: 40,
-                    }}>
-                    You need to grant camera permission first
+                <Text style={styles.permissionDeniedText}>
+                    {t('permissions.deniedDescription')}
                 </Text>
             </View>
-        );
+        ),
+        [t],
+    );
+
+    if (!isCameraPermissionGranted) {
+        return renderPermissionDenied();
     }
 
     return (
-        <View style={styles.container}>
-            <FocusAwareStatusBar barStyle="light-content" />
-            <ReactNativeScannerView
-                ref={scannerRef}
-                style={{height: height, width: width}}
-                onQrScanned={onQrScanned}
-                pauseAfterCapture={true}
-                isActive={true}
-                // Custom marker overlay
-                renderBox={() => (
-                    <View style={styles.cornersContainer} pointerEvents="none">
-                        <HStack justifyContent="space-between">
-                            <View
-                                style={[
-                                    styles.cornerContainer,
-                                    {
-                                        borderTopLeftRadius: 20,
-                                        borderLeftWidth: 4,
-                                        borderTopWidth: 4,
-                                    },
-                                ]}
-                            />
-                            <View
-                                style={[
-                                    styles.cornerContainer,
-                                    {
-                                        borderTopRightRadius: 20,
-                                        borderRightWidth: 4,
-                                        borderTopWidth: 4,
-                                    },
-                                ]}
-                            />
-                        </HStack>
-                        <HStack justifyContent="space-between">
-                            <View
-                                style={[
-                                    styles.cornerContainer,
-                                    {
-                                        borderBottomLeftRadius: 20,
-                                        borderLeftWidth: 4,
-                                        borderBottomWidth: 4,
-                                    },
-                                ]}
-                            />
-                            <View
-                                style={[
-                                    styles.cornerContainer,
-                                    {
-                                        borderBottomRightRadius: 20,
-                                        borderRightWidth: 4,
-                                        borderBottomWidth: 4,
-                                    },
-                                ]}
-                            />
-                        </HStack>
-                    </View>
-                )}
-            />
-        </View>
+        <Camera
+            style={styles.camera}
+            resizeMode="cover"
+            zoomMode="off"
+            focusMode="off"
+            scanBarcode={true}
+            onReadCode={onQrScanned}
+            barcodeFrameSize={{width: QR_FRAME_SIZE, height: QR_FRAME_SIZE}}
+            showFrame={true}
+            frameColor={frameColor}
+            laserColor={laserColor}
+            accessibilityLabel="QR Code Scanner Camera"
+            accessibilityHint={t('accessibility.cameraHint')}
+        />
     );
 };
 

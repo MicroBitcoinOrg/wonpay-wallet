@@ -39,7 +39,7 @@ const Text: React.FC<Props> = ({
     style,
     animated,
     children,
-    color,
+    color = 'textPrimary',
     align,
     textTransform,
     opacity,
@@ -83,10 +83,6 @@ const Text: React.FC<Props> = ({
             {children}
         </Animated.Text>
     );
-};
-
-Text.defaultProps = {
-    color: 'textPrimary',
 };
 
 export default Text;

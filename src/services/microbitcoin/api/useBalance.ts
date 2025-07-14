@@ -1,12 +1,13 @@
-import {useQuery} from 'react-query';
+import {useQuery} from '@tanstack/react-query';
 import axios from 'axios';
 import {MICROBITCOIN} from '../../../utils/constants';
+import {Wallet} from '../../../types/Wallet';
 
 type Params = {
     addresses: Wallet.Address[];
 };
 
-async function fetch(params: Params) {
+export async function getBalance(params: Params) {
     try {
         let tokens: Wallet.Balance[] = [];
         let balance: Wallet.Balance = {
@@ -19,7 +20,7 @@ async function fetch(params: Params) {
             const {
                 data: {result, error},
             } = await axios.get(
-                `${MICROBITCOIN.apiLink}/balance/${params.addresses[i].address}`,
+                `${MICROBITCOIN.links.api.url}/balance/${params.addresses[i].address}`,
             );
 
             if (result === null && error) {
@@ -38,7 +39,9 @@ async function fetch(params: Params) {
             const {
                 data: {balances, stats},
             } = await axios.get(
-                `${MICROBITCOIN.tokensApiLink}/layer/address/${params.addresses[i].address}`,
+                `${MICROBITCOIN.links.tokensApi!.url}/layer/address/${
+                    params.addresses[i].address
+                }`,
             );
 
             for (let k = 0; k < balances.length; k++) {
@@ -78,9 +81,9 @@ async function fetch(params: Params) {
 }
 
 export default function (params: Params, options?: Record<string, any>) {
-    return useQuery<Wallet.Balance[], Error>(
-        ['balance', params],
-        () => fetch(params),
-        options,
-    );
+    return useQuery<Wallet.Balance[], Error>({
+        queryKey: ['balance', params],
+        queryFn: () => getBalance(params),
+        ...options,
+    });
 }

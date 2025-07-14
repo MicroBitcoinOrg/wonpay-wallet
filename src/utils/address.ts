@@ -1,20 +1,49 @@
 const bitcoin = require('bitcoinjs-lib');
 
+import {TronWeb} from 'tronweb';
 import * as bip39 from 'bip39';
 import {BIP32Factory, BIP32Interface} from 'bip32';
 import ecc from '@bitcoinerlab/secp256k1';
+import {Wallet} from '../types/Wallet';
+import {TRON} from './constants';
 
 const bip32 = BIP32Factory(ecc);
 
-export const getAddress = (node: any, networkAddress: any) => {
-    return bitcoin.payments.p2pkh({
-        pubkey: node.publicKey,
-        network: networkAddress,
-    }).address!;
+// Helper function to generate Tron address from private key
+const generateTronAddress = (privateKey: Buffer): string => {
+    try {
+        const tronWeb = new TronWeb({
+            fullHost: TRON.links.api.url,
+        });
+        // Convert private key to hex string (without 0x prefix)
+        const privateKeyHex = privateKey.toString('hex');
+
+        // Use TronWeb's address generation from private key
+        const address = tronWeb.address.fromPrivateKey(privateKeyHex);
+
+        return address as string;
+    } catch (error) {
+        console.error('Error generating Tron address:', error);
+        throw error;
+    }
 };
 
-export const isAddress = (address: string, regex: string) => {
-    return !!(address.length <= 34 && address.match(new RegExp(regex)));
+export const getAddress = (node: any, networkAddress: any) => {
+    // Check if this is a Tron network based on pubKeyHash
+    if (networkAddress.pubKeyHash === 0x41) {
+        // Generate Tron address using private key
+        return generateTronAddress(node.privateKey);
+    } else {
+        // Generate Bitcoin-style address
+        return bitcoin.payments.p2pkh({
+            pubkey: node.publicKey,
+            network: networkAddress,
+        }).address!;
+    }
+};
+
+export const isMatch = (address: string, regex: string[]) => {
+    return regex.some(r => address.match(new RegExp(r)));
 };
 
 export const generateSeedPhrase = (size = 12) => {
@@ -82,14 +111,21 @@ function sleep(ms: number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-export const generateAddressesAsync = (
-    seedPhrase: string,
+export const generateAddressesAsync = ({
+    seedPhrase,
     startIndex = 0,
     endIndex = 0,
-    derive: number,
-    networkAddress: any,
-    derivePath: string,
-): Promise<Wallet.Address[]> => {
+    derive = 0,
+    networkAddress,
+    derivePath,
+}: {
+    seedPhrase: string;
+    startIndex?: number;
+    endIndex?: number;
+    derive?: number;
+    networkAddress: any;
+    derivePath: string;
+}): Promise<Wallet.Address[]> => {
     let node: BIP32Interface;
     try {
         const seed = bip39.mnemonicToSeedSync(seedPhrase);
@@ -109,6 +145,7 @@ export const generateAddressesAsync = (
                 index: i,
                 wif: btcNodeDerivation.toWIF(),
                 address: getAddress(btcNodeDerivation, networkAddress),
+                privateKey: btcNodeDerivation.privateKey?.toString('hex'),
             });
             await sleep(1); // delaying is mandatory, otherwise it's blocking other processes...
         }

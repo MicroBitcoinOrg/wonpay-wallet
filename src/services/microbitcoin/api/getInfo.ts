@@ -9,7 +9,7 @@ export default async function (): Promise<{
     try {
         const {
             data: {result, error},
-        } = await axios.get(`${MICROBITCOIN.apiLink}/wallet/info`);
+        } = await axios.get(`${MICROBITCOIN.links.api.url}/wallet/info`);
 
         if (result === null && error) {
             console.error({error});

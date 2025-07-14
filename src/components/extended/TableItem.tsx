@@ -42,11 +42,11 @@ const TableItem: React.FC<TableItemProps> = ({
     style,
     icon,
     title,
-    color,
+    color = 'textPrimary',
     subtitle,
     bottomDivider,
     rightContent,
-    leftContent,
+    leftContent = <View />,
     underlayColor,
     onPress,
     ...props
@@ -103,11 +103,6 @@ const TableItem: React.FC<TableItemProps> = ({
 
     // @ts-ignore
     return <View {...props}>{children}</View>;
-};
-
-TableItem.defaultProps = {
-    color: 'textPrimary',
-    leftContent: <View />,
 };
 
 export default TableItem;

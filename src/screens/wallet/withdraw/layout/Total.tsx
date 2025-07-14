@@ -5,6 +5,7 @@ import {Coin, HStack, Text, VStack} from '../../../../components/common';
 import {Colors} from '../../../../theme';
 import NumberFormat from 'react-number-format';
 import {WalletContext} from '../../../../providers';
+import {Wallet} from '../../../../types/Wallet';
 
 const styles = StyleSheet.create({
     inputContainer: {},

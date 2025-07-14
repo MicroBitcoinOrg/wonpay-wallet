@@ -7,7 +7,7 @@ import {
     Settings,
     Token,
     TransactionDetails,
-    Wallet,
+    Wallet as WalletScreen,
     Withdraw,
 } from '../../screens';
 import {Image, Platform, StyleSheet} from 'react-native';
@@ -17,6 +17,7 @@ import {useNavigation} from '@react-navigation/native';
 
 import {defaultOptions} from '../config';
 import useAppStore from '../../store/appStore';
+import {Wallet} from '../../types/Wallet';
 
 const styles = StyleSheet.create({
     logoImage: {
@@ -55,9 +56,8 @@ const WalletStack: React.FC = () => {
             headerRight: (
                 <IconButton
                     onPress={() =>
-                        navigation.navigate('RootStack', {
-                            screen: 'OnboardingStack',
-                            params: {screen: 'Welcome'},
+                        navigation.navigate('OnboardingStack', {
+                            screen: 'Welcome',
                         })
                     }
                     name="add"
@@ -97,7 +97,7 @@ const WalletStack: React.FC = () => {
 
             <Stack.Screen
                 name="Wallet"
-                component={Wallet}
+                component={WalletScreen}
                 options={() => ({
                     header: props => <Header transparent {...props} />,
                     headerTransparent: true,

@@ -8,6 +8,7 @@ import {Container} from '../../components/common';
 import {AddressBookItem} from './components';
 import {NotFound} from '../../components/extended';
 import useAppStore from '../../store/appStore';
+import {Wallet} from '../../types/Wallet';
 
 const styles = StyleSheet.create({
     container: {

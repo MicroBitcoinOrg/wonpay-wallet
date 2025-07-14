@@ -42,6 +42,7 @@ const Header: React.FC<HeaderProps> = ({
     options,
     back,
     transparent,
+    barStyle = 'dark',
 }: HeaderProps) => {
     const scheme = useColorScheme();
 
@@ -86,10 +87,6 @@ const Header: React.FC<HeaderProps> = ({
             {options.headerRight && options.headerRight()}
         </View>
     );
-};
-
-Header.defaultProps = {
-    barStyle: 'dark',
 };
 
 export default Header;

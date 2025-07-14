@@ -12,7 +12,7 @@ export default async function req(params: Params) {
         const {
             data: {list, pagination},
         } = await axios.get(
-            `${MICROBITCOIN.tokensApiLink}/layer/address/${
+            `${MICROBITCOIN.links.tokensApi!.url}/layer/address/${
                 params.address
             }/transfers${params.currency ? `/${params.currency}` : ''}`,
         );

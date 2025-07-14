@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Config from 'react-native-config';
 import {MICROBITCOIN} from '../../../utils/constants';
+import {Wallet} from '../../../types/Wallet';
 
 type Params = {
     txid: string;
@@ -11,7 +12,7 @@ export default async function (params: Params): Promise<Wallet.Transaction> {
         const {
             data: {result, error},
         } = await axios.get(
-            `${MICROBITCOIN.apiLink}/wallet/transaction/${params.txid}`,
+            `${MICROBITCOIN.links.api.url}/wallet/transaction/${params.txid}`,
         );
 
         if (result === null && error) {

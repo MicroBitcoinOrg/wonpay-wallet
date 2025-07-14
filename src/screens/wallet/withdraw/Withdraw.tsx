@@ -10,12 +10,13 @@ import {
     VStack,
 } from '../../../components/common';
 import {Button} from '../../../components/extended';
-import {isAddress} from '../../../utils/address';
+import {isMatch} from '../../../utils/address';
 import {Amount, Currency, Fee, Total, WithdrawAddress} from './layout';
 import {Colors} from '../../../theme';
 import useAppStore from '../../../store/appStore';
-import {useQueryClient} from 'react-query';
-import useWithdrawal from '../../../services/hooks/useWithdrawal';
+import {useQueryClient} from '@tanstack/react-query';
+import useWithdrawalUtils from '../../../services/hooks/useWithdrawalUtils';
+import {Wallet} from '../../../types/Wallet';
 
 const styles = StyleSheet.create({
     container: {
@@ -51,7 +52,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
         wallet!.balances.find(item => item.currency.ticker === params.token) ||
             wallet?.balances.find(b => b.main),
     );
-    const {sendTransaction, sendTokenTransaction} = useWithdrawal({
+    const {sendTransaction} = useWithdrawalUtils({
         chain: wallet!.chain,
     });
 
@@ -60,20 +61,12 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
             store.setLoading(true);
 
             try {
-                const request = !balance?.main
-                    ? await sendTokenTransaction!({
-                          withdrawAddress: address,
-                          amount:
-                              10 ** balance!.currency.units *
-                              parseFloat(amount),
-                          fee: 10 ** 4 * Number(fee),
-                          ticker: balance!.currency.ticker,
-                      })
-                    : await sendTransaction!({
-                          withdrawAddress: address,
-                          amount: 10 ** 4 * parseFloat(amount),
-                          fee: 10 ** 4 * Number(fee),
-                      });
+                await sendTransaction!({
+                    withdrawAddress: address,
+                    amount: parseFloat(amount),
+                    fee: Number(fee),
+                    currency: balance!.currency,
+                });
 
                 showMessage({
                     message: t('alerts.transactionSent.message'),
@@ -184,10 +177,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                         <Button
                             title={t('confirmButton')}
                             disabled={
-                                !isAddress(
-                                    address,
-                                    walletChain!.regex.address,
-                                ) ||
+                                !isMatch(address, walletChain!.regex.address) ||
                                 !amount ||
                                 amount === '' ||
                                 Number(amount) >

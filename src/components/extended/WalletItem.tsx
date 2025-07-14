@@ -5,6 +5,7 @@ import {StyleSheet, useColorScheme, View} from 'react-native';
 import {Avatar, HStack, Text} from '../common';
 import Config from 'react-native-config';
 import {WalletContext} from '../../providers';
+import {Wallet} from '../../types/Wallet';
 
 const styles = StyleSheet.create({
     container: {

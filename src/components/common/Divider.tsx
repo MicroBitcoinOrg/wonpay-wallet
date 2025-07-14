@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, useColorScheme, View, ViewProps } from 'react-native';
-import { Colors } from '../../theme';
+import {StyleSheet, useColorScheme, View, ViewProps} from 'react-native';
+import {Colors} from '../../theme';
 
 const styles = StyleSheet.create({
     divider: {
@@ -12,12 +12,18 @@ const styles = StyleSheet.create({
 
 interface DividerProps extends ViewProps {}
 
-const Divider: React.FC<DividerProps> = ({ style }) => {
+const Divider: React.FC<DividerProps> = ({style}) => {
     const scheme = useColorScheme();
 
-    return <View style={[styles.divider, { backgroundColor: Colors[scheme!].card }, style]} />;
+    return (
+        <View
+            style={[
+                styles.divider,
+                {backgroundColor: Colors[scheme!].card},
+                style,
+            ]}
+        />
+    );
 };
-
-Divider.defaultProps = {};
 
 export default Divider;

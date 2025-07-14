@@ -11,6 +11,7 @@ import {Avatar, HStack, Text} from '../../../components/common';
 import {base64ToHex} from '../../../utils/common';
 import {Colors} from '../../../theme';
 import {useTranslation} from 'react-i18next';
+import {Wallet} from '../../../types/Wallet';
 
 const styles = StyleSheet.create({
     container: {

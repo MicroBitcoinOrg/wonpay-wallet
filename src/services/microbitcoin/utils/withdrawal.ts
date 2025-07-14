@@ -3,6 +3,7 @@ import {decryptData} from '../../../utils/common';
 import {broadcast, getUTXO} from '../../microbitcoin/api';
 import {MICROBITCOIN} from '../../../utils/constants';
 import axios from 'axios';
+import {Wallet} from '../../../types/Wallet';
 
 const addUnspentAndSign = (data: {
     withdrawAddress: string;
@@ -73,88 +74,116 @@ const addUnspentAndSign = (data: {
     }
 };
 
-export const sendTokenTransaction =
+export const sendTokenTransaction = async (data: {
+    withdrawAddress: string;
+    amount: number;
+    fee: number;
+    wallet: Wallet.Wallet;
+    password: string;
+    currency: Wallet.Currency;
+}) => {
+    const {
+        data: {data: payload},
+    } = await axios.post(
+        `${MICROBITCOIN.links.tokensApi!.url}/message/transfer`,
+        {
+            ticker: data.currency.ticker,
+            value: 10 ** data.currency.units * data.amount,
+        },
+    );
+
+    const txb = new bitcoin.TransactionBuilder(MICROBITCOIN.network);
+    txb.setVersion(2);
+
+    const payloadEncoded = Buffer.from(payload, 'hex');
+    const payloadScript = bitcoin.script.compile([
+        bitcoin.opcodes.OP_RETURN,
+        payloadEncoded,
+    ]);
+
+    txb.addOutput(payloadScript, 0);
+
+    const unspent: {
+        utxos: MBC.UTXO[];
+        address: string;
+    }[] = [];
+
+    await Promise.all(
+        data.wallet.addresses.map(async address => {
+            const utxos = await getUTXO({
+                address: address.address,
+            });
+
+            unspent.push({utxos, address: address.address});
+        }),
+    );
+
+    addUnspentAndSign({
+        ...data,
+        fee: 10 ** 4 * data.fee,
+        amount: 10 ** 4 * data.fee,
+        unspent,
+        txb,
+    });
+
+    var tx = txb.build();
+
+    const broadcastedTxid = await broadcast({raw: tx.toHex()});
+
+    return {txid: broadcastedTxid};
+};
+
+export const sendMainTransaction = async (data: {
+    withdrawAddress: string;
+    amount: number;
+    fee: number;
+    wallet: Wallet.Wallet;
+    password: string;
+}) => {
+    const txb = new bitcoin.TransactionBuilder(MICROBITCOIN.network);
+    txb.setVersion(2);
+
+    const unspent: {
+        utxos: MBC.UTXO[];
+        address: string;
+    }[] = [];
+
+    await Promise.all(
+        data.wallet.addresses.map(async address => {
+            const utxos = await getUTXO({
+                address: address.address,
+            });
+
+            unspent.push({utxos, address: address.address});
+        }),
+    );
+
+    addUnspentAndSign({
+        ...data,
+        amount: 10 ** 4 * data.amount,
+        fee: 10 ** 4 * data.fee,
+        unspent,
+        txb,
+    });
+
+    var tx = txb.build();
+
+    const broadcastedTxid = await broadcast({raw: tx.toHex()});
+
+    return {txid: broadcastedTxid};
+};
+
+export const sendTransaction =
     (walletData: {wallet: Wallet.Wallet; password: string}) =>
     async (data: {
         withdrawAddress: string;
         amount: number;
         fee: number;
-        ticker: string;
+        currency: Wallet.Currency;
     }) => {
-        const {
-            data: {data: payload},
-        } = await axios.post(`${MICROBITCOIN.tokensApiLink}/message/transfer`, {
-            ticker: data.ticker,
-            value: data.amount,
-        });
-
-        const txb = new bitcoin.TransactionBuilder(MICROBITCOIN.network);
-        txb.setVersion(2);
-
-        const payloadEncoded = Buffer.from(payload, 'hex');
-        const payloadScript = bitcoin.script.compile([
-            bitcoin.opcodes.OP_RETURN,
-            payloadEncoded,
-        ]);
-
-        txb.addOutput(payloadScript, 0);
-
-        const unspent: {
-            utxos: MBC.UTXO[];
-            address: string;
-        }[] = [];
-
-        await Promise.all(
-            walletData.wallet.addresses.map(async address => {
-                const utxos = await getUTXO({
-                    address: address.address,
-                });
-
-                unspent.push({utxos, address: address.address});
-            }),
-        );
-
-        addUnspentAndSign({
-            ...data,
-            ...walletData,
-            amount: data.fee,
-            unspent,
-            txb,
-        });
-
-        var tx = txb.build();
-
-        const broadcastedTxid = await broadcast({raw: tx.toHex()});
-
-        return {txid: broadcastedTxid};
-    };
-
-export const sendTransaction =
-    (walletData: {wallet: Wallet.Wallet; password: string}) =>
-    async (data: {withdrawAddress: string; amount: number; fee: number}) => {
-        const txb = new bitcoin.TransactionBuilder(MICROBITCOIN.network);
-        txb.setVersion(2);
-
-        const unspent: {
-            utxos: MBC.UTXO[];
-            address: string;
-        }[] = [];
-
-        await Promise.all(
-            walletData.wallet.addresses.map(async address => {
-                const utxos = await getUTXO({
-                    address: address.address,
-                });
-
-                unspent.push({utxos, address: address.address});
-            }),
-        );
-
-        addUnspentAndSign({...data, ...walletData, unspent, txb});
-
-        var tx = txb.build();
-
-        const broadcastedTxid = await broadcast({raw: tx.toHex()});
-
-        return {txid: broadcastedTxid};
+        if (data.currency.ticker === MICROBITCOIN.currency.ticker) {
+            return sendMainTransaction({...data, ...walletData});
+        } else {
+            return sendTokenTransaction({...data, ...walletData});
+        }
     };

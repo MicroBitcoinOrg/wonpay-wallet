@@ -15,6 +15,7 @@ import useAppStore from '../../store/appStore';
 import {CHAINS} from '../../utils/constants';
 import {Navigation} from '../../types/Navigation';
 import ChainItem from './components/ChainItem';
+import {Wallet} from '../../types/Wallet';
 
 const styles = StyleSheet.create({
     container: {
@@ -103,7 +104,10 @@ const Welcome: React.FC<WelcomeProps> = ({navigation}: WelcomeProps) => {
         );
     };
 
-    const chooseChain = (chain: Wallet.ChainKey, type: 'create' | 'import') => {
+    const chooseChain = (
+        chain: Wallet.ChainEnum,
+        type: 'create' | 'import',
+    ) => {
         dispatchOnboardingAction({
             type: 'setWalletValues',
             wallet: {
@@ -121,8 +125,8 @@ const Welcome: React.FC<WelcomeProps> = ({navigation}: WelcomeProps) => {
     const openChainsList = (type: 'create' | 'import') => {
         navigation.navigate('ChooseList', {
             data: Object.keys(CHAINS),
-            keyExtractor: (item: Wallet.ChainKey) => CHAINS[item].name,
-            renderItem: (item: Wallet.ChainKey) => (
+            keyExtractor: (item: Wallet.ChainEnum) => CHAINS[item].name,
+            renderItem: (item: Wallet.ChainEnum) => (
                 <ChainItem
                     chain={CHAINS[item] as Wallet.Chain}
                     onPress={() => chooseChain(item, type)}

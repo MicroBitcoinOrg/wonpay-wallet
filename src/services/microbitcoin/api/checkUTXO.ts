@@ -10,7 +10,7 @@ export default async function (params: Params): Promise<MBC.UTXO[]> {
     try {
         const {
             data: {result, error},
-        } = await axios.post(`${MICROBITCOIN.apiLink}/wallet/utxo`, {
+        } = await axios.post(`${MICROBITCOIN.links.api.url}/wallet/utxo`, {
             outputs: params.outputs,
         });
 

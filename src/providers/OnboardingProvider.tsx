@@ -1,4 +1,5 @@
 import React, {useReducer} from 'react';
+import {Wallet} from '../types/Wallet';
 
 interface OnboardingProviderProps {
     children: any;
@@ -45,18 +46,14 @@ export const OnboardingContext = React.createContext<OnboardingContextType>({
 });
 
 export const OnboardingProvider = ({children}: OnboardingProviderProps) => {
-    const [onboarding, dispatchOnboardingAction] = useReducer<
-        OnboardingReducer,
-        Onboarding
-    >(
+    const [onboarding, dispatchOnboardingAction] = useReducer(
         onboardingReducer,
         {
             processType: 'create',
             wallet: {
-                chain: 'microbitcoin',
+                chain: Wallet.ChainEnum.MICROBITCOIN,
             },
         },
-        state => state,
     );
 
     return (

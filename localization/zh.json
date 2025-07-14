@@ -56,7 +56,40 @@
     },
     "qrCodeScanner": {
         "addToAddressBook": "添加到地址簿",
-        "withdraw": "收回"
+        "withdraw": "收回",
+        "permissions": {
+            "unavailable": "此设备上无法使用相机",
+            "denied": {
+                "title": "权限被拒绝",
+                "message": "扫描二维码需要相机权限。请在设置中授予权限。"
+            },
+            "blocked": {
+                "title": "权限被阻止",
+                "message": "相机权限已被阻止。请在设备设置中启用它。"
+            },
+            "unknown": "未知权限状态",
+            "failed": "请求相机权限失败",
+            "deniedDescription": "扫描二维码需要相机权限。\n请在设备设置中授予权限。"
+        },
+        "buttons": {
+            "cancel": "取消",
+            "openSettings": "打开设置"
+        },
+        "errors": {
+            "title": "错误",
+            "invalidQR": {
+                "title": "无效的二维码",
+                "message": "无法识别扫描的二维码"
+            },
+            "processing": "处理二维码失败",
+            "unsupportedFormat": "不支持的二维码数据格式"
+        },
+        "accessibility": {
+            "cameraHint": "将相机对准二维码进行扫描"
+        },
+        "debug": {
+            "authenticatedUser": "认证用户 - 实现特定逻辑"
+        }
     },
     "deleteWallet": {
         "alerts": {
@@ -149,7 +182,8 @@
     },
     "transactions": {
         "noHistory": "没有存款或提款历史。",
-        "noSearch": "没有您要搜索的交易。"
+        "noSearch": "没有您要搜索的交易。",
+        "mempoolCounter": "内存池中有 {{count}} 笔交易。"
     },
     "settings": {
         "walletTitle": {

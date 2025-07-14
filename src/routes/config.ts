@@ -1,8 +1,10 @@
-import { TransitionSpec } from '@react-navigation/stack/lib/typescript/src/types';
-import { StackCardInterpolatedStyle, StackCardInterpolationProps } from '@react-navigation/stack';
-import { Animated } from 'react-native';
+import {
+    StackCardInterpolatedStyle,
+    StackCardInterpolationProps,
+} from '@react-navigation/stack';
+import {Animated} from 'react-native';
 
-const { multiply } = Animated;
+const {multiply} = Animated;
 
 export const springTransitionSpecConfig = {
     stiffness: 900,
@@ -13,12 +15,12 @@ export const springTransitionSpecConfig = {
     restSpeedThreshold: 4,
 };
 
-export const springTransitionSpec: TransitionSpec = {
+export const springTransitionSpec = {
     animation: 'spring',
     config: springTransitionSpecConfig,
 };
 
-export const gestureTransitionSpec: TransitionSpec = {
+export const gestureTransitionSpec = {
     animation: 'spring',
     config: {
         stiffness: 1100,
@@ -30,7 +32,7 @@ export const gestureTransitionSpec: TransitionSpec = {
     },
 };
 
-export const iosTransitionSpec: TransitionSpec = {
+export const iosTransitionSpec = {
     animation: 'spring',
     config: {
         stiffness: 1000,
@@ -46,7 +48,7 @@ export function forFullSlideLeftSpring({
     current,
     next,
     inverted,
-    layouts: { screen },
+    layouts: {screen},
 }: StackCardInterpolationProps): StackCardInterpolatedStyle {
     const translateFocused = multiply(
         current.progress.interpolate({
@@ -73,9 +75,9 @@ export function forFullSlideLeftSpring({
             // Disappearing effect
             transform: [
                 // Translation for the animation of the current card
-                { translateX: translateFocused },
+                {translateX: translateFocused},
                 // Translation for the animation of the card on top of this
-                { translateX: translateUnfocused },
+                {translateX: translateUnfocused},
             ],
         },
     };
@@ -85,7 +87,7 @@ export function forFullSlideLeftSpringWithClampingOnBack({
     current,
     next,
     inverted,
-    layouts: { screen },
+    layouts: {screen},
 }: StackCardInterpolationProps): StackCardInterpolatedStyle {
     const translateFocused = multiply(
         current.progress.interpolate({
@@ -112,9 +114,9 @@ export function forFullSlideLeftSpringWithClampingOnBack({
             // Disappearing effect
             transform: [
                 // Translation for the animation of the current card
-                { translateX: translateFocused },
+                {translateX: translateFocused},
                 // Translation for the animation of the card on top of this
-                { translateX: translateUnfocused },
+                {translateX: translateUnfocused},
             ],
         },
     };

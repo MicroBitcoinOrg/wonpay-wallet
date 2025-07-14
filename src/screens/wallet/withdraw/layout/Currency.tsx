@@ -17,6 +17,7 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
+import {Wallet} from '../../../../types/Wallet';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 

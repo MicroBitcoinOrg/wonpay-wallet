@@ -57,7 +57,40 @@
     },
     "qrCodeScanner": {
         "addToAddressBook": "Add To Address Book",
-        "withdraw": "Withdraw"
+        "withdraw": "Withdraw",
+        "permissions": {
+            "unavailable": "Camera is not available on this device",
+            "denied": {
+                "title": "Permission Denied",
+                "message": "Camera permission is required to scan QR codes. Please grant permission in settings."
+            },
+            "blocked": {
+                "title": "Permission Blocked",
+                "message": "Camera permission is blocked. Please enable it in device settings."
+            },
+            "unknown": "Unknown permission status",
+            "failed": "Failed to request camera permission",
+            "deniedDescription": "Camera permission is required to scan QR codes.\nPlease grant permission in your device settings."
+        },
+        "buttons": {
+            "cancel": "Cancel",
+            "openSettings": "Open Settings"
+        },
+        "errors": {
+            "title": "Error",
+            "invalidQR": {
+                "title": "Invalid QR Code",
+                "message": "The scanned QR code is not recognized"
+            },
+            "processing": "Failed to process QR code",
+            "unsupportedFormat": "Unsupported QR data format"
+        },
+        "accessibility": {
+            "cameraHint": "Point camera at QR code to scan"
+        },
+        "debug": {
+            "authenticatedUser": "Authenticated user - implement specific logic"
+        }
     },
     "deleteWallet": {
         "alerts": {
@@ -151,7 +184,8 @@
     },
     "transactions": {
         "noHistory": "There is no deposit or withdrawal history.",
-        "noSearch": "There are no transactions you are searching for."
+        "noSearch": "There are no transactions you are searching for.",
+        "mempoolCounter": "There is {{count}} transaction(s) in mempool."
     },
     "settings": {
         "walletTitle": {

@@ -59,15 +59,15 @@ const PADDING_HORIZONTAL = 20;
 const PADDING_BOTTOM = Platform.select({ios: 30, android: 10});
 
 const Container = ({
-    paddingHorizontal,
-    paddingTop,
-    paddingBottom,
+    paddingHorizontal = true,
+    paddingTop = false,
+    paddingBottom = false,
     gradient,
     backgroundImage,
     scrollable,
     transparent,
     safeArea,
-    header,
+    header = true,
     children,
     style,
     areaStyle,
@@ -113,13 +113,6 @@ const Container = ({
             )}
         </View>
     );
-};
-
-Container.defaultProps = {
-    header: true,
-    paddingHorizontal: true,
-    paddingTop: false,
-    paddingBottom: false,
 };
 
 export default Container;

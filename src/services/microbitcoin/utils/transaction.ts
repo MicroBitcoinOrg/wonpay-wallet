@@ -1,6 +1,7 @@
 import {getTransactions} from '../api';
 import {MICROBITCOIN} from '../../../utils/constants';
 import getTokenTransactions from '../api/getTokenTransactions';
+import {Wallet} from '../../../types/Wallet';
 
 export const createTransactionFromAPI = async (
     transactionVerbose: any,
@@ -105,78 +106,29 @@ export const createTokenTransactionFromAPI = async (
     return transaction;
 };
 
-export const getWalletTokenTransactions =
-    (walletData: {wallet: Wallet.Wallet}) => async (currency?: string) => {
-        const walletAddresses: string[] = walletData.wallet
-            ? [
-                  ...new Set(
-                      walletData.wallet.addresses.map(
-                          (a: Wallet.Address) => a.address,
-                      ),
-                  ),
-              ]
-            : [];
+export const getWalletTokenTransactions = async (data: {
+    wallet: Wallet.Wallet;
+    currency: Wallet.Currency;
+}) => {
+    const walletAddresses: string[] = [
+        ...new Set(data.wallet.addresses.map((a: Wallet.Address) => a.address)),
+    ];
 
-        try {
-            const promises: any[] = [];
-            const transactions: Wallet.Transaction[] = [];
-            let apiTransactions: any[] = [];
+    try {
+        const promises: any[] = [];
+        const transactions: Wallet.Transaction[] = [];
+        let apiTransactions: any[] = [];
 
-            apiTransactions = await getTokenTransactions({
-                address: walletData.wallet.depositAddress!,
-                currency,
-            });
+        apiTransactions = await getTokenTransactions({
+            address: data.wallet.depositAddress!,
+            currency: data.currency.ticker,
+        });
 
-            if (apiTransactions.length > 0) {
-                for (let i = 0; i < apiTransactions.length; i++) {
-                    if (apiTransactions[i].category === 'transfer') {
-                        promises.push(
-                            createTokenTransactionFromAPI(
-                                apiTransactions[i],
-                                walletAddresses,
-                            ).then((transaction: Wallet.Transaction) => {
-                                transactions.push(transaction);
-                            }),
-                        );
-                    }
-                }
-
-                await Promise.all(promises);
-            }
-
-            return transactions;
-        } catch (e) {
-            console.error(e);
-
-            return [];
-        }
-    };
-
-export const getWalletTransactions =
-    (walletData: {wallet: Wallet.Wallet}) => async () => {
-        const walletAddresses: string[] = walletData.wallet
-            ? [
-                  ...new Set(
-                      walletData.wallet.addresses.map(
-                          (a: Wallet.Address) => a.address,
-                      ),
-                  ),
-              ]
-            : [];
-
-        try {
-            const promises: any[] = [];
-            const transactions: Wallet.Transaction[] = [];
-            let apiTransactions: any[] = [];
-
-            apiTransactions = await getTransactions({
-                addresses: walletAddresses,
-            });
-
-            if (apiTransactions.length > 0) {
-                for (let i = 0; i < apiTransactions.length; i++) {
+        if (apiTransactions.length > 0) {
+            for (let i = 0; i < apiTransactions.length; i++) {
+                if (apiTransactions[i].category === 'transfer') {
                     promises.push(
-                        createTransactionFromAPI(
+                        createTokenTransactionFromAPI(
                             apiTransactions[i],
                             walletAddresses,
                         ).then((transaction: Wallet.Transaction) => {
@@ -184,14 +136,67 @@ export const getWalletTransactions =
                         }),
                     );
                 }
-
-                await Promise.all(promises);
             }
 
-            return transactions;
-        } catch (e) {
-            console.error(e);
+            await Promise.all(promises);
+        }
 
-            return [];
+        return transactions;
+    } catch (e) {
+        console.error(e);
+
+        return [];
+    }
+};
+
+export const getWalletMainTransactions = async (data: {
+    wallet: Wallet.Wallet;
+}) => {
+    const walletAddresses: string[] = [
+        ...new Set(data.wallet.addresses.map((a: Wallet.Address) => a.address)),
+    ];
+
+    try {
+        const promises: any[] = [];
+        const transactions: Wallet.Transaction[] = [];
+        let apiTransactions: any[] = [];
+
+        apiTransactions = await getTransactions({
+            addresses: walletAddresses,
+        });
+
+        if (apiTransactions.length > 0) {
+            for (let i = 0; i < apiTransactions.length; i++) {
+                promises.push(
+                    createTransactionFromAPI(
+                        apiTransactions[i],
+                        walletAddresses,
+                    ).then((transaction: Wallet.Transaction) => {
+                        transactions.push(transaction);
+                    }),
+                );
+            }
+
+            await Promise.all(promises);
+        }
+
+        return transactions;
+    } catch (e) {
+        console.error(e);
+
+        return [];
+    }
+};
+
+export const getWalletTransactions =
+    (walletData: {wallet: Wallet.Wallet}) =>
+    async (data: {currency: Wallet.Currency}) => {
+        if (data.currency.ticker === MICROBITCOIN.currency.ticker) {
+            return getWalletMainTransactions(walletData);
+        } else {
+            return getWalletTokenTransactions({
+                ...walletData,
+                currency: data.currency,
+            });
         }
     };

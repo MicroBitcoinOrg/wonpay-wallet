@@ -31,8 +31,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
-  <key>NSAppleMusicUsageDescription</key>
-  <string>Enable AppleMusic usage</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>Enable AppleMusic usage</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Enabling Camera allows you to read QR codes, which will provide an easier way to receive and share wallet addresses</string>
 	<key>NSFaceIDUsageDescription</key>
@@ -41,6 +41,8 @@
 	<string></string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The application wants to get access to your photo library</string>
+	<key>RCTNewArchEnabled</key>
+	<true/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>

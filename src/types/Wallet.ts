@@ -1,29 +1,31 @@
-declare namespace Wallet {
-    type Address = {
+export namespace Wallet {
+    export type Address = {
         address: string;
         wif: string;
+        privateKey?: string;
         index: number;
     };
 
-    type Balance = {
+    export type Balance = {
         balance: number;
         currency: Currency;
         main: boolean;
     };
 
-    type AddressBook = {
+    export type AddressBook = {
         address: string;
         title: string;
         favorite: boolean;
-        chain: Wallet.ChainKey;
+        chain: Wallet.ChainEnum;
     };
 
-    type Currency = {
+    export type Currency = {
         ticker: string;
         units: number;
+        contract?: string;
     };
 
-    type Transaction = {
+    export type Transaction = {
         type: 'sent' | 'received';
         confirmations: number;
         hash: string;
@@ -35,7 +37,7 @@ declare namespace Wallet {
         currency: Currency;
     };
 
-    type Wallet = {
+    export type Wallet = {
         title: string;
         seedPhrase: string;
         transactions: Transaction[];
@@ -44,10 +46,15 @@ declare namespace Wallet {
         addresses: Address[];
         createdAt: number;
         uuid: string;
-        chain: ChainKey;
+        chain: ChainEnum;
     };
 
-    type Chain = {
+    export type ChainLink = {
+        url: string;
+        key?: string;
+    };
+
+    export type Chain = {
         derivationPath: string;
         network: {
             scriptHash: number;
@@ -66,21 +73,24 @@ declare namespace Wallet {
         };
         name: string;
         regex: {
-            address: string;
-            transaction: string;
+            address: string[];
+            transaction: string[];
         };
-        explorerLink: string;
-        apiLink: string;
-        tokensApiLink: string;
+        links: {
+            explorer: ChainLink;
+            api: ChainLink;
+            tokensApi?: ChainLink;
+        } & Record<string, ChainLink>;
         minFee: number;
         active: boolean;
-        key: ChainKey;
+        key: ChainEnum;
     };
 
-    type ChainKey =
-        | 'microbitcoin'
-        | 'solana'
-        | 'tron'
-        | 'ethereum'
-        | 'binancechain';
+    export enum ChainEnum {
+        MICROBITCOIN = 'microbitcoin',
+        SOLANA = 'solana',
+        TRON = 'tron',
+        ETHEREUM = 'ethereum',
+        BINANCECHAIN = 'binancechain',
+    }
 }

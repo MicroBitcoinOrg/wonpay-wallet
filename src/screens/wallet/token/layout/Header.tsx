@@ -4,6 +4,7 @@ import Ionicon from 'react-native-vector-icons/Ionicons';
 import {Coin, HStack, Text, VStack} from '../../../../components/common';
 import Config from 'react-native-config';
 import NumberFormat from 'react-number-format';
+import {Wallet} from '../../../../types/Wallet';
 
 const styles = StyleSheet.create({
     balanceContainer: {

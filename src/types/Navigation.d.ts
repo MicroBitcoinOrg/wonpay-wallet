@@ -19,7 +19,7 @@ declare namespace Navigation {
     type RootParamList = {
         Splash: undefined;
         QRCodeScanner: {
-            type: string;
+            type?: 'address-book' | 'withdraw' | 'home';
         };
         OnboardingStack: NavigatorScreenParams<OnboardingParamList>;
         PasswordStack: NavigatorScreenParams<PasswordParamList>;

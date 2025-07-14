@@ -17,7 +17,7 @@ import {
 import './localization';
 import {useColorScheme, View} from 'react-native';
 import {Colors} from './src/theme';
-import {QueryClient, QueryClientProvider} from 'react-query';
+import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 
 const queryClient = new QueryClient({
     defaultOptions: {

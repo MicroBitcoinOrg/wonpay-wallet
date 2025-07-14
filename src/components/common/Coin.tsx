@@ -25,9 +25,9 @@ interface CoinProps {
 
 const Coin: React.FC<CoinProps> = ({
     style,
-    tintColor,
-    resizeMode,
-    size,
+    tintColor = 'black',
+    resizeMode = 'contain',
+    size = 'md',
     ...props
 }: CoinProps) => (
     <Image
@@ -41,11 +41,5 @@ const Coin: React.FC<CoinProps> = ({
         resizeMode={resizeMode}
     />
 );
-
-Coin.defaultProps = {
-    resizeMode: 'contain',
-    tintColor: 'black',
-    size: 'md',
-};
 
 export default Coin;

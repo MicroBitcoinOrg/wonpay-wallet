@@ -10,7 +10,7 @@ export default async function (params: Params): Promise<string> {
     try {
         const {
             data: {result, error},
-        } = await axios.post(`${MICROBITCOIN.apiLink}/wallet/broadcast`, {
+        } = await axios.post(`${MICROBITCOIN.links.api.url}/wallet/broadcast`, {
             raw: params.raw,
         });
 

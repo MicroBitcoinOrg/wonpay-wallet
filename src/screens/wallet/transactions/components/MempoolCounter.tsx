@@ -7,12 +7,13 @@ import {
     View,
     ViewProps,
 } from 'react-native';
+import {useTranslation} from 'react-i18next';
 
 import {Text} from '../../../../components/common';
 import {Colors} from '../../../../theme';
-import {useQuery, useQueryClient} from 'react-query';
-import getMempool from '../../../../services/microbitcoin/api/getMempool';
+import {useQuery, useQueryClient} from '@tanstack/react-query';
 import {WalletContext} from '../../../../providers';
+import useMempoolUtils from '../../../../services/hooks/useMempoolUtils';
 
 const styles = StyleSheet.create({
     container: {
@@ -26,11 +27,16 @@ const MempoolCounter: React.FC = () => {
     const queryClient = useQueryClient();
     const scheme = useColorScheme();
     const {wallet} = useContext(WalletContext);
+    const {t} = useTranslation('transactions');
+
+    // Use the mempool utils hook based on wallet chain
+    const {getMempool} = useMempoolUtils({chain: wallet?.chain!});
 
     const mempool = useQuery({
-        queryKey: ['mempool'],
-        queryFn: () => getMempool({address: wallet!.depositAddress}),
-        enabled: !!wallet,
+        queryKey: ['mempool', wallet?.chain],
+        queryFn: () =>
+            getMempool && getMempool({address: wallet!.depositAddress}),
+        enabled: !!wallet && !!getMempool,
         refetchInterval: 10000,
     });
 
@@ -43,7 +49,7 @@ const MempoolCounter: React.FC = () => {
         }
     }, [mempool.data?.txcount]);
 
-    if (!mempool.data || mempool.data.txcount === 0) {
+    if (!mempool.data || mempool.data.txcount === 0 || !getMempool) {
         return null;
     }
 
@@ -56,8 +62,9 @@ const MempoolCounter: React.FC = () => {
         <View
             style={[styles.container, {backgroundColor: Colors[scheme!].card}]}>
             <Text variant="sub1" align="center">
-                There is <Text fontWeight="700">{filtered.length}</Text>{' '}
-                transaction(s) in mempool
+                {t('mempoolCounter', {
+                    count: filtered.length,
+                })}
             </Text>
         </View>
     );

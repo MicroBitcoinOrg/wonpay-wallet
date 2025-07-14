@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Platform, StyleSheet, Switch, useColorScheme, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {isAddress} from '../../utils/address';
+import {isMatch} from '../../utils/address';
 import {
     Container,
     DismissKeyboard,
@@ -69,8 +69,9 @@ const ManageAddressBookItem: React.FC<ManageAddressBookItemProps> = ({
     };
 
     const getFromQRCode = () => {
-        navigation.navigate('QRCodeScanner', {
-            type: 'address-book',
+        navigation.navigate('RootStack', {
+            screen: 'QRCodeScanner',
+            params: {type: 'address-book'},
         });
     };
 
@@ -157,7 +158,7 @@ const ManageAddressBookItem: React.FC<ManageAddressBookItemProps> = ({
                         onPress={saveAddressBook}
                         style={{marginVertical: 20}}
                         disabled={
-                            !isAddress(address, walletChain!.regex.address) ||
+                            !isMatch(address, walletChain!.regex.address) ||
                             !title ||
                             title.length === 0
                         }

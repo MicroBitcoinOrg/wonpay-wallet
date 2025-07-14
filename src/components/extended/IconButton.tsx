@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 import {Colors} from '../../theme';
 import Animated, {
     interpolate,
@@ -15,80 +16,152 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
-import EntypoIcon from 'react-native-vector-icons/Entypo';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    mdIconContainer: {
-        textAlign: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 45,
-        height: 45,
+// Constants
+const SIZES = {
+    md: {
+        iconSize: 25,
+        containerSize: 45,
         borderRadius: 40,
     },
-    smIconContainer: {
-        textAlign: 'center',
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: 30,
-        height: 30,
+    sm: {
+        iconSize: 20,
+        containerSize: 30,
         borderRadius: 20,
     },
-});
+} as const;
+
+const ANIMATION_CONFIG = {
+    stiffness: 250,
+    damping: 15,
+} as const;
+
+const SCALE_RANGE = {
+    pressed: 0.9,
+    normal: 1,
+} as const;
+
+// Types
+type IconSet = 'ionicons' | 'octicons' | 'entypo';
+type ButtonSize = 'md' | 'sm';
+type ColorKey = keyof typeof Colors.dark & keyof typeof Colors.light;
 
 interface IconButtonProps extends PressableProps {
     style?: Record<string, any>;
     flex?: 0 | 1;
-    size?: 'md' | 'sm';
+    size?: ButtonSize;
     iconColor?: string;
-    color?: keyof typeof Colors.dark & keyof typeof Colors.light;
+    color?: ColorKey;
     name: string;
-    iconSet: 'ionicons' | 'octicons' | 'entypo';
+    iconSet: IconSet;
     transparent?: boolean;
 }
 
+// Styles
+const createStyles = (size: ButtonSize) =>
+    StyleSheet.create({
+        container: {
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+        iconContainer: {
+            textAlign: 'center',
+            justifyContent: 'center',
+            alignItems: 'center',
+            width: SIZES[size].containerSize,
+            height: SIZES[size].containerSize,
+            borderRadius: SIZES[size].borderRadius,
+        },
+    });
+
+// Helper functions
+const getIconColor = (
+    iconColor: string | undefined,
+    transparent: boolean | undefined,
+    color: ColorKey,
+    scheme: 'dark' | 'light',
+): string => {
+    if (iconColor) {
+        return iconColor in Colors[scheme]
+            ? Colors[scheme][iconColor as ColorKey]
+            : iconColor;
+    }
+
+    return transparent ? Colors[scheme][color] : Colors[scheme].secondary;
+};
+
+const getBackgroundColor = (
+    transparent: boolean | undefined,
+    scheme: 'dark' | 'light',
+): string => {
+    return transparent ? 'transparent' : Colors[scheme].primaryLight;
+};
+
+// Icon renderer component
+const IconRenderer: React.FC<{
+    iconSet: IconSet;
+    name: string;
+    size: number;
+    color: string;
+}> = ({iconSet, name, size, color}) => {
+    const iconProps = {name, size, color};
+
+    const iconComponents = {
+        ionicons: <IoniconsIcon {...iconProps} />,
+        octicons: <OcticonsIcon {...iconProps} />,
+        entypo: <EntypoIcon {...iconProps} />,
+    };
+
+    return iconComponents[iconSet];
+};
+
+// Main component
 const IconButton: React.FC<IconButtonProps> = ({
     style,
-    color,
+    color = 'textPrimary',
     iconColor,
-    flex,
+    flex = 0,
     name,
     iconSet,
-    size,
-    transparent,
-    disabled,
+    size = 'md',
+    transparent = false,
+    disabled = false,
     ...props
-}: IconButtonProps) => {
-    const scheme = useColorScheme();
+}) => {
+    const scheme = useColorScheme() as 'dark' | 'light';
     const isPressed = useSharedValue(0);
+    const styles = createStyles(size);
 
     const animatedStyles = useAnimatedStyle(() => {
-        const scale = interpolate(isPressed.value, [0, 1], [1, 0.9]);
+        const scale = interpolate(
+            isPressed.value,
+            [0, 1],
+            [SCALE_RANGE.normal, SCALE_RANGE.pressed],
+        );
 
         return {
             transform: [{scale}],
         };
     });
 
-    const iconProps = {
-        name,
-        size: size === 'md' ? 25 : 20,
-        color: iconColor
-            ? iconColor in Colors[scheme!]
-                ? // @ts-ignore
-                  Colors[scheme!][iconColor]
-                : iconColor
-            : transparent
-            ? Colors[scheme!][color!]
-            : Colors[scheme!].secondary,
+    const handlePressIn = () => {
+        isPressed.value = withSpring(1, ANIMATION_CONFIG);
     };
+
+    const handlePressOut = () => {
+        isPressed.value = withSpring(0, ANIMATION_CONFIG);
+    };
+
+    const resolvedIconColor = getIconColor(
+        iconColor,
+        transparent,
+        color,
+        scheme,
+    );
+    const resolvedBackgroundColor = getBackgroundColor(transparent, scheme);
 
     return (
         <AnimatedPressable
@@ -101,37 +174,26 @@ const IconButton: React.FC<IconButtonProps> = ({
                 animatedStyles,
                 style,
             ]}
-            onPressIn={() =>
-                (isPressed.value = withSpring(1, {stiffness: 250, damping: 15}))
-            }
-            onPressOut={() =>
-                (isPressed.value = withSpring(0, {stiffness: 250, damping: 15}))
-            }
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
             disabled={disabled}
             {...props}>
             <View
                 style={[
-                    size === 'md'
-                        ? styles.mdIconContainer
-                        : styles.smIconContainer,
+                    styles.iconContainer,
                     {
-                        backgroundColor: transparent
-                            ? 'transparent'
-                            : Colors[scheme!].primaryLight,
+                        backgroundColor: resolvedBackgroundColor,
                     },
                 ]}>
-                {iconSet === 'ionicons' && <IoniconsIcon {...iconProps} />}
-                {iconSet === 'octicons' && <OcticonsIcon {...iconProps} />}
-                {iconSet === 'entypo' && <EntypoIcon {...iconProps} />}
+                <IconRenderer
+                    iconSet={iconSet}
+                    name={name}
+                    size={SIZES[size].iconSize}
+                    color={resolvedIconColor}
+                />
             </View>
         </AnimatedPressable>
     );
-};
-
-IconButton.defaultProps = {
-    color: 'textPrimary',
-    flex: 0,
-    size: 'md',
 };
 
 export default IconButton;

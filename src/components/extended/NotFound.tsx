@@ -1,6 +1,6 @@
 import React from 'react';
-import { Image, StyleSheet, ViewProps } from 'react-native';
-import { Text, VStack } from '../common';
+import {Image, StyleSheet, ViewProps} from 'react-native';
+import {Text, VStack} from '../common';
 
 interface ContainerProps extends ViewProps {
     description: string;
@@ -23,12 +23,21 @@ const styles = StyleSheet.create({
     },
 });
 
-const NotFound = ({ style, size, description, ...props }: ContainerProps) => {
+const NotFound = ({
+    style,
+    size = 'md',
+    description,
+    ...props
+}: ContainerProps) => {
     return (
         <VStack style={[styles.container, style]} {...props}>
             <Image
                 resizeMode="contain"
-                style={size === 'sm' ? styles.smNotFoundImage : styles.mdNotFoundImage}
+                style={
+                    size === 'sm'
+                        ? styles.smNotFoundImage
+                        : styles.mdNotFoundImage
+                }
                 source={require('../../assets/no-history.png')}
             />
             <Text variant="body1" color="textSecondary">
@@ -36,10 +45,6 @@ const NotFound = ({ style, size, description, ...props }: ContainerProps) => {
             </Text>
         </VStack>
     );
-};
-
-NotFound.defaultProps = {
-    size: 'md',
 };
 
 export default NotFound;

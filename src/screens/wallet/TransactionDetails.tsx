@@ -22,6 +22,7 @@ import {Colors} from '../../theme';
 import NumberFormat from 'react-number-format';
 import useAppStore from '../../store/appStore';
 import {WalletContext} from '../../providers';
+import {Wallet} from '../../types/Wallet';
 
 const styles = StyleSheet.create({
     container: {
@@ -126,9 +127,9 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                         iconSet="ionicons"
                         onPress={() =>
                             Linking.openURL(
-                                `${walletChain!.explorerLink}/transaction/${
-                                    transaction.hash
-                                }`,
+                                `${
+                                    walletChain!.links.explorer.url
+                                }/transaction/${transaction.hash}`,
                             )
                         }
                     />

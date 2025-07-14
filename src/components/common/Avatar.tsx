@@ -1,7 +1,14 @@
 import React from 'react';
-import { Image, ImageSourcePropType, StyleSheet, useColorScheme, View, ViewProps } from 'react-native';
-import { Text } from './index';
-import { Colors } from '../../theme';
+import {
+    Image,
+    ImageSourcePropType,
+    StyleSheet,
+    useColorScheme,
+    View,
+    ViewProps,
+} from 'react-native';
+import {Text} from './index';
+import {Colors} from '../../theme';
 
 const styles = StyleSheet.create({
     container: {
@@ -20,7 +27,9 @@ const styles = StyleSheet.create({
 });
 
 interface AvatarProps extends ViewProps {
-    backgroundColor?: (keyof typeof Colors.dark & keyof typeof Colors.light) | string;
+    backgroundColor?:
+        | (keyof typeof Colors.dark & keyof typeof Colors.light)
+        | string;
     color?: keyof typeof Colors.dark & keyof typeof Colors.light;
     title?: string;
     source?: ImageSourcePropType;
@@ -30,9 +39,9 @@ interface AvatarProps extends ViewProps {
 
 const Avatar: React.FC<AvatarProps> = ({
     style,
-    size,
-    backgroundColor,
-    color,
+    size = 'md',
+    backgroundColor = 'white',
+    color = 'black',
     source,
     title,
     children,
@@ -48,30 +57,35 @@ const Avatar: React.FC<AvatarProps> = ({
                 style,
                 {
                     backgroundColor: backgroundColor
-                        ? Object.keys(Colors[scheme!]).some((k) => k === backgroundColor)
-                            ? Colors[scheme!][backgroundColor as keyof typeof Colors.dark & keyof typeof Colors.light]
+                        ? Object.keys(Colors[scheme!]).some(
+                              k => k === backgroundColor,
+                          )
+                            ? Colors[scheme!][
+                                  backgroundColor as keyof typeof Colors.dark &
+                                      keyof typeof Colors.light
+                              ]
                             : backgroundColor
                         : backgroundColor,
                 },
             ]}
-            {...props}
-        >
-            <Text textTransform="uppercase" variant={size === 'md' ? 'h3' : 'body2'} color={color}>
+            {...props}>
+            <Text
+                textTransform="uppercase"
+                variant={size === 'md' ? 'h3' : 'body2'}
+                color={color}>
                 {title ? title[0] : children}
             </Text>
         </View>
     ) : (
         <Image
             source={source}
-            style={[styles.container, size === 'md' ? styles.mdSizeContainer : styles.smSizeContainer, style]}
+            style={[
+                styles.container,
+                size === 'md' ? styles.mdSizeContainer : styles.smSizeContainer,
+                style,
+            ]}
         />
     );
-};
-
-Avatar.defaultProps = {
-    backgroundColor: 'white',
-    color: 'black',
-    size: 'md',
 };
 
 export default Avatar;

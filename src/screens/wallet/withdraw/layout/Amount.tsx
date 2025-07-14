@@ -5,6 +5,7 @@ import {useTranslation} from 'react-i18next';
 import Config from 'react-native-config';
 import {WalletContext} from '../../../../providers';
 import {useColorScheme} from 'react-native';
+import {Wallet} from '../../../../types/Wallet';
 
 interface AmountProps {
     address: string;

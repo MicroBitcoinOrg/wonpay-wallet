@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import NetInfo, { useNetInfo } from '@react-native-community/netinfo';
-import { showMessage } from 'react-native-flash-message';
-import { useTranslation } from 'react-i18next';
-import { onlineManager } from 'react-query';
+import React, {useEffect} from 'react';
+import NetInfo, {useNetInfo} from '@react-native-community/netinfo';
+import {showMessage} from 'react-native-flash-message';
+import {useTranslation} from 'react-i18next';
+import {onlineManager} from '@tanstack/react-query';
 
 interface NetworkProviderProps {
     children: any;
@@ -17,21 +17,22 @@ type NetworkContextType = {
 
 const networkContextState: NetworkContextType = {};
 
-export const NetworkContext = React.createContext<NetworkContextType>(networkContextState);
+export const NetworkContext =
+    React.createContext<NetworkContextType>(networkContextState);
 
-export const NetworkProvider = ({ children }: NetworkProviderProps) => {
-    const { t } = useTranslation();
+export const NetworkProvider = ({children}: NetworkProviderProps) => {
+    const {t} = useTranslation();
     const netInfo = useNetInfo();
 
     useEffect(() => {
-        const unsubscribe = NetInfo.addEventListener((state) => {
+        const unsubscribe = NetInfo.addEventListener(state => {
             if (!state.isConnected)
                 showMessage({
                     message: t('network.alerts.message'),
                     description: t('network.alerts.description'),
                     type: 'danger',
                 });
-            onlineManager.setOnline(state.isConnected !== null ? state.isConnected : undefined);
+            onlineManager.setOnline(!!state.isConnected);
         });
 
         return () => {
@@ -40,7 +41,10 @@ export const NetworkProvider = ({ children }: NetworkProviderProps) => {
     }, []);
 
     return (
-        <NetworkContext.Provider value={{ network: { type: netInfo.type, isConnected: netInfo.isConnected } }}>
+        <NetworkContext.Provider
+            value={{
+                network: {type: netInfo.type, isConnected: netInfo.isConnected},
+            }}>
             {children}
         </NetworkContext.Provider>
     );
