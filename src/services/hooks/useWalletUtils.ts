@@ -3,7 +3,7 @@ import {PasswordContext} from '../../providers';
 import {Wallet} from '../../types/Wallet';
 import {createWallet as createMicrobitcoinWallet} from '../microbitcoin/utils/wallet';
 import {createWallet as createTronWallet} from '../tron/utils/wallet';
-import {CHAINS} from '../../utils/constants';
+import {MICROBITCOIN, TRON} from '../../utils/constants';
 
 interface Props {
     chain: Wallet.ChainEnum;
@@ -24,14 +24,14 @@ const useWalletUtils = ({chain}: Props) => {
             case Wallet.ChainEnum.MICROBITCOIN:
                 return {
                     createWallet: createMicrobitcoinWallet({
-                        walletChain: CHAINS.microbitcoin,
+                        walletChain: MICROBITCOIN,
                         password: unlockedPassword!,
                     }),
                 };
             case Wallet.ChainEnum.TRON:
                 return {
                     createWallet: createTronWallet({
-                        walletChain: CHAINS.tron,
+                        walletChain: TRON,
                         password: unlockedPassword!,
                     }),
                 };

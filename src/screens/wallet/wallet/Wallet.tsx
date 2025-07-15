@@ -38,6 +38,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         gap: 80,
     },
+    buttonText: {
+        marginTop: 5,
+    },
 });
 
 const Tab = createMaterialTopTabNavigator();
@@ -79,7 +82,10 @@ const Wallet = ({navigation}: WalletProps) => {
                         iconSet="ionicons"
                         onPress={() => navigation.navigate('Deposit')}
                     />
-                    <Text variant="sub1" color="white" style={{marginTop: 5}}>
+                    <Text
+                        variant="sub1"
+                        color="white"
+                        style={styles.buttonText}>
                         {t('deposit')}
                     </Text>
                 </VStack>
@@ -91,7 +97,10 @@ const Wallet = ({navigation}: WalletProps) => {
                         iconSet="ionicons"
                         onPress={() => navigation.navigate('Withdraw')}
                     />
-                    <Text variant="sub1" color="white" style={{marginTop: 5}}>
+                    <Text
+                        variant="sub1"
+                        color="white"
+                        style={styles.buttonText}>
                         {t('withdraw')}
                     </Text>
                 </VStack>
@@ -103,7 +112,10 @@ const Wallet = ({navigation}: WalletProps) => {
                         iconColor="textPrimary"
                         onPress={onSettings}
                     />
-                    <Text variant="sub1" color="white" style={{marginTop: 5}}>
+                    <Text
+                        variant="sub1"
+                        color="white"
+                        style={styles.buttonText}>
                         {t('settings')}
                     </Text>
                 </VStack>

@@ -48,6 +48,16 @@ const styles = StyleSheet.create({
     navbarContainer: {
         paddingVertical: 10,
     },
+    listContentContainer: {
+        paddingBottom: 90,
+    },
+    notFound: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: '20%',
+        zIndex: -1,
+    },
 });
 
 const Transactions: React.FC<TransactionsProps> = ({
@@ -128,7 +138,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                 ref={historyScroll}
                 nestedScrollEnabled
                 scrollEventThrottle={16}
-                contentContainerStyle={{paddingBottom: 90}}
+                contentContainerStyle={styles.listContentContainer}
                 refreshControl={
                     <RefreshControl
                         refreshing={
@@ -162,13 +172,7 @@ const Transactions: React.FC<TransactionsProps> = ({
             {transactions!.length === 0 ? (
                 <NotFound
                     size="sm"
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        top: '20%',
-                        zIndex: -1,
-                    }}
+                    style={styles.notFound}
                     description={t('noHistory')}
                 />
             ) : (
@@ -177,13 +181,7 @@ const Transactions: React.FC<TransactionsProps> = ({
                 transactions!.length === 0 && (
                     <NotFound
                         size="sm"
-                        style={{
-                            position: 'absolute',
-                            left: 0,
-                            right: 0,
-                            top: '20%',
-                            zIndex: -1,
-                        }}
+                        style={styles.notFound}
                         description={t('noSearch')}
                     />
                 )

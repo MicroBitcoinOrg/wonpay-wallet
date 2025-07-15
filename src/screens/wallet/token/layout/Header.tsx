@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
     lockedBalanceContainer: {
         opacity: 0.5,
     },
+    container: {
+        marginBottom: 30,
+    },
 });
 
 interface HeaderProps {
@@ -23,14 +26,16 @@ const Header: React.FC<HeaderProps> = ({balance}: HeaderProps) => {
     return (
         <VStack
             alignItems="flex-start"
-            style={{
-                marginTop: parseInt(
-                    Platform.OS === 'ios'
-                        ? Config.HEADER_HEIGHT_IOS
-                        : Config.HEADER_HEIGHT_ANDROID,
-                ),
-                marginBottom: 30,
-            }}>
+            style={[
+                styles.container,
+                {
+                    marginTop: parseInt(
+                        Platform.OS === 'ios'
+                            ? Config.HEADER_HEIGHT_IOS
+                            : Config.HEADER_HEIGHT_ANDROID,
+                    ),
+                },
+            ]}>
             <Animated.View style={[styles.balanceContainer]}>
                 <HStack alignItems="flex-end">
                     <NumberFormat

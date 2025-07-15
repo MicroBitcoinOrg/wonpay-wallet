@@ -22,6 +22,17 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
+    bottomContainer: {
+        flex: 0,
+        marginHorizontal: -20,
+        borderTopWidth: 1,
+        height: 100,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    confirmButton: {
+        width: 100,
+    },
 });
 
 interface SendProps {
@@ -166,15 +177,12 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                         </VStack>
                     </ScrollView>
                     <Container
-                        style={{
-                            flex: 0,
-                            marginHorizontal: -20,
-                            borderTopWidth: 1,
-                            borderColor: Colors[scheme!].border,
-                            height: 100,
-                            flexDirection: 'row',
-                            alignItems: 'center',
-                        }}>
+                        style={[
+                            styles.bottomContainer,
+                            {
+                                borderColor: Colors[scheme!].border,
+                            },
+                        ]}>
                         <Total amount={amount} fee={fee} balance={balance!} />
                         <Button
                             title={t('confirmButton')}
@@ -188,7 +196,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                                         (balance?.main ? Number(fee) : 0)
                             }
                             onPress={send}
-                            style={{width: 100}}
+                            style={styles.confirmButton}
                         />
                     </Container>
                 </KeyboardAvoidingView>

@@ -124,10 +124,13 @@ export const BINANCECHAIN: Partial<Wallet.Chain> = {
     key: Wallet.ChainEnum.BINANCECHAIN,
 };
 
-export const CHAINS = {
-    microbitcoin: MICROBITCOIN,
-    tron: TRON,
-    ethereum: ETHEREUM,
-    solana: SOLANA,
-    binancechain: BINANCECHAIN,
+export const CHAINS: Record<
+    Wallet.ChainEnum,
+    Partial<Wallet.Chain> | Wallet.Chain
+> = {
+    [Wallet.ChainEnum.MICROBITCOIN]: MICROBITCOIN,
+    [Wallet.ChainEnum.TRON]: TRON,
+    [Wallet.ChainEnum.ETHEREUM]: ETHEREUM,
+    [Wallet.ChainEnum.SOLANA]: SOLANA,
+    [Wallet.ChainEnum.BINANCECHAIN]: BINANCECHAIN,
 };

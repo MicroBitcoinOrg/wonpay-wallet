@@ -49,6 +49,18 @@ const styles = StyleSheet.create({
     coinContainer: {
         marginBottom: 10,
     },
+    header: {
+        paddingBottom: 20,
+    },
+    scrollContentContainer: {
+        paddingBottom: 90,
+    },
+    scrollInnerContainer: {
+        paddingTop: 20,
+    },
+    button: {
+        marginBottom: 10,
+    },
 });
 
 interface TransactionDetailsProps {
@@ -87,7 +99,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
     return (
         <Container gradient paddingTop>
             <FocusAwareStatusBar barStyle="light-content" />
-            <View style={[{paddingBottom: 20}]}>
+            <View style={styles.header}>
                 <HStack justifyContent="space-between" alignItems="flex-end">
                     <View>
                         <HStack
@@ -138,10 +150,10 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
             <Container style={styles.container} paddingBottom>
                 <ScrollView
                     showsVerticalScrollIndicator={false}
-                    contentContainerStyle={{paddingBottom: 90}}>
+                    contentContainerStyle={styles.scrollContentContainer}>
                     <VStack
                         flex={1}
-                        style={[{paddingTop: 20}]}
+                        style={styles.scrollInnerContainer}
                         justifyContent="flex-start"
                         alignItems="flex-start">
                         {transaction.to && (
@@ -166,7 +178,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                 title={t('addToAddressBook')}
                                 size="md"
                                 color="primary"
-                                style={{marginBottom: 10}}
+                                style={styles.button}
                                 disabled={addressItem !== undefined}
                                 onPress={() =>
                                     navigation.navigate(
@@ -200,7 +212,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                     size="md"
                                     color="primary"
                                     disabled={addressItem !== undefined}
-                                    style={{marginBottom: 10}}
+                                    style={styles.button}
                                     onPress={() =>
                                         navigation.navigate(
                                             'ManageAddressBookItem',

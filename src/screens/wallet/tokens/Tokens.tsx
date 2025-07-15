@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
 import {WalletContext} from '../../../providers';
 import {NotFound} from '../../../components/extended';
-import {FlatList, View} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 import {CurrencyItem} from '../components';
 import {useNavigation} from '@react-navigation/native';
 import {Navigation} from '../../../types/Navigation';
@@ -11,6 +11,22 @@ interface TokensProps {
     isNFT?: boolean;
 }
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    notFound: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: '20%',
+        zIndex: -1,
+    },
+    listContentContainer: {
+        paddingBottom: 90,
+    },
+});
+
 const Tokens: React.FC<TokensProps> = ({isNFT}) => {
     const navigation = useNavigation<Navigation.AppNavigationProp>();
     const {t} = useTranslation('tokens');
@@ -18,25 +34,19 @@ const Tokens: React.FC<TokensProps> = ({isNFT}) => {
     const tokens = wallet?.balances.filter(b => !b.main);
 
     return (
-        <View style={{flex: 1}}>
+        <View style={styles.container}>
             {tokens?.length === 0 && (
                 <NotFound
                     description={t('noTokens')}
                     size="sm"
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        top: '20%',
-                        zIndex: -1,
-                    }}
+                    style={styles.notFound}
                 />
             )}
             {tokens && tokens.length > 0 && (
                 <FlatList
                     data={tokens}
                     keyExtractor={item => item.currency.ticker}
-                    contentContainerStyle={{paddingBottom: 90}}
+                    contentContainerStyle={styles.listContentContainer}
                     renderItem={({item}) => (
                         <CurrencyItem
                             onPress={() =>

@@ -48,6 +48,24 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    walletCardContainer: {
+        marginBottom: 30,
+        marginHorizontal: -20,
+    },
+    innerHStack: {
+        marginTop: 15,
+    },
+    chainInfoContainer: {
+        borderRadius: 5,
+        paddingVertical: 4,
+        paddingHorizontal: 8,
+        gap: 5,
+    },
+    chainLogo: {
+        width: 15,
+        height: 15,
+        borderRadius: 5,
+    },
 });
 
 const WalletCard = () => {
@@ -85,14 +103,13 @@ const WalletCard = () => {
     return (
         <HStack
             style={[
+                styles.walletCardContainer,
                 {
                     marginTop: parseInt(
                         Platform.OS === 'ios'
                             ? Config.HEADER_HEIGHT_IOS
                             : Config.HEADER_HEIGHT_ANDROID,
                     ),
-                    marginBottom: 30,
-                    marginHorizontal: -20,
                 },
             ]}>
             <View
@@ -139,28 +156,25 @@ const WalletCard = () => {
                             </>
                         )}
                     </HStack>
-                    <HStack style={{marginTop: 15}}>
+                    <HStack style={styles.innerHStack}>
                         <HStack flex={1} justifyContent="space-between">
                             <Text variant="body2" numberOfLines={1}>
                                 {wallet!.title}
                             </Text>
                             <HStack
-                                style={{
-                                    borderRadius: 5,
-                                    backgroundColor: walletChain?.color,
-                                    paddingVertical: 4,
-                                    paddingHorizontal: 8,
-                                    gap: 5,
-                                }}>
+                                style={[
+                                    styles.chainInfoContainer,
+                                    {backgroundColor: walletChain?.color},
+                                ]}>
                                 <Image
                                     resizeMode="contain"
                                     source={walletChain?.logo}
-                                    style={{
-                                        width: 15,
-                                        height: 15,
-                                        borderRadius: 5,
-                                    }}
-                                    tintColor={Colors[scheme!].white}
+                                    style={[
+                                        styles.chainLogo,
+                                        {
+                                            tintColor: Colors[scheme!].white,
+                                        },
+                                    ]}
                                 />
                                 <Text
                                     color="white"

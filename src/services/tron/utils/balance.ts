@@ -1,5 +1,5 @@
 import {Wallet} from '../../../types/Wallet';
-import {CHAINS} from '../../../utils/constants';
+import {TRON} from '../../../utils/constants';
 import {getAddressTokens} from '../api/getBalance';
 
 export const getBalance = async ({
@@ -17,7 +17,7 @@ export const getBalance = async ({
     for (const token of tokens) {
         const isTRX =
             token.tokenAbbr?.toLowerCase() ===
-            CHAINS.tron.currency.ticker.toLowerCase();
+            TRON.currency.ticker.toLowerCase();
 
         if (isTRX) {
             trxFound = true;
@@ -38,8 +38,8 @@ export const getBalance = async ({
         result.push({
             balance: 0,
             currency: {
-                ticker: CHAINS.tron.currency.ticker,
-                units: CHAINS.tron.currency.units,
+                ticker: TRON.currency.ticker,
+                units: TRON.currency.units,
             },
             main: true,
         });

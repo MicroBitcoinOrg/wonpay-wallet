@@ -41,6 +41,9 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 5,
     },
+    text: {
+        marginTop: 5,
+    },
 });
 
 interface ReceiveProps {
@@ -148,7 +151,7 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
                             iconSet="ionicons"
                             onPress={copyToClipboard}
                         />
-                        <Text variant="sub1" style={{marginTop: 5}}>
+                        <Text variant="sub1" style={styles.text}>
                             {t('copy')}
                         </Text>
                     </VStack>
@@ -159,7 +162,7 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
                             iconSet="ionicons"
                             onPress={share}
                         />
-                        <Text variant="sub1" style={{marginTop: 5}}>
+                        <Text variant="sub1" style={styles.text}>
                             {t('share')}
                         </Text>
                     </VStack>
