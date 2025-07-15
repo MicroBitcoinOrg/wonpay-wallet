@@ -1,13 +1,14 @@
 import React, {useContext, useEffect} from 'react';
 import {
     Dimensions,
+    Image,
     Platform,
     StyleSheet,
     useColorScheme,
     View,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {HStack, Text} from '../../../../components/common';
+import {Avatar, HStack, Text} from '../../../../components/common';
 import Config from 'react-native-config';
 import {Navigation} from '../../../../types/Navigation';
 import {Colors} from '../../../../theme';
@@ -143,20 +144,31 @@ const WalletCard = () => {
                             <Text variant="body2" numberOfLines={1}>
                                 {wallet!.title}
                             </Text>
-                            <View
+                            <HStack
                                 style={{
                                     borderRadius: 5,
-                                    backgroundColor: Colors[scheme!].primary,
+                                    backgroundColor: walletChain?.color,
                                     paddingVertical: 4,
                                     paddingHorizontal: 8,
+                                    gap: 5,
                                 }}>
+                                <Image
+                                    resizeMode="contain"
+                                    source={walletChain?.logo}
+                                    style={{
+                                        width: 15,
+                                        height: 15,
+                                        borderRadius: 5,
+                                    }}
+                                    tintColor={Colors[scheme!].white}
+                                />
                                 <Text
                                     color="white"
                                     variant="sub1"
-                                    fontWeight="800">
+                                    fontWeight="bold">
                                     {walletChain?.name}
                                 </Text>
-                            </View>
+                            </HStack>
                         </HStack>
                     </HStack>
                 </View>

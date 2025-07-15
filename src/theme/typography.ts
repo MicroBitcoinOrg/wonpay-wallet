@@ -23,7 +23,6 @@ interface FontsProps {
 
 const fonts: FontsProps = {
     regular: 'HelveticaNeue-Roman',
-    semibold: 'HelveticaNeue-Medium',
     bold: 'HelveticaNeue-Bold',
 };
 

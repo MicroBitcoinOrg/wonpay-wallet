@@ -46,35 +46,15 @@ export const isMatch = (address: string, regex: string[]) => {
     return regex.some(r => address.match(new RegExp(r)));
 };
 
-export const generateSeedPhrase = (size = 12) => {
-    const mnemonic = require('../assets/mnemonics.json');
-    const seedPhrase: string[] = [];
-    const randomNumbers: number[] = [];
-
-    for (let i = 0; i < size; i++) {
-        // eslint-disable-next-line no-constant-condition
-        while (true) {
-            const num = Math.floor(Math.random() * mnemonic.words.length);
-
-            if (!randomNumbers.includes(num)) {
-                randomNumbers.push(num);
-                seedPhrase.push(mnemonic.words[num]);
-                break;
-            }
-        }
-    }
-
-    return seedPhrase;
+export const generateSeedPhrase = () => {
+    return bip39.generateMnemonic().split(' ');
 };
 
 export const isValidSeedPhrase = (seedPhrase: (string | undefined)[]) => {
-    const mnemonic = require('../assets/mnemonics.json');
+    const words = bip39.wordlists.english;
 
     for (let i = 0; i < seedPhrase.length; i++) {
-        if (
-            !seedPhrase[i] ||
-            !mnemonic.words.some((w: string) => w === seedPhrase[i])
-        ) {
+        if (!seedPhrase[i] || !words.some((w: string) => w === seedPhrase[i])) {
             return false;
         }
     }

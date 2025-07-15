@@ -1,5 +1,4 @@
 import {getAddressTokens} from './getBalance';
-import {fetchRecentTransactions} from './getMempool';
 import {
     fetchTrc20Transfers,
     fetchTrxTransfers,
@@ -8,7 +7,6 @@ import {
 
 export {
     getAddressTokens,
-    fetchRecentTransactions,
     fetchTrc20Transfers,
     fetchTrxTransfers,
     hasTransactions,
