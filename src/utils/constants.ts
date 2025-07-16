@@ -33,6 +33,9 @@ export const MICROBITCOIN: Wallet.Chain = {
         tokensApi: {
             url: 'https://tokens.mbc.wiki',
         },
+        iconsApi: {
+            url: 'https://icons.mbc.wiki',
+        },
     },
     minFee: 1,
     active: true,

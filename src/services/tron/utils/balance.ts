@@ -45,6 +45,5 @@ export const getBalance = async ({
         });
     }
 
-    console.log('result', result);
     return result;
 };

@@ -19,4 +19,23 @@ declare namespace MBC {
         script: string;
         txid: string;
     };
+
+    type TokenImage = {
+        url: string;
+        token: string;
+    };
+
+    type TokenImageRequest = {
+        id: number;
+        token: string;
+        status: string;
+        address: string;
+        amount: number;
+    };
+
+    type ApiError = {
+        [category: string]: {
+            [code: string]: [string, number];
+        };
+    };
 }

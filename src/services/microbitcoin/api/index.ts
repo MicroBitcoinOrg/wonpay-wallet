@@ -9,6 +9,7 @@ import {getTransaction} from './getTransaction';
 import {getTransactions} from './getTransactions';
 import {getMempool} from './getMempool';
 import {getTokenTransactions} from './getTokenTransactions';
+import * as icons from './icons';
 
 export {
     getBalance,
@@ -22,4 +23,5 @@ export {
     getTransactions,
     getMempool,
     getTokenTransactions,
+    icons,
 };
