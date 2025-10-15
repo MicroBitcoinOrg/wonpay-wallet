@@ -1,10 +1,11 @@
 import React from 'react';
-import {Image, Platform, StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {
     Container,
     FocusAwareStatusBar,
     HStack,
+    Image,
     Text,
     VStack,
 } from '../../components/common';

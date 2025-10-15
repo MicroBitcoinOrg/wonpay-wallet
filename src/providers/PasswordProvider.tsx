@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {AppState, AppStateStatus, Modal} from 'react-native';
+import {AppState, AppStateStatus, Modal, useColorScheme} from 'react-native';
 import {BlurView} from '@react-native-community/blur';
 import {navigationRef} from '../routes';
 
@@ -24,6 +24,7 @@ export const PasswordProvider = ({children}: PasswordProviderProps) => {
     const appState = useRef(AppState.currentState);
     const [isBlurActive, setIsBlurActive] = useState<boolean>(false);
     const lastUnlocked = useRef<number | undefined>(undefined);
+    const scheme = useColorScheme();
 
     const setUnlockedPassword = (password: string) => {
         setUnlocked(password);
@@ -66,8 +67,9 @@ export const PasswordProvider = ({children}: PasswordProviderProps) => {
             <Modal visible={isBlurActive} transparent animationType="fade">
                 <BlurView
                     style={{flex: 1}}
-                    blurType="light"
+                    blurType={scheme === 'dark' ? 'dark' : 'light'}
                     blurAmount={20}
+                    downsampleFactor={20}
                     reducedTransparencyFallbackColor="white"
                 />
             </Modal>

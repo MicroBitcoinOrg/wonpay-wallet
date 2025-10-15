@@ -1,6 +1,6 @@
 import React from 'react';
-import {Image, StyleSheet, ViewProps} from 'react-native';
-import {Text, VStack} from '../common';
+import {StyleSheet, ViewProps} from 'react-native';
+import {Image, Text, VStack} from '../common';
 
 interface ContainerProps extends ViewProps {
     description: string;

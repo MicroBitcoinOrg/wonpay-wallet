@@ -77,6 +77,9 @@ declare namespace Navigation {
         Currency: {
             balance: Wallet.Balance;
         };
+        TokenSettings: {
+            balance: Wallet.Balance;
+        };
     };
 
     type AppNavigationProp = StackNavigationProp<ModalParamList>;

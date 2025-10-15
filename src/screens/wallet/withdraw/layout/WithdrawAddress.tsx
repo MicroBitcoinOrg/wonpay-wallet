@@ -10,7 +10,7 @@ import {Navigation} from '../../../../types/Navigation';
 import {useColorScheme} from 'react-native';
 import useAppStore from '../../../../store/appStore';
 import {WalletContext} from '../../../../providers';
-import {isMatch} from '../../../../utils/address';
+import {getChainByAddress, isMatchAddress} from '../../../../utils/address';
 import {Wallet} from '../../../../types/Wallet';
 
 interface WithdrawAddressProps {
@@ -34,7 +34,7 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
     const sortedAddresses = [
         ...store.addressBook.filter(a => a.favorite).sort(sortFunc),
         ...store.addressBook.filter(a => !a.favorite).sort(sortFunc),
-    ];
+    ].filter(a => isMatchAddress(a.address, walletChain!.regex.address));
 
     const getFromQRCode = () => {
         navigation.navigate('RootStack', {
@@ -47,7 +47,7 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
 
     const getFromClipboard = () => {
         Clipboard.getString().then(string => {
-            const match = isMatch(string, walletChain!.regex.address);
+            const match = isMatchAddress(string, walletChain!.regex.address);
 
             if (match) {
                 setAddress(string);

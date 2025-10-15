@@ -1,15 +1,13 @@
 import React, {useContext} from 'react';
 import {Pressable, StyleSheet, useColorScheme, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {Coin, HStack, Text} from '../../../../components/common';
-import {WalletContext} from '../../../../providers';
+import {Coin, HStack, Text} from '../../../components/common';
 import {useNavigation} from '@react-navigation/native';
-import {CurrencyItem} from '../../components';
+import CurrencyItem from './CurrencyItem';
 import {StackNavigationProp} from '@react-navigation/stack';
-import Config from 'react-native-config';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import {Colors} from '../../../../theme';
-import {Navigation} from '../../../../types/Navigation';
+import {Colors} from '../../../theme';
+import {Navigation} from '../../../types/Navigation';
 import NumberFormat from 'react-number-format';
 import Animated, {
     interpolate,
@@ -17,7 +15,7 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
-import {Wallet} from '../../../../types/Wallet';
+import {Wallet} from '../../../types/Wallet';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -42,14 +40,14 @@ const styles = StyleSheet.create({
 });
 
 interface CurrencyProps {
+    currencies: Wallet.Balance[];
     balance: Wallet.Balance;
     setBalance: (balance: Wallet.Balance | undefined) => void;
 }
 
-const Currency = ({balance, setBalance}: CurrencyProps) => {
+const Currency = ({currencies, balance, setBalance}: CurrencyProps) => {
     const scheme = useColorScheme();
     const {t} = useTranslation('withdraw');
-    const {wallet} = useContext(WalletContext);
     const navigation = useNavigation<Navigation.AppNavigationProp>();
     const isPressed = useSharedValue(0);
 
@@ -71,7 +69,7 @@ const Currency = ({balance, setBalance}: CurrencyProps) => {
 
     const openTokenList = () => {
         navigation.navigate('ChooseList', {
-            data: wallet!.balances,
+            data: currencies,
             keyExtractor: (item: Wallet.Balance) => item.currency.ticker,
             renderItem: (
                 item: Wallet.Balance,

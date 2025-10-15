@@ -2,6 +2,9 @@ import {MICROBITCOIN} from '../../../../utils/constants';
 
 type Params = {
     token: string;
+    message: string;
+    signature: string;
+    address: string;
     image: {
         uri: string;
         type: string;
@@ -9,11 +12,15 @@ type Params = {
     };
 };
 
-export async function requestImageUpload(
+export async function uploadSignedImage(
     params: Params,
-): Promise<MBC.TokenImageRequest> {
+): Promise<MBC.TokenImage> {
     try {
         const formData = new FormData();
+
+        formData.append('message', params.message);
+        formData.append('signature', params.signature);
+        formData.append('address', params.address);
         formData.append('image', {
             uri: params.image.uri,
             type: params.image.type,
@@ -21,7 +28,7 @@ export async function requestImageUpload(
         } as any);
 
         const response = await fetch(
-            `${MICROBITCOIN.links.iconsApi.url}/token/${params.token}/image`,
+            `${MICROBITCOIN.links.iconsApi.url}/token/${params.token}/image-signed`,
             {
                 method: 'POST',
                 headers: {
@@ -37,7 +44,7 @@ export async function requestImageUpload(
             throw new Error(error.message);
         }
 
-        const result: MBC.TokenImageRequest = await response.json();
+        const result: MBC.TokenImage = await response.json();
 
         return result;
     } catch (e) {

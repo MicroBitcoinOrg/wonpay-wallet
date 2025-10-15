@@ -1,5 +1,6 @@
 import React from 'react';
-import {Image, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import Image from './Image';
 
 const styles = StyleSheet.create({
     mdContainer: {

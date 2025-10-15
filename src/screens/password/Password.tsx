@@ -133,6 +133,12 @@ const Password: React.FC<PasswordProps> = ({
                                         address.wif,
                                         unlockedPassword,
                                     ),
+                                    privateKey: address.privateKey
+                                        ? decryptData(
+                                              address.privateKey,
+                                              unlockedPassword,
+                                          )
+                                        : address.privateKey,
                                 };
                             },
                         ),
@@ -151,6 +157,12 @@ const Password: React.FC<PasswordProps> = ({
                                 return {
                                     ...address,
                                     wif: encryptData(address.wif, password),
+                                    privateKey: address.privateKey
+                                        ? encryptData(
+                                              address.privateKey,
+                                              password,
+                                          )
+                                        : address.privateKey,
                                 };
                             },
                         ),

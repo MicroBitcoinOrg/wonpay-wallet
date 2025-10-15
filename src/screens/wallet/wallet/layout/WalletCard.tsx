@@ -14,10 +14,11 @@ import {Navigation} from '../../../../types/Navigation';
 import {Colors} from '../../../../theme';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import NumberFormat from 'react-number-format';
-import {WalletContext} from '../../../../providers';
+import {PasswordContext, WalletContext} from '../../../../providers';
 import useAppStore from '../../../../store/appStore';
 import useBalanceUtils from '../../../../services/hooks/useBalanceUtils';
 import {useQuery} from '@tanstack/react-query';
+import {decryptData} from '../../../../utils/common';
 
 const styles = StyleSheet.create({
     container: {
@@ -57,8 +58,6 @@ const styles = StyleSheet.create({
     },
     chainInfoContainer: {
         borderRadius: 5,
-        paddingVertical: 4,
-        paddingHorizontal: 8,
         gap: 5,
     },
     chainLogo: {
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
 });
 
 const WalletCard = () => {
-    const navigation = useNavigation<Navigation.AppNavigationProp>();
     const {wallet, walletChain} = useContext(WalletContext);
     const store = useAppStore();
     const scheme = useColorScheme();
@@ -77,7 +75,9 @@ const WalletCard = () => {
     const formattedBalance =
         mainBalance!.balance / 10 ** mainBalance!.currency.units;
 
-    const {getBalance} = useBalanceUtils({chain: walletChain!.key});
+    const {getBalance, registerAddress} = useBalanceUtils({
+        chain: walletChain!.key,
+    });
     const {
         data: balance,
         refetch: refetchBalance,
@@ -99,6 +99,15 @@ const WalletCard = () => {
             refetchBalance();
         }
     }, [wallet?.transactions]);
+
+    useEffect(() => {
+        if (registerAddress && wallet?.depositAddress) {
+            registerAddress({
+                address: wallet!.depositAddress,
+                service: 'wonpay',
+            });
+        }
+    }, [registerAddress, wallet?.depositAddress]);
 
     return (
         <HStack
@@ -161,27 +170,23 @@ const WalletCard = () => {
                             <Text variant="body2" numberOfLines={1}>
                                 {wallet!.title}
                             </Text>
-                            <HStack
-                                style={[
-                                    styles.chainInfoContainer,
-                                    {backgroundColor: walletChain?.color},
-                                ]}>
-                                <Image
-                                    resizeMode="contain"
-                                    source={walletChain?.logo}
-                                    style={[
-                                        styles.chainLogo,
-                                        {
-                                            tintColor: Colors[scheme!].white,
-                                        },
-                                    ]}
-                                />
+                            <HStack style={[styles.chainInfoContainer]}>
                                 <Text
-                                    color="white"
+                                    color="textSecondary"
+                                    textTransform="uppercase"
                                     variant="sub1"
                                     fontWeight="bold">
                                     {walletChain?.name}
                                 </Text>
+                                <Avatar
+                                    source={walletChain?.logo}
+                                    backgroundColor={walletChain?.color}
+                                    style={{width: 25, height: 25}}
+                                    size="sm"
+                                    imageProps={{
+                                        tintColor: Colors[scheme!].white,
+                                    }}
+                                />
                             </HStack>
                         </HStack>
                     </HStack>

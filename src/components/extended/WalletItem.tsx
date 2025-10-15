@@ -1,10 +1,8 @@
 import React, {useContext} from 'react';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import {Colors} from '../../theme';
-import {Image, StyleSheet, useColorScheme, View} from 'react-native';
-import {Avatar, HStack, Text} from '../common';
-import Config from 'react-native-config';
-import {WalletContext} from '../../providers';
+import {StyleSheet, useColorScheme, View} from 'react-native';
+import {Avatar, HStack, Image, Text} from '../common';
 import {Wallet} from '../../types/Wallet';
 import {base64ToHex} from '../../utils/common';
 import {CHAINS} from '../../utils/constants';
@@ -17,7 +15,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     contentContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
         flex: 1,
     },
 });
@@ -55,6 +53,18 @@ const WalletItem: React.FC<Props> = ({
                         6,
                     )}`}
                     color="white"
+                    additional={
+                        CHAINS[chain].logo && (
+                            <Image
+                                tintColor={Colors[scheme!].textSecondary}
+                                source={CHAINS[chain].logo}
+                                style={{
+                                    width: 12,
+                                    height: 12,
+                                }}
+                            />
+                        )
+                    }
                 />
                 <View style={styles.contentContainer}>
                     <HStack justifyContent="flex-start">
@@ -68,14 +78,6 @@ const WalletItem: React.FC<Props> = ({
                         {mainBalance!.currency.ticker}
                     </Text>
                 </View>
-                {CHAINS[chain].logo && (
-                    <Image
-                        resizeMode="contain"
-                        tintColor={Colors[scheme!].textSecondary}
-                        source={CHAINS[chain].logo}
-                        style={{width: 20, height: 20}}
-                    />
-                )}
             </View>
         </TouchableHighlight>
     );

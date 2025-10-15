@@ -4,9 +4,9 @@ import {Colors} from '../../theme';
 
 const styles = StyleSheet.create({
     divider: {
-        width: 50,
-        height: 6,
-        borderRadius: 10,
+        width: 30,
+        height: 4,
+        borderRadius: 4,
     },
 });
 
@@ -19,7 +19,7 @@ const Divider: React.FC<DividerProps> = ({style}) => {
         <View
             style={[
                 styles.divider,
-                {backgroundColor: Colors[scheme!].card},
+                {backgroundColor: Colors[scheme!].textSecondary},
                 style,
             ]}
         />

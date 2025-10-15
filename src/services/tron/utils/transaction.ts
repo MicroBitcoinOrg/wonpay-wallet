@@ -1,6 +1,10 @@
 import {Wallet} from '../../../types/Wallet';
 import {TRON} from '../../../utils/constants';
-import {fetchTrc20Transfers, fetchTrxTransfers} from '../api/getTransactions';
+import {
+    fetchTrc10Transfers,
+    fetchTrc20Transfers,
+    fetchTrxTransfers,
+} from '../api/getTransactions';
 
 const extractWalletAddresses = (wallet: Wallet.Wallet): string[] => {
     return wallet
@@ -8,50 +12,24 @@ const extractWalletAddresses = (wallet: Wallet.Wallet): string[] => {
         : [];
 };
 
-const mapTrxTransaction = (
+const mapTransaction = (
     tx: any,
     walletAddresses: string[],
+    currency: Wallet.Currency,
 ): Wallet.Transaction => {
-    const isSent = walletAddresses.includes(tx.transferFromAddress);
+    const isSent = walletAddresses.includes(tx.from);
     const amount = Number(tx.amount || 0);
 
     return {
-        hash: tx.transactionHash,
-        confirmations: tx.confirmed ? 1 : 0,
+        hash: tx.hash,
+        confirmations: tx.confirmed,
         amount: amount,
         fee: 0,
-        time: Math.floor(tx.timestamp / 1000),
+        time: Math.floor(tx.block_timestamp / 1000),
         type: isSent ? 'sent' : 'received',
-        currency: TRON.currency,
-        from: tx.transferFromAddress,
-        to: tx.transferToAddress,
-    };
-};
-
-const mapTrc20Transaction = (
-    tx: any,
-    walletAddresses: string[],
-): Wallet.Transaction => {
-    const isSent = walletAddresses.includes(tx.from_address);
-    const amount = Number(tx.quant || tx.amount || 0);
-    const ticker = tx.tokenInfo?.tokenAbbr.toUpperCase() || 'TOKEN';
-    const units = tx.tokenInfo?.tokenDecimal || 6;
-
-    return {
-        hash: tx.transaction_id,
-        confirmations: tx.confirmed ? 1 : 0,
-        amount: amount,
-        fee: 0,
-        time: Math.floor(tx.block_ts / 1000),
-        type: isSent ? 'sent' : 'received',
-        currency: {
-            ticker,
-            units,
-            contract:
-                tx.contract_address || (tx.tokenInfo && tx.tokenInfo.tokenId),
-        },
-        from: tx.from_address,
-        to: tx.to_address,
+        currency: currency,
+        from: tx.from,
+        to: tx.to,
     };
 };
 
@@ -66,7 +44,9 @@ export const getWalletMainTransactions = async (data: {
 
         const txs = responseData.data || [];
 
-        return txs.map((tx: any) => mapTrxTransaction(tx, walletAddresses));
+        return txs.map((tx: any) =>
+            mapTransaction(tx, walletAddresses, TRON.currency),
+        );
     } catch (e) {
         console.error('Error fetching TRX transactions:', e);
         return [];
@@ -80,20 +60,23 @@ export const getWalletTokenTransactions = async (data: {
     const walletAddresses = extractWalletAddresses(data.wallet);
     const address = data.wallet.depositAddress;
     const contractAddress = data.currency.contract;
+    const type = data.currency.type;
 
     try {
         if (!contractAddress) return [];
 
-        const responseData = await fetchTrc20Transfers(
-            address,
-            contractAddress,
-        );
+        const responseData =
+            type === 'TRC20'
+                ? await fetchTrc20Transfers(address, contractAddress)
+                : await fetchTrc10Transfers(address, contractAddress);
 
         const txs = responseData.token_transfers || [];
 
-        return txs.map((tx: any) => mapTrc20Transaction(tx, walletAddresses));
+        return txs.map((tx: any) =>
+            mapTransaction(tx, walletAddresses, data.currency),
+        );
     } catch (e) {
-        console.error('Error fetching TRC20 transactions:', e);
+        console.error('Error fetching token transactions:', e);
         return [];
     }
 };

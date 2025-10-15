@@ -100,9 +100,6 @@ export const sendTokenTransaction = async (data: {
 
         const privateKey = decryptData(addressData.privateKey, data.password);
 
-        // Debug: Log the private key length (not the key itself)
-        console.log('TRON privateKey length:', privateKey.length);
-
         // Set the default address and private key in TronWeb
         tronWeb.setAddress(fromAddress);
         tronWeb.setPrivateKey(privateKey);

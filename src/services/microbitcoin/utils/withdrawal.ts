@@ -1,5 +1,3 @@
-/// <reference path="../../../types/MBC.d.ts" />
-
 import * as bitcoin from 'bitcoinjs-lib';
 import {decryptData} from '../../../utils/common';
 import {broadcast, getUTXO} from '../../microbitcoin/api';
@@ -144,6 +142,33 @@ export const sendTokenTransaction = async (data: {
     return {txid: broadcastedTxid};
 };
 
+const filterUnspentByAmount = ({
+    utxos,
+    amount,
+}: {
+    utxos: MBC.UTXO[];
+    amount: number;
+}) => {
+    // Sort UTXOs by amount in descending order
+    const sortedUtxos = [...utxos].sort(
+        (a, b) => Number(b.value) - Number(a.value),
+    );
+
+    let sum = 0;
+    const result: MBC.UTXO[] = [];
+
+    // Add UTXOs until we reach or exceed the target amount
+    for (const utxo of sortedUtxos) {
+        if (sum >= amount) {
+            break;
+        }
+        result.push(utxo);
+        sum += Number(utxo.value);
+    }
+
+    return result;
+};
+
 export const sendMainTransaction = async (data: {
     withdrawAddress: string;
     amount: number;
@@ -161,8 +186,13 @@ export const sendMainTransaction = async (data: {
 
     await Promise.all(
         data.wallet.addresses.map(async address => {
-            const utxos = await getUTXO({
+            let utxos = await getUTXO({
                 address: address.address,
+            });
+
+            utxos = filterUnspentByAmount({
+                utxos,
+                amount: 10 ** 4 * data.amount + 10 ** 4 * data.fee,
             });
 
             unspent.push({utxos, address: address.address});

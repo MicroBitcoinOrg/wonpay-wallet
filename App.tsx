@@ -18,6 +18,8 @@ import './localization';
 import {useColorScheme, View} from 'react-native';
 import {Colors} from './src/theme';
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet';
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -62,27 +64,31 @@ const App = () => {
 
     return (
         <SafeAreaProvider>
-            <QueryClientProvider client={queryClient}>
-                <NetworkProvider>
-                    <NavigationContainer
-                        ref={navigationRef}
-                        linking={linking}
-                        theme={theme}>
-                        <PasswordProvider>
-                            <WalletProvider>
-                                <ModalStack />
-                            </WalletProvider>
-                        </PasswordProvider>
-                    </NavigationContainer>
+            <GestureHandlerRootView style={{flex: 1}}>
+                <BottomSheetModalProvider>
+                    <QueryClientProvider client={queryClient}>
+                        <NetworkProvider>
+                            <NavigationContainer
+                                ref={navigationRef}
+                                linking={linking}
+                                theme={theme}>
+                                <PasswordProvider>
+                                    <WalletProvider>
+                                        <ModalStack />
+                                    </WalletProvider>
+                                </PasswordProvider>
+                            </NavigationContainer>
 
-                    <FlashMessage
-                        statusBarHeight={48}
-                        animationDuration={200}
-                        position="top"
-                        floating
-                    />
-                </NetworkProvider>
-            </QueryClientProvider>
+                            <FlashMessage
+                                statusBarHeight={48}
+                                animationDuration={200}
+                                position="top"
+                                floating
+                            />
+                        </NetworkProvider>
+                    </QueryClientProvider>
+                </BottomSheetModalProvider>
+            </GestureHandlerRootView>
         </SafeAreaProvider>
     );
 };

@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     iconContainer: {
-        marginRight: 10,
+        marginRight: 15,
     },
 });
 

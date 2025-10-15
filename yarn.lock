@@ -1562,6 +1562,40 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@gorhom/bottom-sheet@npm:^5":
+  version: 5.1.8
+  resolution: "@gorhom/bottom-sheet@npm:5.1.8"
+  dependencies:
+    "@gorhom/portal": "npm:1.0.14"
+    invariant: "npm:^2.2.4"
+  peerDependencies:
+    "@types/react": "*"
+    "@types/react-native": "*"
+    react: "*"
+    react-native: "*"
+    react-native-gesture-handler: ">=2.16.1"
+    react-native-reanimated: "*"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    "@types/react-native":
+      optional: true
+  checksum: 10c0/b1faa4bf495f2be814cc2477893fbe758282142b5e4a404eacabd0b76475975f17339fabce388719645a02c17ee999e86cffa26e847a40c9c38e98c5c342ee45
+  languageName: node
+  linkType: hard
+
+"@gorhom/portal@npm:1.0.14":
+  version: 1.0.14
+  resolution: "@gorhom/portal@npm:1.0.14"
+  dependencies:
+    nanoid: "npm:^3.3.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/86f33afc2ac2656a86a6f3fd1e41565419839576ede2c38333434a93a0a2fe4fb6fc18ab3360579427f2a1fc3b4564b933cc5ae1793a7e2825c93860a00b215f
+  languageName: node
+  linkType: hard
+
 "@hapi/hoek@npm:^9.0.0, @hapi/hoek@npm:^9.3.0":
   version: 9.3.0
   resolution: "@hapi/hoek@npm:9.3.0"
@@ -2303,6 +2337,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@react-native-documents/picker@npm:^10.1.5":
+  version: 10.1.5
+  resolution: "@react-native-documents/picker@npm:10.1.5"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/bc1215a73dd8919c45bc21337092b2baac2241d7d7708c5234306a35bf294358bc98c6fad6d01f68c7691da29e439e016dd86c22e0be91a9423fa67a80e234eb
+  languageName: node
+  linkType: hard
+
 "@react-native-masked-view/masked-view@npm:0.3.1":
   version: 0.3.1
   resolution: "@react-native-masked-view/masked-view@npm:0.3.1"
@@ -2310,6 +2354,16 @@ __metadata:
     react: ">=16"
     react-native: ">=0.57"
   checksum: 10c0/e8823e69caa4f916546de528faa9beb69d25311adecaeb37a5a3e2871141754e895d1b5faa01bc0ca07b4d4b676d940191917803da53208b1be8fef857e5b502
+  languageName: node
+  linkType: hard
+
+"@react-native-picker/picker@npm:^2.11.1":
+  version: 2.11.1
+  resolution: "@react-native-picker/picker@npm:2.11.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/d2e9aeb32ae80f2ab56fa025f1afd6d8ff8051e7078bfd17c6794ff0cc1538d4a2f548098826eb652e6cb64d998070b0111777c78de4dcb468cb71e7e4d93097
   languageName: node
   linkType: hard
 
@@ -3159,6 +3213,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-native-get-random-values@npm:^1":
+  version: 1.8.2
+  resolution: "@types/react-native-get-random-values@npm:1.8.2"
+  checksum: 10c0/66c0268151d0673bff88828d82d4087aeabbe29a8ffe433f50e2593cd04872fc890f0d2660203435d13412b10d866d24a3ab72981cf481e5676ccf88de12c235
+  languageName: node
+  linkType: hard
+
 "@types/react-native-vector-icons@npm:6.4.18":
   version: 6.4.18
   resolution: "@types/react-native-vector-icons@npm:6.4.18"
@@ -3857,14 +3918,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:1.8.3":
-  version: 1.8.3
-  resolution: "axios@npm:1.8.3"
+"axios@npm:1.11.0":
+  version: 1.11.0
+  resolution: "axios@npm:1.11.0"
   dependencies:
     follow-redirects: "npm:^1.15.6"
-    form-data: "npm:^4.0.0"
+    form-data: "npm:^4.0.4"
     proxy-from-env: "npm:^1.1.0"
-  checksum: 10c0/de75da9859adf0a6481d4af2b687db357a054d20f0d69b99d502b71dae3578326b1fdc0951dabaef769827484941cda93d3f89150bf9e04f05f6615fb8316780
+  checksum: 10c0/5de273d33d43058610e4d252f0963cc4f10714da0bfe872e8ef2cbc23c2c999acc300fd357b6bce0fc84a2ca9bd45740fa6bb28199ce2c1266c8b1a393f2b36e
   languageName: node
   linkType: hard
 
@@ -5086,7 +5147,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-hmac@npm:^1.1.0, create-hmac@npm:^1.1.2, create-hmac@npm:^1.1.3, create-hmac@npm:^1.1.4, create-hmac@npm:^1.1.7":
+"create-hmac@npm:^1.1.0, create-hmac@npm:^1.1.3, create-hmac@npm:^1.1.4, create-hmac@npm:^1.1.7":
   version: 1.1.7
   resolution: "create-hmac@npm:1.1.7"
   dependencies:
@@ -6336,6 +6397,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"fast-base64-decode@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "fast-base64-decode@npm:1.0.0"
+  checksum: 10c0/6d8feab513222a463d1cb58d24e04d2e04b0791ac6559861f99543daaa590e2636d040d611b40a50799bfb5c5304265d05e3658b5adf6b841a50ef6bf833d821
+  languageName: node
+  linkType: hard
+
 "fast-deep-equal@npm:^3.1.1, fast-deep-equal@npm:^3.1.3":
   version: 3.1.3
   resolution: "fast-deep-equal@npm:3.1.3"
@@ -6589,16 +6657,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"form-data@npm:^4.0.0":
-  version: 4.0.3
-  resolution: "form-data@npm:4.0.3"
+"form-data@npm:^4.0.4":
+  version: 4.0.4
+  resolution: "form-data@npm:4.0.4"
   dependencies:
     asynckit: "npm:^0.4.0"
     combined-stream: "npm:^1.0.8"
     es-set-tostringtag: "npm:^2.1.0"
     hasown: "npm:^2.0.2"
     mime-types: "npm:^2.1.12"
-  checksum: 10c0/f0cf45873d600110b5fadf5804478377694f73a1ed97aaa370a74c90cebd7fe6e845a081171668a5476477d0d55a73a4e03d6682968fa8661eac2a81d651fcdb
+  checksum: 10c0/373525a9a034b9d57073e55eab79e501a714ffac02e7a9b01be1c820780652b16e4101819785e1e18f8d98f0aee866cc654d660a435c378e16a72f2e7cac9695
   languageName: node
   linkType: hard
 
@@ -7043,6 +7111,18 @@ __metadata:
     readable-stream: "npm:^3.6.0"
     safe-buffer: "npm:^5.2.0"
   checksum: 10c0/663eabcf4173326fbb65a1918a509045590a26cc7e0964b754eef248d281305c6ec9f6b31cb508d02ffca383ab50028180ce5aefe013e942b44a903ac8dc80d0
+  languageName: node
+  linkType: hard
+
+"hash-base@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "hash-base@npm:3.1.2"
+  dependencies:
+    inherits: "npm:^2.0.4"
+    readable-stream: "npm:^2.3.8"
+    safe-buffer: "npm:^5.2.1"
+    to-buffer: "npm:^1.2.1"
+  checksum: 10c0/f3b7fae1853b31340048dd659f40f5260ca6f3ff53b932f807f4ab701ee09039f6e9dbe1841723ff61e20f3f69d6387a352e4ccc5f997dedb0d375c7d88bc15e
   languageName: node
   linkType: hard
 
@@ -9476,7 +9556,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nanoid@npm:^3.3.11":
+"nanoid@npm:^3.3.1, nanoid@npm:^3.3.11":
   version: 3.3.11
   resolution: "nanoid@npm:3.3.11"
   bin:
@@ -10100,15 +10180,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pbkdf2@npm:3.0.8":
-  version: 3.0.8
-  resolution: "pbkdf2@npm:3.0.8"
-  dependencies:
-    create-hmac: "npm:^1.1.2"
-  checksum: 10c0/9a043d42e01cb4980a34145f43967e0ca00e055cdd38bb775d15654eead36c0f0e0e2d8554eca7fc9b68601b7400f3d4d14276f5131051f2f0706c80658fc49b
-  languageName: node
-  linkType: hard
-
 "pbkdf2@npm:^3.1.2":
   version: 3.1.3
   resolution: "pbkdf2@npm:3.1.3"
@@ -10120,6 +10191,20 @@ __metadata:
     sha.js: "npm:^2.4.11"
     to-buffer: "npm:^1.2.0"
   checksum: 10c0/12779463dfb847701f186e0b7e5fd538a1420409a485dcf5100689c2b3ec3cb113204e82a68668faf3b6dd76ec19260b865313c9d3a9c252807163bdc24652ae
+  languageName: node
+  linkType: hard
+
+"pbkdf2@npm:^3.1.3":
+  version: 3.1.5
+  resolution: "pbkdf2@npm:3.1.5"
+  dependencies:
+    create-hash: "npm:^1.2.0"
+    create-hmac: "npm:^1.1.7"
+    ripemd160: "npm:^2.0.3"
+    safe-buffer: "npm:^5.2.1"
+    sha.js: "npm:^2.4.12"
+    to-buffer: "npm:^1.2.1"
+  checksum: 10c0/ea42e8695e49417eefabb19a08ab19a602cc6cc72d2df3f109c39309600230dee3083a6f678d5d42fe035d6ae780038b80ace0e68f9792ee2839bf081fe386f3
   languageName: node
   linkType: hard
 
@@ -10671,9 +10756,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-crypto@npm:2.2.0":
-  version: 2.2.0
-  resolution: "react-native-crypto@npm:2.2.0"
+"react-native-crypto@npm:2.2.1":
+  version: 2.2.1
+  resolution: "react-native-crypto@npm:2.2.1"
   dependencies:
     browserify-cipher: "npm:^1.0.0"
     browserify-sign: "npm:^4.0.4"
@@ -10682,12 +10767,12 @@ __metadata:
     create-hmac: "npm:^1.1.0"
     diffie-hellman: "npm:^5.0.0"
     inherits: "npm:^2.0.1"
-    pbkdf2: "npm:3.0.8"
+    pbkdf2: "npm:^3.1.3"
     public-encrypt: "npm:^4.0.0"
     randomfill: "npm:^1.0.3"
   peerDependencies:
     react-native-randombytes: ">=2.0.0 <4.0.0"
-  checksum: 10c0/c09046ce80b187a87cc127614efc2f14eacd58cebbafd89ff5a61f3d33252db331d76312bfc80631ac71bbf4353fd7423c070fc988ad782b353747721d676ac2
+  checksum: 10c0/ba1bdef458cc5f21ad7cbb9119e4eeff252a44ff2795a6673c861ef9419013cb46653a0d8014c3b1409b3ed858b830537b85b2d55f09c6b5294cca39ab266d53
   languageName: node
   linkType: hard
 
@@ -10728,12 +10813,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-native-get-random-values@npm:^1.11.0":
+  version: 1.11.0
+  resolution: "react-native-get-random-values@npm:1.11.0"
+  dependencies:
+    fast-base64-decode: "npm:^1.0.0"
+  peerDependencies:
+    react-native: ">=0.56"
+  checksum: 10c0/2ce71f1ab7f5b36d4a9dd59cc80b4aa75526f047c6680a7f1a388fa8b9a62efdacaf7b7de3be593c73e882773b2eee74916b00f7c8b158e40b46388998218586
+  languageName: node
+  linkType: hard
+
 "react-native-haptic-feedback@npm:2.3.3":
   version: 2.3.3
   resolution: "react-native-haptic-feedback@npm:2.3.3"
   peerDependencies:
     react-native: ">=0.60.0"
   checksum: 10c0/de65b6a0088cf8c14b6248eddb1275233c400a52f818eda640d1475ecaa38dc059b3c37fce7f0a0bd0c33c4e1fb7537bc31fed60e94d026638993dd5d916b35e
+  languageName: node
+  linkType: hard
+
+"react-native-image-picker@npm:^8.2.1":
+  version: 8.2.1
+  resolution: "react-native-image-picker@npm:8.2.1"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/82b6c51ece8d16806975aff7675d26280fdd2391c05ca9415620195cc6643ca0db4601d3b24e117d7f5331c2e55ba7c03090d276e55b3b5687a636245428a047
   languageName: node
   linkType: hard
 
@@ -10809,13 +10915,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-pager-view@npm:6.7.1":
-  version: 6.7.1
-  resolution: "react-native-pager-view@npm:6.7.1"
+"react-native-pager-view@npm:6.8.1":
+  version: 6.8.1
+  resolution: "react-native-pager-view@npm:6.8.1"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/1459f3c487d50b1ecba41a4b24c51ab9ad17026b30e66c109dd1df32afe7cc6726d8fcae8a3495f93a240e5781bbae7653c7d56d53e724e929312b30234616e9
+  checksum: 10c0/1b6f6bac77616adbe59f0b9b2f37c86c00c27b9fc8ebee7b769ffdbce88c235689deb53dca923e263ab0f97a9a1731362add4b1dff65467ce82889c8910f7186
   languageName: node
   linkType: hard
 
@@ -11497,6 +11603,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"ripemd160@npm:^2.0.3":
+  version: 2.0.3
+  resolution: "ripemd160@npm:2.0.3"
+  dependencies:
+    hash-base: "npm:^3.1.2"
+    inherits: "npm:^2.0.4"
+  checksum: 10c0/3f472fb453241cfe692a77349accafca38dbcdc9d96d5848c088b2932ba41eb968630ecff7b175d291c7487a4945aee5a81e30c064d1f94e36070f7e0c37ed6c
+  languageName: node
+  linkType: hard
+
 "rn-nodeify@npm:10.3.0":
   version: 10.3.0
   resolution: "rn-nodeify@npm:10.3.0"
@@ -11793,7 +11909,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sha.js@npm:^2.4.0, sha.js@npm:^2.4.11, sha.js@npm:^2.4.8":
+"sha.js@npm:^2.4.0, sha.js@npm:^2.4.11, sha.js@npm:^2.4.12, sha.js@npm:^2.4.8":
   version: 2.4.12
   resolution: "sha.js@npm:2.4.12"
   dependencies:
@@ -12589,6 +12705,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"to-buffer@npm:^1.2.1":
+  version: 1.2.2
+  resolution: "to-buffer@npm:1.2.2"
+  dependencies:
+    isarray: "npm:^2.0.5"
+    safe-buffer: "npm:^5.2.1"
+    typed-array-buffer: "npm:^1.0.3"
+  checksum: 10c0/56bc56352f14a2c4a0ab6277c5fc19b51e9534882b98eb068b39e14146591e62fa5b06bf70f7fed1626230463d7e60dca81e815096656e5e01c195c593873d12
+  languageName: node
+  linkType: hard
+
 "to-regex-range@npm:^5.0.1":
   version: 5.0.1
   resolution: "to-regex-range@npm:5.0.1"
@@ -12612,12 +12739,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tronweb@npm:^6.0.3":
-  version: 6.0.3
-  resolution: "tronweb@npm:6.0.3"
+"tronweb@npm:^6.0.4":
+  version: 6.0.4
+  resolution: "tronweb@npm:6.0.4"
   dependencies:
     "@babel/runtime": "npm:7.26.10"
-    axios: "npm:1.8.3"
+    axios: "npm:1.11.0"
     bignumber.js: "npm:9.1.2"
     ethereum-cryptography: "npm:2.2.1"
     ethers: "npm:6.13.5"
@@ -12625,7 +12752,7 @@ __metadata:
     google-protobuf: "npm:3.21.4"
     semver: "npm:7.7.1"
     validator: "npm:13.12.0"
-  checksum: 10c0/39ff680c37354ab64ebb69d4560d9c90b187997e976732e1e33ac14f8699919a70e0564046303faf72e258220a7e992125b6204b50c06131ef07ccb6a5128980
+  checksum: 10c0/63e29172723195215d23ec572db153fb795e3d31fc7cd44ec0d80c43306b408767085e54657f74d4160991bc73a05e8a63a1d50874700bf7b99744c589087c93
   languageName: node
   linkType: hard
 
@@ -13260,6 +13387,7 @@ __metadata:
     "@babel/preset-env": "npm:^7.25.3"
     "@babel/runtime": "npm:^7.25.0"
     "@bitcoinerlab/secp256k1": "npm:^1.1.1"
+    "@gorhom/bottom-sheet": "npm:^5"
     "@react-native-async-storage/async-storage": "npm:^2.2.0"
     "@react-native-clipboard/clipboard": "npm:^1.16.3"
     "@react-native-community/blur": "npm:4.4.0"
@@ -13268,7 +13396,9 @@ __metadata:
     "@react-native-community/cli-platform-ios": "npm:^18.0.0"
     "@react-native-community/datetimepicker": "npm:8.1.0"
     "@react-native-community/netinfo": "npm:11.3.2"
+    "@react-native-documents/picker": "npm:^10.1.5"
     "@react-native-masked-view/masked-view": "npm:0.3.1"
+    "@react-native-picker/picker": "npm:^2.11.1"
     "@react-native/babel-preset": "npm:0.80.1"
     "@react-native/eslint-config": "npm:0.80.1"
     "@react-native/metro-config": "npm:0.80.1"
@@ -13286,6 +13416,7 @@ __metadata:
     "@types/lodash": "npm:4.17.5"
     "@types/react": "npm:19.1.0"
     "@types/react-dom": "npm:^19"
+    "@types/react-native-get-random-values": "npm:^1"
     "@types/react-native-vector-icons": "npm:6.4.18"
     "@types/react-test-renderer": "npm:^18.0.0"
     "@types/url-parse": "npm:1.4.11"
@@ -13327,16 +13458,18 @@ __metadata:
     react-native-camera-kit: "npm:15.1.0"
     react-native-config: "npm:1.5.2"
     react-native-context-menu-view: "npm:1.16.0"
-    react-native-crypto: "npm:2.2.0"
+    react-native-crypto: "npm:2.2.1"
     react-native-device-info: "npm:11.1.0"
     react-native-flash-message: "npm:0.4.2"
     react-native-gesture-handler: "npm:^2.27.1"
+    react-native-get-random-values: "npm:^1.11.0"
     react-native-haptic-feedback: "npm:2.3.3"
+    react-native-image-picker: "npm:^8.2.1"
     react-native-keychain: "npm:^10.0.0"
     react-native-linear-gradient: "npm:2.8.3"
     react-native-localize: "npm:3.2.0"
     react-native-modal-datetime-picker: "npm:17.1.0"
-    react-native-pager-view: "npm:6.7.1"
+    react-native-pager-view: "npm:6.8.1"
     react-native-permissions: "npm:4.1.5"
     react-native-qrcode-svg: "npm:6.3.15"
     react-native-randombytes: "npm:3.6.1"
@@ -13355,7 +13488,7 @@ __metadata:
     readable-stream: "npm:4.5.2"
     rn-nodeify: "npm:10.3.0"
     stream-browserify: "npm:3.0.0"
-    tronweb: "npm:^6.0.3"
+    tronweb: "npm:^6.0.4"
     typescript: "npm:5.0.4"
     url-parse: "npm:1.5.10"
     uuid: "npm:8.3.1"

@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
 
 const Transactions: React.FC<TransactionsProps> = ({
     style,
-    balance,
+    balance: balanceProp,
 }: TransactionsProps) => {
     const scheme = useColorScheme();
     const firstTimeRef = React.useRef(true);
@@ -73,17 +73,17 @@ const Transactions: React.FC<TransactionsProps> = ({
     const [search, setSearch] = useState<string>('');
     const {wallet} = useContext(WalletContext);
     const {updateTransactions} = useTransactionUtils({chain: wallet!.chain});
-    const mainBalance = wallet!.balances.find(b => b.main);
+    const balance = balanceProp ?? wallet!.balances.find(b => b.main);
     const {
         refetch,
         data: transactions,
-        isLoading: isTransactionsLoading,
+        isFetching: isTransactionsLoading,
         isRefetching: isTransactionsRefetching,
     } = useQuery<Wallet.Transaction[]>({
         queryKey: ['transactions', wallet!.uuid, balance?.currency.ticker],
         queryFn: () =>
             updateTransactions({
-                currency: balance ? balance!.currency : mainBalance!.currency,
+                currency: balance!.currency,
             }),
         initialData: wallet!.transactions,
     });

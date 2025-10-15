@@ -9,8 +9,10 @@ import {
     TransactionDetails,
     Wallet as WalletScreen,
     Withdraw,
+    TokenSettings,
 } from '../../screens';
-import {Image, Platform, StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
+import {Image} from '../../components/common';
 import Config from 'react-native-config';
 import {Navigation} from '../../types/Navigation';
 import {useNavigation} from '@react-navigation/native';
@@ -30,7 +32,7 @@ const Stack = createStackNavigator<Navigation.WalletParamList>();
 
 const WalletStack: React.FC = () => {
     const {t} = useTranslation();
-    const navigation = useNavigation<Navigation.AppNavigationProp>();
+    const appNavigation = useNavigation<Navigation.AppNavigationProp>();
     const store = useAppStore();
 
     const chooseWallet = (uuid: string, nav: Navigation.AppNavigationProp) => {
@@ -39,7 +41,7 @@ const WalletStack: React.FC = () => {
     };
 
     const openWalletList = () => {
-        navigation.navigate('ChooseList', {
+        appNavigation.navigate('ChooseList', {
             data: store.wallets,
             keyExtractor: (item: Wallet.Wallet) => item.uuid,
             renderItem: (
@@ -56,8 +58,11 @@ const WalletStack: React.FC = () => {
             headerRight: (
                 <IconButton
                     onPress={() =>
-                        navigation.navigate('OnboardingStack', {
-                            screen: 'Welcome',
+                        appNavigation.navigateDeprecated('RootStack', {
+                            screen: 'OnboardingStack',
+                            params: {
+                                screen: 'Welcome',
+                            },
                         })
                     }
                     name="add"
@@ -120,7 +125,7 @@ const WalletStack: React.FC = () => {
                             />
                             <IconButton
                                 onPress={() =>
-                                    navigation.navigate('RootStack', {
+                                    appNavigation.navigate('RootStack', {
                                         screen: 'QRCodeScanner',
                                         params: {type: 'home'},
                                     })
@@ -137,14 +142,27 @@ const WalletStack: React.FC = () => {
             <Stack.Screen
                 name="Currency"
                 component={Token}
-                options={({route}) => ({
+                options={({route, navigation}) => ({
                     header: props => <Header transparent {...props} />,
                     headerTransparent: true,
-                    // @ts-ignore
                     title:
                         route.params && 'balance' in route.params
                             ? route.params.balance.currency.ticker
                             : undefined,
+                    headerRight: () =>
+                        route.params.balance.currency.ticker.includes('!') && (
+                            <IconButton
+                                onPress={() =>
+                                    navigation.navigate('TokenSettings', {
+                                        balance: route.params.balance,
+                                    })
+                                }
+                                name="settings-outline"
+                                iconSet="ionicons"
+                                color="white"
+                                transparent
+                            />
+                        ),
                 })}
             />
             <Stack.Screen
@@ -167,6 +185,17 @@ const WalletStack: React.FC = () => {
                     },
                 }}
             />
+            <Stack.Screen
+                name="TokenSettings"
+                component={TokenSettings}
+                options={{
+                    title: t('screenTitles.wallet.tokenSettings'),
+                    cardStyle: {
+                        paddingBottom: 90,
+                    },
+                }}
+            />
+
             <Stack.Screen
                 name="TransactionDetails"
                 component={TransactionDetails}

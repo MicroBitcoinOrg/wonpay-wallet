@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Platform, StyleSheet, Switch, useColorScheme, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {isMatch} from '../../utils/address';
+import {getChainByAddress} from '../../utils/address';
 import {
     Container,
     DismissKeyboard,
@@ -51,6 +51,8 @@ const ManageAddressBookItem: React.FC<ManageAddressBookItemProps> = ({
     const [address, setAddress] = useState<string>(params.address);
     const [title, setTitle] = useState<string>(params.title);
     const [favorite, setFavorite] = useState<boolean>(params.favorite);
+
+    const chain = getChainByAddress(address);
 
     const saveAddressBook = () => {
         store.saveAddressBookItem({
@@ -157,11 +159,7 @@ const ManageAddressBookItem: React.FC<ManageAddressBookItemProps> = ({
                         }
                         onPress={saveAddressBook}
                         style={{marginVertical: 20}}
-                        disabled={
-                            !isMatch(address, walletChain!.regex.address) ||
-                            !title ||
-                            title.length === 0
-                        }
+                        disabled={!chain || !title || title.length === 0}
                     />
                 </KeyboardAvoidingView>
             </Container>

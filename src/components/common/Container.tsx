@@ -20,6 +20,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {useIsFocused} from '@react-navigation/native';
 import {AnimatedGradientBackground} from './AnimatedGradientBackground';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
 
@@ -56,7 +57,6 @@ const HEADER_HEIGHT = parseInt(
         : Config.HEADER_HEIGHT_ANDROID,
 );
 const PADDING_HORIZONTAL = 20;
-const PADDING_BOTTOM = Platform.select({ios: 30, android: 10});
 
 const Container = ({
     paddingHorizontal = true,
@@ -76,6 +76,7 @@ const Container = ({
     ...props
 }: ContainerProps) => {
     const scheme = useColorScheme();
+    const {bottom} = useSafeAreaInsets();
 
     const containerStyles = {
         backgroundColor: transparent
@@ -83,7 +84,7 @@ const Container = ({
             : Colors[scheme!].background,
         paddingHorizontal: paddingHorizontal ? PADDING_HORIZONTAL : 0,
         paddingTop: paddingTop ? HEADER_HEIGHT : 0,
-        paddingBottom: paddingBottom ? PADDING_BOTTOM : 0,
+        paddingBottom: paddingBottom ? bottom : 0,
         flex: flex !== undefined ? flex : 1,
     };
 

@@ -2,10 +2,12 @@ const bitcoin = require('bitcoinjs-lib');
 
 import {TronWeb} from 'tronweb';
 import * as bip39 from 'bip39';
+import * as bitcoinMessage from 'bitcoinjs-message';
+
 import {BIP32Factory, BIP32Interface} from 'bip32';
 import ecc from '@bitcoinerlab/secp256k1';
 import {Wallet} from '../types/Wallet';
-import {TRON} from './constants';
+import {CHAINS, TRON} from './constants';
 
 const bip32 = BIP32Factory(ecc);
 
@@ -42,8 +44,39 @@ export const getAddress = (node: any, networkAddress: any) => {
     }
 };
 
-export const isMatch = (address: string, regex: string[]) => {
+export const isMatchAddress = (address: string, regex: string[]) => {
     return regex.some(r => address.match(new RegExp(r)));
+};
+
+export const getChainByAddress = (address: string) => {
+    const foundChain = Object.values(CHAINS).find(chain => {
+        if (
+            chain.regex?.address &&
+            isMatchAddress(address, chain.regex?.address)
+        ) {
+            return chain;
+        }
+    });
+
+    return foundChain;
+};
+
+export const signMessage = (wif: string, message: string, network: any) => {
+    const keyPair = bitcoin.ECPair.fromWIF(wif, network);
+    const privateKey = keyPair.privateKey;
+
+    const signature = bitcoinMessage.sign(
+        message,
+        privateKey!,
+        keyPair.compressed,
+        network.messagePrefix,
+        {
+            extraEntropy: Buffer.from(
+                crypto.getRandomValues(new Uint8Array(32)),
+            ),
+        },
+    );
+    return signature.toString('base64');
 };
 
 export const generateSeedPhrase = () => {

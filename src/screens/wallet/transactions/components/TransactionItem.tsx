@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
     iconContainer: {
-        marginRight: 10,
+        marginRight: 15,
         borderRadius: 35,
         width: 35,
         height: 35,

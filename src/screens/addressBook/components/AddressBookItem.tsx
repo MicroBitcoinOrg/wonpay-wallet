@@ -7,10 +7,11 @@ import {
     View,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {Avatar, HStack, Text} from '../../../components/common';
+import {Avatar, HStack, Image, Text} from '../../../components/common';
 import {base64ToHex} from '../../../utils/common';
 import {Colors} from '../../../theme';
 import {Wallet} from '../../../types/Wallet';
+import {getChainByAddress} from '../../../utils/address';
 
 const styles = StyleSheet.create({
     container: {
@@ -21,7 +22,8 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
     },
     contentContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
+        flex: 1,
     },
     topContentContainer: {
         marginBottom: 5,
@@ -33,9 +35,6 @@ const styles = StyleSheet.create({
     addressText: {
         fontSize: 12,
         opacity: 0.5,
-    },
-    favoriteContainer: {
-        marginLeft: 10,
     },
 });
 
@@ -50,6 +49,8 @@ const AddressBookItem: React.FC<AddressBookItemProps> = ({
     ...props
 }: AddressBookItemProps) => {
     const scheme = useColorScheme();
+
+    const chain = getChainByAddress(addressBookItem.address);
 
     return (
         <TouchableHighlight underlayColor={Colors[scheme!].card} {...props}>
@@ -68,28 +69,35 @@ const AddressBookItem: React.FC<AddressBookItemProps> = ({
                         addressBookItem.address,
                     ).substring(0, 6)}`}
                     color="white"
+                    additional={
+                        !!chain && (
+                            <Image
+                                tintColor={Colors[scheme!].textSecondary}
+                                source={chain.logo}
+                                style={{
+                                    width: 12,
+                                    height: 12,
+                                }}
+                            />
+                        )
+                    }
                 />
                 <View style={styles.contentContainer}>
                     <HStack
                         justifyContent="flex-start"
+                        alignItems="center"
                         style={styles.topContentContainer}>
                         <Text style={styles.titleText}>
                             {addressBookItem.title}
                         </Text>
-                        {addressBookItem.favorite && (
-                            <View style={styles.favoriteContainer}>
-                                <Ionicon
-                                    name="star"
-                                    size={20}
-                                    color="#F7B500"
-                                />
-                            </View>
-                        )}
                     </HStack>
                     <Text style={styles.addressText}>
                         {addressBookItem.address}
                     </Text>
                 </View>
+                {addressBookItem.favorite && (
+                    <Ionicon name="star" size={20} color="#F7B500" />
+                )}
             </View>
         </TouchableHighlight>
     );

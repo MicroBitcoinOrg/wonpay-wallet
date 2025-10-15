@@ -11,7 +11,7 @@ export const MICROBITCOIN: Wallet.Chain = {
             public: 76067358,
             private: 76066276,
         },
-        messagePrefix: '\x19Bitcoin Signed Message:\n',
+        messagePrefix: '\x1dMicroBitcoin Signed Message:\n',
         bech32: 'mbc',
     },
     currency: {
@@ -35,6 +35,9 @@ export const MICROBITCOIN: Wallet.Chain = {
         },
         iconsApi: {
             url: 'https://icons.mbc.wiki',
+        },
+        statsApi: {
+            url: 'https://stats.mbc.wiki',
         },
     },
     minFee: 1,
@@ -66,7 +69,7 @@ export const TRON: Wallet.Chain = {
         address: ['^T[1-9A-HJ-NP-Za-km-z]{33}$'],
         transaction: ['^[a-fA-F0-9]{64}$'],
     },
-    /* links: {
+    links: {
         explorer: {
             url: 'https://tronscan.org/#/transaction/',
         },
@@ -75,10 +78,10 @@ export const TRON: Wallet.Chain = {
             key: '988f5144-6a7c-410a-be76-2e7270831c4d',
         },
         tronscanApi: {
-            url: 'https://apilist.tronscanapi.com',
+            url: 'https://tp.mbc.wiki',
         },
-    }, */
-    links: {
+    },
+    /* links: {
         explorer: {
             url: 'https://nile.tronscan.org/#',
         },
@@ -89,7 +92,7 @@ export const TRON: Wallet.Chain = {
         tronscanApi: {
             url: 'https://nileapi.tronscan.org',
         },
-    },
+    }, */
     minFee: 0,
     active: true,
     key: Wallet.ChainEnum.TRON,

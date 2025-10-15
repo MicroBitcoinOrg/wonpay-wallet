@@ -23,7 +23,7 @@ import {
     Permission,
 } from 'react-native-permissions';
 import {useTranslation} from 'react-i18next';
-import {isMatch} from '../../utils/address';
+import {isMatchAddress} from '../../utils/address';
 import {FocusAwareStatusBar, HStack} from '../../components/common';
 import useAppStore from '../../store/appStore';
 import {WalletContext} from '../../providers';
@@ -352,7 +352,7 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({navigation, route}) => {
                 console.warn('Wallet chain regex not available');
                 return false;
             }
-            return isMatch(address, walletChain.regex.address);
+            return isMatchAddress(address, walletChain.regex.address);
         },
         [walletChain],
     );

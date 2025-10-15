@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     contentContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
         flex: 1,
     },
     topContentContainer: {
@@ -38,9 +38,6 @@ const styles = StyleSheet.create({
     addressText: {
         fontSize: 12,
         opacity: 0.5,
-    },
-    favoriteContainer: {
-        marginLeft: 10,
     },
 });
 
@@ -76,6 +73,9 @@ const ChainItem: React.FC<ChainItemProps> = ({style, chain, ...props}) => {
                         `#${base64ToHex(chain.name).substring(0, 6)}`
                     }
                     color="white"
+                    imageProps={{
+                        tintColor: Colors[scheme!].white,
+                    }}
                 />
 
                 <View style={styles.contentContainer}>

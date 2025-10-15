@@ -10,7 +10,8 @@
                 "qrRequest": "QR 코드 요청",
                 "swap": "Swap",
                 "swapDetails": "Swap Details",
-                "NFTDetails": "NFT Details"
+                "NFTDetails": "NFT Details",
+                "tokenSettings": "토큰 설정"
             },
             "settings": {
                 "globalSettings": "설정",
@@ -452,13 +453,28 @@
         }
     },
     "addressBook": {
-        "edit": "수정",
-        "delete": "지우기",
-        "noAddresses": "아직 주소록에 주소가 없습니다."
+        "edit": "편집",
+        "delete": "삭제",
+        "noAddresses": "주소록에 아직 주소가 없습니다."
+    },
+    "tokenSettings": {
+        "changeIcon": {
+            "title": "아이콘 변경",
+            "imageSize": "이미지 크기",
+            "imageSizeDescription": "최적의 표시를 위해 512x512 픽셀 이미지를 사용하십시오.",
+            "imageFormat": "이미지 형식",
+            "imageFormatDescription": "토큰 아이콘에 PNG 형식을 사용하는 것이 좋습니다.",
+            "successMessage": "새 아이콘이 성공적으로 제출되었습니다.",
+            "description": "더 나은 사용자 경험을 위해 다음 권장 사항을 따르는 것이 좋습니다.",
+            "filesButton": "파일",
+            "photoLibraryButton": "사진 보관함",
+            "userCancelled": "사용자가 이미지 선택기를 취소했습니다.",
+            "imagePickerError": "ImagePicker 오류: "
+        }
     },
     "manageAddressBookItem": {
-        "editAddress": "주소록 수정",
-        "addAddress": "주소록에 추가",
+        "editAddress": "주소 편집",
+        "addAddress": "주소 추가",
         "title": {
             "title": "이름",
             "placeholder": "홍길동"

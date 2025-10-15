@@ -1,28 +1,52 @@
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import {
-    Image,
     ImageSourcePropType,
     StyleSheet,
     useColorScheme,
     View,
     ViewProps,
+    StyleProp,
+    ViewStyle,
+    ImageProps,
 } from 'react-native';
-import {Text} from './index';
+import {Image, Text} from './index';
 import {Colors} from '../../theme';
+import Typography, {TextVariant} from '../../theme/typography';
+
+const sizeStyles = {
+    md: {width: 45, height: 45, borderRadius: 22.5, padding: 10},
+    sm: {width: 35, height: 35, borderRadius: 17.5, padding: 5},
+    xs: {width: 20, height: 20, borderRadius: 10, padding: 3},
+};
+
+const textVariantBySize: Record<keyof typeof sizeStyles, TextVariant> = {
+    md: 'h3',
+    sm: 'body2',
+    xs: 'body3',
+};
 
 const styles = StyleSheet.create({
     container: {
-        borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
+        borderWidth: 1,
+        overflow: 'hidden',
     },
-    mdSizeContainer: {
-        width: 45,
-        height: 45,
+    image: {
+        width: '100%',
+        height: '100%',
     },
-    smSizeContainer: {
-        width: 35,
-        height: 35,
+    additionalContainer: {
+        position: 'absolute',
+        borderRadius: 10,
+        overflow: 'hidden',
+        bottom: -2,
+        right: -2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderWidth: 0.5,
+        width: 20,
+        height: 20,
     },
 });
 
@@ -33,60 +57,82 @@ interface AvatarProps extends ViewProps {
     color?: keyof typeof Colors.dark & keyof typeof Colors.light;
     title?: string;
     source?: ImageSourcePropType;
-    size?: 'md' | 'sm';
-    style?: Record<string, any>;
+    size?: keyof typeof sizeStyles;
+    style?: StyleProp<ViewStyle>;
+    additional?: React.ReactNode;
+    imageProps?: ImageProps;
 }
 
 const Avatar: React.FC<AvatarProps> = ({
     style,
     size = 'md',
-    backgroundColor = 'white',
+    backgroundColor: bg,
     color = 'black',
     source,
     title,
     children,
+    additional,
+    imageProps,
     ...props
-}: AvatarProps) => {
-    const scheme = useColorScheme();
+}) => {
+    const scheme = useColorScheme() || 'light';
+    const [imageError, setImageError] = useState(false);
+
+    const containerStyle = useMemo(() => {
+        const backgroundColor =
+            bg && Colors[scheme]?.[bg as keyof typeof Colors.light]
+                ? Colors[scheme][bg as keyof typeof Colors.light]
+                : bg;
+
+        return [
+            styles.container,
+            sizeStyles[size],
+            {
+                backgroundColor,
+                borderColor: Colors[scheme].background,
+            },
+            style,
+        ];
+    }, [scheme, size, bg, style]);
+
+    const handleImageError = () => {
+        setImageError(true);
+    };
 
     return (
-        <View
-            style={[
-                styles.container,
-                size === 'md' ? styles.mdSizeContainer : styles.smSizeContainer,
-                style,
-                {
-                    backgroundColor: backgroundColor
-                        ? Object.keys(Colors[scheme!]).some(
-                              k => k === backgroundColor,
-                          )
-                            ? Colors[scheme!][
-                                  backgroundColor as keyof typeof Colors.dark &
-                                      keyof typeof Colors.light
-                              ]
-                            : backgroundColor
-                        : backgroundColor,
-                },
-            ]}
-            {...props}>
-            {!source && (
-                <Text
-                    textTransform="uppercase"
-                    variant={size === 'md' ? 'h3' : 'body2'}
-                    color={color}>
-                    {title ? title[0] : children}
-                </Text>
-            )}
-            {source && (
-                <Image
-                    source={source}
-                    resizeMode="contain"
-                    style={{width: 20, height: 20}}
-                    tintColor={Colors[scheme!].white}
-                />
+        <View>
+            <View style={containerStyle} {...props}>
+                {source && !imageError ? (
+                    <Image
+                        style={styles.image}
+                        source={source}
+                        onError={handleImageError}
+                        resizeMode="contain"
+                        {...imageProps}
+                    />
+                ) : (
+                    <Text
+                        textTransform="uppercase"
+                        variant={textVariantBySize[size]}
+                        color={color}>
+                        {title ? title[0] : children}
+                    </Text>
+                )}
+            </View>
+            {additional && (
+                <View
+                    style={[
+                        styles.additionalContainer,
+                        {
+                            backgroundColor: Colors[scheme].background,
+                            borderColor: Colors[scheme].border,
+                        },
+                    ]}>
+                    {additional}
+                </View>
             )}
         </View>
     );
 };
 
-export default Avatar;
+export default React.memo(Avatar);

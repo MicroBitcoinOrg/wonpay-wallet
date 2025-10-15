@@ -8,6 +8,7 @@ import {
     useColorScheme,
 } from 'react-native';
 import {Colors, Typography as TypographyTheme} from '../../theme';
+import {TextVariant} from '../../theme/typography';
 
 const styles = StyleSheet.create({
     container: {
@@ -23,16 +24,7 @@ interface Props extends TextProps {
     fontWeight?: TextStyle['fontWeight'];
     textTransform?: TextStyle['textTransform'];
     align?: TextStyle['textAlign'];
-    variant?:
-        | 'h1'
-        | 'h2'
-        | 'h3'
-        | 'body1'
-        | 'body2'
-        | 'body3'
-        | 'sub1'
-        | 'number1'
-        | 'number2';
+    variant?: TextVariant;
 }
 
 const Text: React.FC<Props> = ({
@@ -53,7 +45,7 @@ const Text: React.FC<Props> = ({
         <NativeText
             style={[
                 styles.container,
-                variant && TypographyTheme[variant],
+                !!variant && TypographyTheme[variant],
                 {
                     color: color && Colors[scheme!][color],
                     opacity: opacity && opacity,
@@ -69,7 +61,7 @@ const Text: React.FC<Props> = ({
         <Animated.Text
             style={[
                 styles.container,
-                variant && TypographyTheme[variant],
+                !!variant && TypographyTheme[variant],
                 {
                     color: color && Colors[scheme!][color],
                     opacity: opacity && opacity,

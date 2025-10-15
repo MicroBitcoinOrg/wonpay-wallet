@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Dimensions, Image, Platform, StyleSheet, View} from 'react-native';
+import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {useTranslation} from 'react-i18next';
 import {OnboardingContext} from '../../providers';
 import {
     Container,
     FocusAwareStatusBar,
+    Image,
     Text,
     VStack,
 } from '../../components/common';

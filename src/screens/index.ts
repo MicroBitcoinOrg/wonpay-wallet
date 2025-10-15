@@ -70,3 +70,5 @@ export {
     DeleteWallet,
     ChooseList,
 };
+
+export {default as TokenSettings} from './wallet/token/Settings';

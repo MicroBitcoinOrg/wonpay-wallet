@@ -10,7 +10,8 @@
                 "qrRequest": "QR Code Request",
                 "swap": "Swap",
                 "swapDetails": "Swap Details",
-                "NFTDetails": "NFT Details"
+                "NFTDetails": "NFT Details",
+                "tokenSettings": "Token Settings"
             },
             "settings": {
                 "globalSettings": "Settings",
@@ -457,6 +458,21 @@
         "edit": "Edit",
         "delete": "Delete",
         "noAddresses": "There is no addresses in adreess book yet."
+    },
+    "tokenSettings": {
+        "changeIcon": {
+            "title": "Change icon",
+            "imageSize": "Image size",
+            "imageSizeDescription": "For optimal display, please use an image that is 512x512 pixels.",
+            "imageFormat": "Image format",
+            "imageFormatDescription": "We recommend using the PNG format for your token icon.",
+            "successMessage": "Your new icon has been submitted successfully.",
+            "description": "To make better user experience, we recommend to follow these recommendations.",
+            "filesButton": "Files",
+            "photoLibraryButton": "Photo Library",
+            "userCancelled": "User cancelled image picker",
+            "imagePickerError": "ImagePicker Error: "
+        }
     },
     "manageAddressBookItem": {
         "editAddress": "Edit Address",

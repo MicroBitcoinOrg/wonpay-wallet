@@ -25,6 +25,8 @@ export namespace Wallet {
         ticker: string;
         units: number;
         contract?: string;
+        iconLink?: string;
+        type?: string;
     };
 
     export type Transaction = {

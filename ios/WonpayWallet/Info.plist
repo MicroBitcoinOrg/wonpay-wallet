@@ -26,21 +26,25 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>Enable AppleMusic usage</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library to upload token icons.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Enabling Camera allows you to read QR codes, which will provide an easier way to receive and share wallet addresses</string>
+	<string>This app requires access to the camera to scan QR codes.</string>
+  <key>NSAppleMusicUsageDescription</key>
+  <string>This app does require access to your music library.</string>
 	<key>NSFaceIDUsageDescription</key>
 	<string>Enabling Face ID allows you quick and secure access to your wallet</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>The application wants to get access to your photo library</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>

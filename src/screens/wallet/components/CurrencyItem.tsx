@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {
     StyleSheet,
     TouchableHighlightProps,
@@ -10,6 +10,10 @@ import {TouchableHighlight} from 'react-native-gesture-handler';
 import {Colors} from '../../../theme';
 import NumberFormat from 'react-number-format';
 import {Wallet} from '../../../types/Wallet';
+import {MICROBITCOIN} from '../../../utils/constants';
+import useBalanceUtils from '../../../services/hooks/useBalanceUtils';
+import {WalletContext} from '../../../providers';
+import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 
 const styles = StyleSheet.create({
     container: {
@@ -19,13 +23,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     contentContainer: {
-        marginLeft: 10,
-    },
-    topContentContainer: {
-        // marginBottom: 5,
-    },
-    favoriteContainer: {
-        marginLeft: 10,
+        marginLeft: 15,
     },
 });
 
@@ -35,6 +33,8 @@ interface CurrencyItemProps extends TouchableHighlightProps {
 
 const CurrencyItem = ({style, balance, ...props}: CurrencyItemProps) => {
     const scheme = useColorScheme();
+    const {walletChain} = useContext(WalletContext);
+    const {getCurrencyIcon} = useBalanceUtils({chain: walletChain!.key});
 
     return (
         // @ts-ignore
@@ -49,14 +49,24 @@ const CurrencyItem = ({style, balance, ...props}: CurrencyItemProps) => {
                     style,
                 ]}>
                 <Avatar
+                    source={{
+                        uri: getCurrencyIcon({currency: balance?.currency!}),
+                    }}
                     title={balance?.currency.ticker}
                     backgroundColor="card"
                     color="textSecondary"
+                    additional={
+                        balance?.currency.ticker.includes('!') && (
+                            <IoniconsIcon
+                                size={15}
+                                name="settings-outline"
+                                color={Colors[scheme!].textSecondary}
+                            />
+                        )
+                    }
                 />
                 <View style={styles.contentContainer}>
-                    <HStack
-                        justifyContent="flex-start"
-                        style={styles.topContentContainer}>
+                    <HStack justifyContent="flex-start">
                         <Text variant="body1">{balance?.currency.ticker}</Text>
                     </HStack>
                     {balance !== undefined && (

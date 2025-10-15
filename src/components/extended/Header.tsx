@@ -13,10 +13,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexWrap: 'nowrap',
     },
-    rightButton: {},
-    leftButton: {
-        marginRight: 10,
-    },
 });
 
 interface HeaderProps {
@@ -27,14 +23,6 @@ interface HeaderProps {
     options?: any;
     back?: any;
 }
-
-/*<TouchableOpacity onPress={navigation.goBack} style={styles.leftButton}>
-    <EntypoIcon
-        name="chevron-thin-left"
-        size={28}
-        color={transparent ? Colors[scheme!].white : Colors[scheme!].textPrimary}
-    />
-</TouchableOpacity>*/
 
 const Header: React.FC<HeaderProps> = ({
     navigation,

@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    Image,
     Pressable,
     StyleSheet,
     TouchableOpacityProps,
@@ -8,7 +7,7 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
-import {HStack, Text, VStack} from '../../../../components/common';
+import {HStack, Image, Text, VStack} from '../../../../components/common';
 import {Colors} from '../../../../theme';
 
 const styles = StyleSheet.create({
@@ -47,11 +46,9 @@ const AddWalletItem: React.FC<AddWalletItemProps> = ({
             {...props}>
             <HStack justifyContent="flex-start" style={styles.contentContainer}>
                 <Image
+                    tintColor={Colors[scheme!].textPrimary}
                     source={require('../../../../assets/logo.png')}
-                    style={[
-                        styles.logo,
-                        {tintColor: Colors[scheme!].textPrimary},
-                    ]}
+                    style={[styles.logo]}
                 />
             </HStack>
             <VStack flex={1} style={styles.contentContainer}>

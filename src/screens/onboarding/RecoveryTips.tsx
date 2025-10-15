@@ -1,7 +1,12 @@
 import React from 'react';
-import {Image, ScrollView, StyleSheet, View} from 'react-native';
+import {ScrollView, StyleSheet, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {Container, FocusAwareStatusBar, Text} from '../../components/common';
+import {
+    Container,
+    FocusAwareStatusBar,
+    Image,
+    Text,
+} from '../../components/common';
 import {Button} from '../../components/extended';
 
 const styles = StyleSheet.create({

@@ -33,6 +33,8 @@ interface TypographyProps {
     sizes: SizesProps;
 }
 
+export type TextVariant = keyof Omit<TypographyProps, 'sizes' | 'fonts'>;
+
 const Typography: TypographyProps = {
     h1: {
         fontSize: sizes.xxxl,

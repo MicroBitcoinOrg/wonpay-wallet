@@ -10,7 +10,8 @@
                 "qrRequest": "二维码请求",
                 "swap": "Swap",
                 "swapDetails": "交换详情",
-                "NFTDetails": "NFT Details"
+                "NFTDetails": "NFT Details",
+                "tokenSettings": "令牌设置"
             },
             "settings": {
                 "globalSettings": "设定值",
@@ -455,6 +456,21 @@
         "edit": "编辑",
         "delete": "删除",
         "noAddresses": "地址簿中还没有地址。"
+    },
+    "tokenSettings": {
+        "changeIcon": {
+            "title": "更改图标",
+            "imageSize": "图片大小",
+            "imageSizeDescription": "为获得最佳显示效果，请使用 512x512 像素的图像。",
+            "imageFormat": "图片格式",
+            "imageFormatDescription": "我们建议为您的代币图标使用 PNG 格式。",
+            "successMessage": "您的新图标已成功提交。",
+            "description": "为了提供更好的用户体验，我们建议您遵循这些建议。",
+            "filesButton": "文件",
+            "photoLibraryButton": "照片库",
+            "userCancelled": "用户取消了图像选择器",
+            "imagePickerError": "ImagePicker 错误: "
+        }
     },
     "manageAddressBookItem": {
         "editAddress": "编辑地址",

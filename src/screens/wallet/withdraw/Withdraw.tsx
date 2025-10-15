@@ -10,7 +10,7 @@ import {
     VStack,
 } from '../../../components/common';
 import {Button} from '../../../components/extended';
-import {isMatch} from '../../../utils/address';
+import {isMatchAddress} from '../../../utils/address';
 import {Amount, Currency, Fee, Total, WithdrawAddress} from './layout';
 import {Colors} from '../../../theme';
 import useAppStore from '../../../store/appStore';
@@ -155,7 +155,11 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
             <Container>
                 <KeyboardAvoidingView style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
-                        <Currency balance={balance!} setBalance={setBalance} />
+                        <Currency
+                            currencies={wallet!.balances}
+                            balance={balance!}
+                            setBalance={setBalance}
+                        />
                         <VStack
                             justifyContent="flex-start"
                             alignItems="flex-start"
@@ -187,7 +191,10 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                         <Button
                             title={t('confirmButton')}
                             disabled={
-                                !isMatch(address, walletChain!.regex.address) ||
+                                !isMatchAddress(
+                                    address,
+                                    walletChain!.regex.address,
+                                ) ||
                                 !amount ||
                                 amount === '' ||
                                 Number(amount) >

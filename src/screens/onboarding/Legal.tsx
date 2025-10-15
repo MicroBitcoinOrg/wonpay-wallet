@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     agreementText: {
         flexShrink: 1,
-        marginLeft: 16,
+        marginLeft: 15,
     },
 });
 
