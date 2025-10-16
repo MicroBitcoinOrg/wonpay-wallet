@@ -75,7 +75,15 @@ const ChangeIcon: React.FC<ChangeIconProps> = ({balance}: ChangeIconProps) => {
                 backgroundColor: Colors[scheme!].primary,
             });
 
-            navigation.navigateDeprecated('Wallet');
+            navigation.navigate('RootStack', {
+                screen: 'MainTabs',
+                params: {
+                    screen: 'WalletStack',
+                    params: {
+                        screen: 'Wallet',
+                    },
+                },
+            });
         },
         onError: error => {
             showMessage({

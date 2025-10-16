@@ -7,11 +7,13 @@ import Config from 'react-native-config';
 import { Platform } from 'react-native';
 import { Navigation } from '../../types/Navigation';
 import { defaultOptions } from '../config';
+import { useNavigation } from '@react-navigation/native';
 
 const Stack = createStackNavigator<Navigation.AddressBookParamList>();
 
 const AddressBookStack: React.FC = () => {
     const { t } = useTranslation();
+    const parentNavigation = useNavigation<Navigation.AppNavigationProp>();
 
     return (
         <Stack.Navigator
@@ -26,12 +28,12 @@ const AddressBookStack: React.FC = () => {
         >
             <Stack.Screen
                 name="AddressBook"
-                options={({ navigation }) => ({
+                options={() => ({
                     title: t('screenTitles.addressBook.addressBook'),
                     headerRight: () => (
                         <IconButton
                             onPress={() =>
-                                navigation.navigate('ManageAddressBookItem', {
+                                parentNavigation.navigate('ManageAddressBookItem', {
                                     address: '',
                                     title: '',
                                     favorite: false,

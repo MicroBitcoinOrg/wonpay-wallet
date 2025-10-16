@@ -39,10 +39,6 @@ const WONPAY_PROTOCOL = 'wonpay://';
 const WONPAY_DEPOSIT_PREFIX = 'wonpay://deposit?';
 
 // Types
-interface NavigationParams {
-    type?: 'address-book' | 'withdraw' | 'home';
-}
-
 interface AddressParams {
     address: string;
     amount?: string;
@@ -66,9 +62,11 @@ interface P2PParams {
 type QRParams = AddressParams | MessageParams | P2PParams;
 
 interface QRCodeScannerProps {
-    navigation: any; // TODO: Replace with proper navigation type
-    route: {
-        params?: NavigationParams;
+    navigation?: any;
+    route?: {
+        params?: {
+            type?: 'address-book' | 'withdraw' | 'home';
+        };
     };
 }
 
@@ -105,7 +103,7 @@ const styles = StyleSheet.create({
 });
 
 const QRCodeScanner: React.FC<QRCodeScannerProps> = ({navigation, route}) => {
-    const {type} = route.params ?? {};
+    const {type} = route?.params ?? {};
     const store = useAppStore();
     const {walletChain} = useContext(WalletContext);
     const [isCameraPermissionGranted, setIsCameraPermissionGranted] =
