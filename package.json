@@ -12,6 +12,7 @@
     },
     "dependencies": {
         "@bitcoinerlab/secp256k1": "^1.1.1",
+        "@bottom-tabs/react-navigation": "^1.0.0",
         "@gorhom/bottom-sheet": "^5",
         "@react-native-async-storage/async-storage": "^2.2.0",
         "@react-native-clipboard/clipboard": "^1.16.3",
@@ -54,6 +55,7 @@
         "react-native-actions-sheet": "0.9.3",
         "react-native-animated-loader": "1.0.0",
         "react-native-animated-pagination-dot": "0.4.0",
+        "react-native-bottom-tabs": "^1.0.0",
         "react-native-camera-kit": "15.1.0",
         "react-native-config": "1.5.2",
         "react-native-context-menu-view": "1.16.0",
@@ -92,6 +94,7 @@
     },
     "devDependencies": {
         "@babel/core": "^7.25.2",
+        "@babel/plugin-transform-export-namespace-from": "^7.27.1",
         "@babel/preset-env": "^7.25.3",
         "@babel/runtime": "^7.25.0",
         "@react-native-community/cli": "^18.0.0",

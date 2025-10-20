@@ -75,7 +75,7 @@ const Wallet = ({navigation}: WalletProps) => {
             <FocusAwareStatusBar barStyle="light-content" />
             <WalletCard />
             <HStack style={styles.buttonsContainer}>
-                <VStack>
+                <VStack alignItems="center" justifyContent="center">
                     <IconButton
                         iconColor="textPrimary"
                         name="chevron-down"
@@ -90,7 +90,7 @@ const Wallet = ({navigation}: WalletProps) => {
                     </Text>
                 </VStack>
 
-                <VStack>
+                <VStack alignItems="center" justifyContent="center">
                     <IconButton
                         iconColor="textPrimary"
                         name="chevron-up"
@@ -105,7 +105,7 @@ const Wallet = ({navigation}: WalletProps) => {
                     </Text>
                 </VStack>
 
-                <VStack>
+                <VStack alignItems="center" justifyContent="center">
                     <IconButton
                         iconSet="ionicons"
                         name="options-outline"
@@ -129,6 +129,13 @@ const Wallet = ({navigation}: WalletProps) => {
                     },
                     tabBarStyle: {
                         backgroundColor: Colors[scheme!].background,
+                        borderBottomColor: Colors[scheme!].border,
+                        shadowOpacity: 0,
+                        elevation: 0,
+                        borderBottomWidth: 1,
+                    },
+                    tabBarIndicatorStyle: {
+                        backgroundColor: Colors[scheme!].primaryLight,
                     },
                 }}>
                 <Tab.Screen

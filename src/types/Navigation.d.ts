@@ -1,5 +1,7 @@
 import {StackNavigationProp} from '@react-navigation/stack';
 import {NavigatorScreenParams, RouteProp} from '@react-navigation/native';
+import {CryptoOfferResponse} from '../services/mex/api/types';
+import {Offer} from '../services/mex/hooks';
 
 declare namespace Navigation {
     type ModalParamList = {
@@ -34,11 +36,19 @@ declare namespace Navigation {
     type MainTabsParamList = {
         WalletStack: NavigatorScreenParams<WalletParamList>;
         AddressBookStack: NavigatorScreenParams<AddressBookParamList>;
+        P2PStack: NavigatorScreenParams<P2PParamList>;
         SettingsStack: NavigatorScreenParams<SettingsParamList>;
     };
 
     type AddressBookParamList = {
         AddressBook: undefined;
+    };
+
+    type P2PParamList = {
+        P2P: undefined; // Main P2P screen with tabs (P2PList, TradeList, MyOfferList)
+        NewTrade: Offer; // Create trade from offer
+        NewOffer: undefined; // Create new offer
+        TradeDetails: {trade_reference: string}; // Trade details
     };
 
     type OnboardingParamList = {
@@ -97,15 +107,41 @@ declare namespace Navigation {
     type OnboardingNavigationProp = StackNavigationProp<OnboardingParamList>;
     type PasswordNavigationProp = StackNavigationProp<PasswordParamList>;
     type AddressBookNavigationProp = StackNavigationProp<AddressBookParamList>;
+    type P2PNavigationProp = StackNavigationProp<P2PParamList>;
 
     // Route Props
-    type AppRouteProp<T extends keyof ModalParamList> = RouteProp<ModalParamList, T>;
-    type RootRouteProp<T extends keyof RootParamList> = RouteProp<RootParamList, T>;
-    type WalletRouteProp<T extends keyof WalletParamList> = RouteProp<WalletParamList, T>;
-    type SettingsRouteProp<T extends keyof SettingsParamList> = RouteProp<SettingsParamList, T>;
-    type OnboardingRouteProp<T extends keyof OnboardingParamList> = RouteProp<OnboardingParamList, T>;
-    type PasswordRouteProp<T extends keyof PasswordParamList> = RouteProp<PasswordParamList, T>;
-    type AddressBookRouteProp<T extends keyof AddressBookParamList> = RouteProp<AddressBookParamList, T>;
+    type AppRouteProp<T extends keyof ModalParamList> = RouteProp<
+        ModalParamList,
+        T
+    >;
+    type RootRouteProp<T extends keyof RootParamList> = RouteProp<
+        RootParamList,
+        T
+    >;
+    type WalletRouteProp<T extends keyof WalletParamList> = RouteProp<
+        WalletParamList,
+        T
+    >;
+    type SettingsRouteProp<T extends keyof SettingsParamList> = RouteProp<
+        SettingsParamList,
+        T
+    >;
+    type OnboardingRouteProp<T extends keyof OnboardingParamList> = RouteProp<
+        OnboardingParamList,
+        T
+    >;
+    type PasswordRouteProp<T extends keyof PasswordParamList> = RouteProp<
+        PasswordParamList,
+        T
+    >;
+    type AddressBookRouteProp<T extends keyof AddressBookParamList> = RouteProp<
+        AddressBookParamList,
+        T
+    >;
+    type P2PRouteProp<T extends keyof P2PParamList> = RouteProp<
+        P2PParamList,
+        T
+    >;
 
     /** Stand alone navigate function typings e.g. when provided as params */
     type Navigate = AppNavigationProp['navigate'];

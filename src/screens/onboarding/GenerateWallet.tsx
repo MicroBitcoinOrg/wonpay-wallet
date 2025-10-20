@@ -101,7 +101,7 @@ const GenerateWallet: React.FC<GenerateWalletProps> = ({
         <Container gradient header={false}>
             <FocusAwareStatusBar barStyle="light-content" />
             <KeepAwake />
-            <VStack flex={1}>
+            <VStack flex={1} alignItems="center" justifyContent="center">
                 <LottieView
                     speed={1}
                     style={{height: 100, width: 100}}

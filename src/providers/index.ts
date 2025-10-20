@@ -2,6 +2,7 @@ import {NetworkContext, NetworkProvider} from './NetworkProvider';
 import {OnboardingContext, OnboardingProvider} from './OnboardingProvider';
 import {PasswordContext, PasswordProvider} from './PasswordProvider';
 import {WalletContext, WalletProvider} from './WalletProvider';
+import {P2PContext, P2PProvider} from './P2PProvider';
 
 export {
     NetworkContext,
@@ -12,4 +13,6 @@ export {
     PasswordProvider,
     WalletContext,
     WalletProvider,
+    P2PContext,
+    P2PProvider,
 };

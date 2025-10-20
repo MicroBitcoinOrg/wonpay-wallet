@@ -30,6 +30,11 @@
             },
             "password": {
                 "changePasswordMethod": "认证变更"
+            },
+            "p2p": {
+                "newOffer": "新报价",
+                "newTrade": "新交易",
+                "tradeDetails": "交易详情"
             }
         },
         "migration": {
@@ -179,7 +184,120 @@
         "noTokens": "还没有代币。"
     },
     "p2p": {
-        "p2pCommingSoon": "P2P 功能即将推出."
+        "p2pCommingSoon": "P2P 功能即将推出.",
+        "marketplace": {
+            "buy": "购买",
+            "sell": "出售",
+            "noOffers": "没有可用的报价",
+            "limit": "限额",
+            "available": "可用",
+            "trade": "交易",
+            "remove": "删除",
+            "offerDeleted": "报价删除成功",
+            "deleteOfferFailed": "删除报价失败"
+        },
+        "trades": {
+            "incoming": "收到",
+            "outgoing": "发出",
+            "noTrades": "暂无交易",
+            "buying": "购买中",
+            "selling": "出售中",
+            "status": {
+                "completed": "已完成",
+                "pending": "待处理",
+                "cancelled": "已取消"
+            }
+        },
+        "myOffers": {
+            "noOffers": "您还没有创建任何报价",
+            "limit": "限额",
+            "quantity": "数量",
+            "remove": "删除",
+            "offerDeleted": "报价删除成功",
+            "deleteOfferFailed": "删除报价失败"
+        },
+        "newOffer": {
+            "form": {
+                "side": {
+                    "title": "报价类型",
+                    "description": "选择您要购买还是出售加密货币",
+                    "buy": "购买",
+                    "sell": "出售"
+                },
+                "currency": {
+                    "title": "交易资产",
+                    "description": "选择您要交易的加密货币"
+                },
+                "side_currency": {
+                    "title": "支付货币",
+                    "description": "选择用于支付的加密货币"
+                },
+                "quantity": {
+                    "title": "数量",
+                    "description": "您要交易的加密货币总量",
+                    "placeholder": "0.00"
+                },
+                "price": {
+                    "title": "单价",
+                    "description": "每单位加密货币的价格（{{sideCurrency}}）",
+                    "placeholder": "0.00"
+                },
+                "limit_min": {
+                    "title": "最低交易限额",
+                    "description": "最低交易金额（{{sideCurrency}}）",
+                    "placeholder": "0.00"
+                },
+                "limit_max": {
+                    "title": "最高交易限额",
+                    "description": "最高交易金额（{{sideCurrency}}）",
+                    "placeholder": "0.00"
+                },
+                "sns_name": {
+                    "title": "联系方式",
+                    "description": "选择您首选的通讯平台"
+                },
+                "sns_id": {
+                    "title": "联系人ID",
+                    "description": "您在所选平台上的用户名/ID",
+                    "placeholder": "@用户名"
+                },
+                "memo": {
+                    "title": "附加说明",
+                    "description": "为交易者提供的任何附加信息或要求",
+                    "placeholder": "例如：接受的付款方式、交易时间等"
+                }
+            },
+            "createButton": "创建报价",
+            "errors": {
+                "invalidQuantity": "请输入有效的数量",
+                "invalidPrice": "请输入有效的价格",
+                "invalidLimitMin": "请输入有效的最低限额",
+                "invalidLimitMax": "请输入有效的最高限额",
+                "limitMaxLessThanMin": "最高限额必须大于最低限额",
+                "limitMaxExceedsTotal": "最高限额不能超过总报价价值",
+                "invalidSnsName": "请选择联系方式",
+                "invalidSnsId": "请输入您的联系人ID"
+            },
+            "alerts": {
+                "validationError": {
+                    "message": "表单无效",
+                    "description": "请在提交前修正表单中的错误"
+                },
+                "confirmation": {
+                    "message": "创建报价",
+                    "description": "您即将以每单位 {{price}} {{sideCurrency}} 的价格创建 {{quantity}} {{currency}} 的 {{side}} 报价。确认吗？",
+                    "cancel": "取消",
+                    "confirm": "确认"
+                },
+                "offerCreated": {
+                    "message": "报价已创建",
+                    "description": "您的报价已成功创建，现在已在市场上发布"
+                },
+                "error": {
+                    "message": "创建报价失败"
+                }
+            }
+        }
     },
     "transactions": {
         "noHistory": "没有存款或提款历史。",

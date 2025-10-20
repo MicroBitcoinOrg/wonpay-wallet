@@ -25,12 +25,16 @@ const styles = StyleSheet.create({
 
 const NotFound = ({
     style,
-    size = 'md',
+    size = 'sm',
     description,
     ...props
 }: ContainerProps) => {
     return (
-        <VStack style={[styles.container, style]} {...props}>
+        <VStack
+            style={[styles.container, style]}
+            alignItems="center"
+            justifyContent="center"
+            {...props}>
             <Image
                 resizeMode="contain"
                 style={

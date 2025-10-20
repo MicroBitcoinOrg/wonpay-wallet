@@ -31,6 +31,11 @@
             },
             "password": {
                 "changePasswordMethod": "Change of authentication"
+            },
+            "p2p": {
+                "newOffer": "New Offer",
+                "newTrade": "New Trade",
+                "tradeDetails": "Trade Details"
             }
         },
         "migration": {
@@ -181,7 +186,159 @@
         "noTokens": "There is no tokens yet."
     },
     "p2p": {
-        "p2pCommingSoon": "P2P feature is comming soon."
+        "p2pCommingSoon": "P2P feature is comming soon.",
+        "marketplace": {
+            "buy": "Buy",
+            "sell": "Sell",
+            "noOffers": "No offers available",
+            "limit": "Limit",
+            "available": "Available",
+            "trade": "Trade",
+            "remove": "Remove",
+            "offerDeleted": "Offer deleted successfully",
+            "deleteOfferFailed": "Failed to delete offer"
+        },
+        "trades": {
+            "incoming": "Incoming",
+            "outgoing": "Outgoing",
+            "noTrades": "No trades yet",
+            "buying": "Buying",
+            "selling": "Selling",
+            "status": {
+                "completed": "Completed",
+                "pending": "Pending",
+                "cancelled": "Cancelled"
+            }
+        },
+        "myOffers": {
+            "noOffers": "You haven't created any offers yet",
+            "limit": "Limit",
+            "quantity": "Quantity",
+            "remove": "Remove",
+            "offerDeleted": "Offer deleted successfully",
+            "deleteOfferFailed": "Failed to delete offer"
+        },
+        "newTrade": {
+            "offerDetails": {
+                "title": "Offer Details",
+                "price": "Price",
+                "available": "Available",
+                "limitMin": "Min Limit",
+                "limitMax": "Max Limit",
+                "memo": "Memo",
+                "seller": "Seller"
+            },
+            "amount": {
+                "title": "Amount",
+                "placeholder": "0.00000000",
+                "errors": {
+                    "exceedsAvailable": "Amount exceeds available",
+                    "belowMinLimit": "Trade value must be at least {{min}} {{currency}}",
+                    "aboveMaxLimit": "Trade value cannot exceed {{max}} {{currency}}"
+                }
+            },
+            "total": {
+                "title": "Total"
+            },
+            "confirmButton": "Create Trade",
+            "alerts": {
+                "tradeConfirmation": {
+                    "message": "Create Trade",
+                    "description": "You are about to buy {{amount}} {{currency}} for {{total}} {{sideCurrency}}. Confirm?",
+                    "cancel": "Cancel",
+                    "confirm": "Confirm"
+                },
+                "tradeCreated": {
+                    "message": "Trade Created",
+                    "description": "Your trade has been created successfully. Please complete the payment."
+                },
+                "error": {
+                    "message": "Trade Creation Failed"
+                }
+            }
+        },
+        "newOffer": {
+            "form": {
+                "side": {
+                    "title": "Offer type",
+                    "description": "Choose whether you want to buy or sell cryptocurrency",
+                    "buy": "Buy",
+                    "sell": "Sell"
+                },
+                "currency": {
+                    "title": "Currency to trade",
+                    "description": "Select the cryptocurrency you want to trade"
+                },
+                "side_currency": {
+                    "title": "Payment currency",
+                    "description": "Select the cryptocurrency users will pay"
+                },
+                "quantity": {
+                    "title": "Quantity",
+                    "description": "Total amount of cryptocurrency you want to trade",
+                    "placeholder": "0.00"
+                },
+                "price": {
+                    "title": "Price per Unit",
+                    "description": "Price per 1 unit of cryptocurrency in {{sideCurrency}}",
+                    "placeholder": "0.00"
+                },
+                "limit_min": {
+                    "title": "Minimum trade limit",
+                    "description": "Minimum trade amount in {{sideCurrency}}",
+                    "placeholder": "0.00"
+                },
+                "limit_max": {
+                    "title": "Maximum trade limit",
+                    "description": "Maximum trade amount in {{sideCurrency}}",
+                    "placeholder": "0.00"
+                },
+                "sns_name": {
+                    "title": "Contact method",
+                    "description": "Choose your preferred communication platform"
+                },
+                "sns_id": {
+                    "title": "Contact ID",
+                    "description": "Your username/ID on the selected platform",
+                    "placeholder": "@username"
+                },
+                "memo": {
+                    "title": "Additional notes",
+                    "description": "Any additional information or requirements for traders",
+                    "placeholder": "e.g., Payment methods accepted, trading hours, etc."
+                }
+            },
+            "createButton": "Create offer",
+            "errors": {
+                "invalidQuantity": "Please enter a valid quantity",
+                "invalidPrice": "Please enter a valid price",
+                "invalidLimitMin": "Please enter a valid minimum limit",
+                "invalidLimitMax": "Please enter a valid maximum limit",
+                "limitMaxLessThanMin": "Maximum limit must be greater than minimum limit",
+                "limitMaxExceedsTotal": "Maximum limit cannot exceed total offer value",
+                "invalidSnsName": "Please select a contact method",
+                "invalidSnsId": "Please enter your contact ID"
+            },
+            "alerts": {
+                "validationError": {
+                    "message": "Invalid Form",
+                    "description": "Please fix the errors in the form before submitting"
+                },
+                "confirmation": {
+                    "message": "Create Offer",
+                    "description": "You are about to create a {{side}} offer for {{quantity}} {{currency}} at {{price}} {{sideCurrency}} per unit. Confirm?",
+                    "cancel": "Cancel",
+                    "confirm": "Confirm"
+                },
+                "offerCreated": {
+                    "message": "Offer Created",
+                    "description": "Your offer has been created successfully and is now live on the marketplace"
+                },
+                "error": {
+                    "message": "Offer Creation Failed"
+                }
+            }
+        }
     },
     "transactions": {
         "noHistory": "There is no deposit or withdrawal history.",

@@ -144,7 +144,7 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
                     {wallet!.depositAddress}
                 </Text>
                 <HStack style={styles.buttonsContainer}>
-                    <VStack>
+                    <VStack alignItems="center" justifyContent="center">
                         <IconButton
                             iconColor="textPrimary"
                             name="copy-outline"
@@ -155,7 +155,7 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
                             {t('copy')}
                         </Text>
                     </VStack>
-                    <VStack>
+                    <VStack alignItems="center" justifyContent="center">
                         <IconButton
                             iconColor="textPrimary"
                             name="share-outline"

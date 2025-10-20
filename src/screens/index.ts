@@ -63,6 +63,7 @@ export {
     GlobalSettings,
     // Home,
     Language,
+    // p2p
     // common
     QRCodeScanner,
     Splash,

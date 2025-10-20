@@ -371,7 +371,10 @@ const Password: React.FC<PasswordProps> = ({
                 safeArea
                 header={false}>
                 <FocusAwareStatusBar barStyle="light-content" />
-                <VStack style={styles.headerContainer}>
+                <VStack
+                    style={styles.headerContainer}
+                    alignItems="center"
+                    justifyContent="center">
                     <View style={styles.titleContainer}>
                         <Text variant="h3" color="white">
                             {type === 'new-password' &&
@@ -398,7 +401,7 @@ const Password: React.FC<PasswordProps> = ({
                                 : t('description.unlock.password'))}
                     </Text>
                 </VStack>
-                <VStack flex={1}>
+                <VStack flex={1} alignItems="center" justifyContent="center">
                     {store.password.type === 'pin' && (
                         <HStack>
                             <Dot
@@ -448,13 +451,6 @@ const Password: React.FC<PasswordProps> = ({
                             }
                         />
                     )}
-                    <Button
-                        title={t('changeAuthMethod')}
-                        type="text"
-                        color="white"
-                        style={{marginTop: 30}}
-                        onPress={handleChangeAuthMethod}
-                    />
                 </VStack>
 
                 {store.password.type === 'pin' ? (

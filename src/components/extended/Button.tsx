@@ -2,13 +2,16 @@ import React from 'react';
 import {
     Pressable,
     PressableProps,
+    StyleProp,
     StyleSheet,
     useColorScheme,
     View,
+    ViewStyle,
 } from 'react-native';
 import {Text} from '../common';
 import {Colors} from '../../theme';
 import Animated, {
+    AnimatedStyle,
     interpolate,
     useAnimatedStyle,
     useSharedValue,
@@ -57,7 +60,7 @@ type ButtonPosition = 'left' | 'right';
 type ColorKey = keyof typeof Colors.dark & keyof typeof Colors.light;
 
 interface ButtonProps extends PressableProps {
-    style?: Record<string, any>;
+    style?: StyleProp<ViewStyle>;
     textStyle?: Record<string, any>;
     title: string;
     border?: boolean;

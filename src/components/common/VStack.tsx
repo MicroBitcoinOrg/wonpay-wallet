@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
+        alignItems: 'flex-start',
+        justifyContent: 'flex-start',
     },
 });
 
@@ -20,9 +20,13 @@ interface VStackProps {
 const VStack: React.FC<VStackProps> = ({
     children,
     style,
-    alignItems = 'center',
-    justifyContent = 'center',
+    alignItems = 'flex-start',
+    justifyContent = 'flex-start',
     flex,
-}: VStackProps) => <View style={[styles.container, { alignItems, justifyContent, flex }, style]}>{children}</View>;
+}: VStackProps) => (
+    <View style={[styles.container, {alignItems, justifyContent, flex}, style]}>
+        {children}
+    </View>
+);
 
 export default VStack;

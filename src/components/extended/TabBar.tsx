@@ -12,6 +12,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import {PanGestureHandler} from 'react-native-gesture-handler';
 import {IconButton} from './index';
+import {Text} from '../common';
 
 const styles = StyleSheet.create({
     container: {
@@ -19,7 +20,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: 'center',
         justifyContent: 'space-around',
-        width: 270,
         shadowColor: '#171717',
         shadowOffset: {width: 0, height: 2},
         shadowOpacity: 0.2,
@@ -27,16 +27,14 @@ const styles = StyleSheet.create({
         elevation: 20,
         position: 'absolute',
         bottom: 30,
-        height: 60,
         backgroundColor: 'black',
         borderRadius: 15,
-        paddingHorizontal: 15,
     },
     slidingTabContainer: {
-        width: 40,
-        height: 40,
+        width: 45,
+        height: 45,
         ...StyleSheet.absoluteFillObject,
-        top: 10,
+        top: 7,
         borderRadius: 10,
         opacity: 1,
         backgroundColor: 'gray',
@@ -79,8 +77,8 @@ const TabBar: React.FC<Props> = ({state, descriptors, navigation}) => {
     const animatedSlidingStyles = useAnimatedStyle(() => {
         const translateX = interpolate(
             currentSlide.value,
-            [0, 1, 2],
-            [35, 115, 195],
+            [0, 1, 2, 4],
+            [8, 68, 128, 248],
         );
 
         return {
@@ -176,7 +174,7 @@ const TabBar: React.FC<Props> = ({state, descriptors, navigation}) => {
                 <Animated.View
                     style={[
                         styles.slidingTabContainer,
-                        {backgroundColor: Colors[scheme!].primaryLight},
+                        {backgroundColor: Colors[scheme!].primary},
                         animatedSlidingStyles,
                     ]}
                 />
@@ -246,20 +244,27 @@ const TabBar: React.FC<Props> = ({state, descriptors, navigation}) => {
                             }
                             onPress={onPress}
                             style={{
-                                height: '100%',
-                                flex: 1,
+                                height: 65,
+                                width: 80,
                                 justifyContent: 'center',
                                 alignItems: 'center',
+                                gap: 4,
                             }}
                             onLongPress={onLongPress}>
                             {options.tabBarIcon &&
                                 options.tabBarIcon({
                                     focused: isFocused,
                                     color: isFocused
-                                        ? Colors[scheme!].primary
+                                        ? Colors[scheme!].white
                                         : Colors[scheme!].textSecondary,
                                     size: 24,
                                 })}
+                            <Text
+                                variant="sub1"
+                                fontSize={10}
+                                color={isFocused ? 'white' : 'textSecondary'}>
+                                {options.title}
+                            </Text>
                         </Pressable>
                     );
                 })}

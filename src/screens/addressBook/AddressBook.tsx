@@ -138,7 +138,7 @@ const AddressBook = ({navigation, route}: AddressBookProps) => {
     return (
         <Container>
             {store.addressBook.length === 0 && (
-                <NotFound description={t('noAddresses')} />
+                <NotFound description={t('noAddresses')} size="sm" />
             )}
             {store.addressBook.length > 0 && (
                 <FlatList

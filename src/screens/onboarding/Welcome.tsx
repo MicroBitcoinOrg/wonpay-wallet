@@ -81,8 +81,15 @@ const Welcome: React.FC<WelcomeProps> = ({navigation}: WelcomeProps) => {
 
     const renderItem = ({item}: any) => {
         return (
-            <VStack style={[styles.carouselItemContainer]} alignItems="center">
-                <VStack flex={1} style={styles.imageContainer}>
+            <VStack
+                style={[styles.carouselItemContainer]}
+                alignItems="center"
+                justifyContent="center">
+                <VStack
+                    flex={1}
+                    style={styles.imageContainer}
+                    alignItems="center"
+                    justifyContent="center">
                     <Image
                         source={item.image}
                         resizeMode="contain"
@@ -179,7 +186,7 @@ const Welcome: React.FC<WelcomeProps> = ({navigation}: WelcomeProps) => {
     return (
         <Container gradient paddingTop animated paddingBottom header={false}>
             <FocusAwareStatusBar barStyle="light-content" />
-            <VStack flex={1}>
+            <VStack flex={1} alignItems="center" justifyContent="center">
                 <Carousel
                     loop
                     autoPlay

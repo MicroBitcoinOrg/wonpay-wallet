@@ -41,6 +41,11 @@ export function useAddressBookNavigation() {
     return useNavigation<Navigation.AddressBookNavigationProp>();
 }
 
+// P2P stack navigation
+export function useP2PNavigation() {
+    return useNavigation<Navigation.P2PNavigationProp>();
+}
+
 // Typed route hooks
 export function useAppRoute<T extends keyof Navigation.ModalParamList>() {
     return useRoute<Navigation.AppRouteProp<T>>();
@@ -54,18 +59,26 @@ export function useWalletRoute<T extends keyof Navigation.WalletParamList>() {
     return useRoute<Navigation.WalletRouteProp<T>>();
 }
 
-export function useSettingsRoute<T extends keyof Navigation.SettingsParamList>() {
+export function useSettingsRoute<
+    T extends keyof Navigation.SettingsParamList,
+>() {
     return useRoute<Navigation.SettingsRouteProp<T>>();
 }
 
-export function useOnboardingRoute<T extends keyof Navigation.OnboardingParamList>() {
+export function useOnboardingRoute<
+    T extends keyof Navigation.OnboardingParamList,
+>() {
     return useRoute<Navigation.OnboardingRouteProp<T>>();
 }
 
-export function usePasswordRoute<T extends keyof Navigation.PasswordParamList>() {
+export function usePasswordRoute<
+    T extends keyof Navigation.PasswordParamList,
+>() {
     return useRoute<Navigation.PasswordRouteProp<T>>();
 }
 
-export function useAddressBookRoute<T extends keyof Navigation.AddressBookParamList>() {
+export function useAddressBookRoute<
+    T extends keyof Navigation.AddressBookParamList,
+>() {
     return useRoute<Navigation.AddressBookRouteProp<T>>();
 }

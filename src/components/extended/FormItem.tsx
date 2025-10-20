@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react';
-import { StyleSheet, View, ViewProps } from 'react-native';
-import { HStack, Text } from '../common';
-import { useTranslation } from 'react-i18next';
+import React, {ReactNode} from 'react';
+import {StyleSheet, View, ViewProps} from 'react-native';
+import {HStack, Text} from '../common';
+import {useTranslation} from 'react-i18next';
 
 const styles = StyleSheet.create({
     container: {
@@ -17,30 +17,40 @@ interface FormItemProps extends ViewProps {
     children: ReactNode;
 }
 
-const FormItem = ({ title, optional, style, children, description, ...props }: FormItemProps) => {
-    const { t } = useTranslation();
+const FormItem = ({
+    title,
+    optional,
+    style,
+    children,
+    description,
+    ...props
+}: FormItemProps) => {
+    const {t} = useTranslation();
 
     return (
         <View style={[styles.container, style]} {...props}>
-            <HStack justifyContent={description ? 'space-between' : 'flex-start'} alignItems="center">
-                <HStack alignItems="center" style={{ gap: 4 }}>
-                    <Text variant="body1">{title}</Text>
-                    {optional && (
-                        <Text variant="body3" opacity={0.5}>
-                            {t('optional')}
-                        </Text>
-                    )}
-                </HStack>
+            <HStack
+                alignItems="center"
+                justifyContent="flex-start"
+                style={{gap: 4}}>
+                <Text variant="body1">{title}</Text>
+                {optional && (
+                    <Text variant="body3" opacity={0.5}>
+                        {t('optional')}
+                    </Text>
+                )}
+            </HStack>
+            {children}
+            <View style={{marginTop: 8}}>
                 {description &&
                     (typeof description === 'string' ? (
-                        <Text variant="body1" color="textSecondary">
+                        <Text variant="body3" color="textSecondary">
                             {description}
                         </Text>
                     ) : (
                         description
                     ))}
-            </HStack>
-            {children}
+            </View>
         </View>
     );
 };

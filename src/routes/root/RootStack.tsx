@@ -8,6 +8,7 @@ import {
     PasswordStack,
     SettingsStack,
     WalletStack,
+    P2PStack,
 } from '../';
 import Config from 'react-native-config';
 import {Platform, useColorScheme} from 'react-native';
@@ -18,9 +19,10 @@ import {Colors} from '../../theme';
 import {Navigation} from '../../types/Navigation';
 import {defaultOptions} from '../config';
 import useAppStore from '../../store/appStore';
+import {createNativeBottomTabNavigator} from '@bottom-tabs/react-navigation';
 
 const Stack = createStackNavigator<Navigation.RootParamList>();
-const Tab = createBottomTabNavigator<Navigation.MainTabsParamList>();
+const Tab = createNativeBottomTabNavigator<Navigation.MainTabsParamList>();
 
 const MainTabs = () => {
     const scheme = useColorScheme();
@@ -28,49 +30,51 @@ const MainTabs = () => {
     return (
         <Tab.Navigator
             initialRouteName="WalletStack"
-            tabBar={props => <TabBar {...props} />}
-            screenOptions={{
-                headerShown: false,
-                tabBarShowLabel: false,
-                tabBarStyle: {
-                    backgroundColor: Colors[scheme!].background,
-                },
+            tabBarActiveTintColor={Colors[scheme!].primaryLight}
+            tabBarStyle={{
+                backgroundColor: Colors[scheme!].background,
             }}>
             <Tab.Screen
                 name="AddressBookStack"
                 options={{
-                    tabBarIcon: ({color, size, focused}) => (
-                        <IoniconsIcon
-                            size={size}
-                            name={focused ? 'bookmarks' : 'bookmarks-outline'}
-                            color={color}
-                        />
-                    ),
+                    tabBarIcon: ({focused}) => ({
+                        sfSymbol: focused ? 'book.pages.fill' : 'book.pages',
+                    }),
+                    tabBarLabel: 'Address Book',
                 }}
                 component={AddressBookStack}
             />
             <Tab.Screen
                 options={{
-                    tabBarIcon: ({color, size, focused}) => (
-                        <IoniconsIcon
-                            size={size}
-                            name={focused ? 'home' : 'home-outline'}
-                            color={color}
-                        />
-                    ),
+                    tabBarLabel: 'Wallet',
+                    tabBarIcon: ({focused}) => ({
+                        sfSymbol: focused
+                            ? 'wallet.bifold.fill'
+                            : 'wallet.bifold',
+                    }),
                 }}
                 name="WalletStack"
                 component={WalletStack}
             />
             <Tab.Screen
                 options={{
-                    tabBarIcon: ({color, size, focused}) => (
-                        <IoniconsIcon
-                            size={size}
-                            name={focused ? 'settings' : 'settings-outline'}
-                            color={color}
-                        />
-                    ),
+                    tabBarLabel: 'P2P',
+
+                    tabBarIcon: ({focused}) => ({
+                        sfSymbol: focused
+                            ? 'arrow.down.left.arrow.up.right.square.fill'
+                            : 'arrow.down.left.arrow.up.right.square',
+                    }),
+                }}
+                name="P2PStack"
+                component={P2PStack}
+            />
+            <Tab.Screen
+                options={{
+                    tabBarLabel: 'Settings',
+                    tabBarIcon: ({focused}) => ({
+                        sfSymbol: focused ? 'gearshape.fill' : 'gearshape',
+                    }),
                 }}
                 name="SettingsStack"
                 component={SettingsStack}
