@@ -9,12 +9,9 @@ const styles = StyleSheet.create({
     },
 });
 
-interface VStackProps {
+interface VStackProps extends ViewStyle {
     children: any;
     style?: StyleProp<ViewStyle>;
-    flex?: number | undefined;
-    alignItems?: 'flex-end' | 'flex-start' | 'center';
-    justifyContent?: 'flex-end' | 'flex-start' | 'space-between' | 'center';
 }
 
 const VStack: React.FC<VStackProps> = ({
@@ -22,9 +19,15 @@ const VStack: React.FC<VStackProps> = ({
     style,
     alignItems = 'flex-start',
     justifyContent = 'flex-start',
-    flex,
+    flex = 0,
+    ...props
 }: VStackProps) => (
-    <View style={[styles.container, {alignItems, justifyContent, flex}, style]}>
+    <View
+        style={[
+            styles.container,
+            {alignItems, justifyContent, flex, ...props},
+            style,
+        ]}>
         {children}
     </View>
 );

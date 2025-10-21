@@ -8,6 +8,7 @@ import {
     CryptoTradeResponse,
     CryptoTradeResponsePagination,
     GetTradeInfoParams,
+    GetTradesParams,
     PaginationParams,
 } from './types';
 
@@ -66,6 +67,34 @@ export async function getTradeInfo(
     return get<CryptoTradeResponse>(
         `/trades/${trade_reference}/info`,
         authToken,
+    );
+}
+
+/**
+ * Get trade list
+ *
+ * Retrieves all user trades.
+ *
+ * @param authToken - Authentication token
+ * @param pagination - Pagination parameters
+ * @returns Paginated list of outgoing trades
+ *
+ * @example
+ * ```ts
+ * const trades = await getTrades(token, { direction: 'any' }, { page: 1 });
+ * console.log(`You have ${trades.pagination.total} trades`);
+ * ```
+ */
+export async function getTrades(
+    authToken: string,
+    params: GetTradesParams,
+    pagination?: PaginationParams,
+): Promise<CryptoTradeResponsePagination> {
+    return post<CryptoTradeResponsePagination>(
+        '/trades/list',
+        params,
+        authToken,
+        pagination || {},
     );
 }
 

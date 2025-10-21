@@ -105,7 +105,6 @@ export type Currency = {
  * Crypto offer response
  */
 export interface CryptoOfferResponse {
-    memo: string | null;
     created: number;
     updated: number;
     side_currency: Currency;
@@ -122,9 +121,7 @@ export interface CryptoOfferResponse {
     quantity: number;
     reference: string;
     filled: number;
-    sns_name: string;
     price: number;
-    sns_id: string;
     status: string;
     side: string;
 }
@@ -276,9 +273,6 @@ export interface CryptoOfferArgs {
     limit_max: number | string;
     quantity: number | string;
     price: number | string;
-    sns_name: string;
-    sns_id: string;
-    memo: string;
     currency: string;
     side_currency: string;
     side: SideEnum;
@@ -399,6 +393,10 @@ export interface GetOfferTradesParams extends PaginationParams {
 export interface CreateTradeParams {
     reference: string;
     data: TradeArgs;
+}
+
+export interface GetTradesParams {
+    direction: 'incoming' | 'outgoing' | 'any';
 }
 
 export interface GetTradeInfoParams {

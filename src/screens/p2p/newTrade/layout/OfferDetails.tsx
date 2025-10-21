@@ -6,7 +6,6 @@ import {useTranslation} from 'react-i18next';
 import NumberFormat from 'react-number-format';
 import {CryptoOfferResponse} from '../../../../services/mex/api/types';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import {format} from 'date-fns';
 
 const styles = StyleSheet.create({
     container: {
@@ -33,19 +32,14 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
 
     return (
         <VStack
-            style={[
-                styles.container,
-                {
-                    backgroundColor: Colors[scheme!].card,
-
-                    gap: 16,
-                },
-            ]}>
-            <HStack justifyContent="space-between" style={{width: '100%'}}>
+            gap={16}
+            backgroundColor={Colors[scheme!].card}
+            style={[styles.container]}>
+            <HStack justifyContent="space-between" width="100%">
                 <VStack>
-                    <HStack style={{gap: 4}}>
+                    <HStack gap={4}>
                         <Text variant="body1">
-                            {offer.offeror_currency.currency}
+                            {offer.trader_currency.currency}
                         </Text>
                         <IoniconsIcon
                             size={16}
@@ -53,7 +47,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                             name="swap-horizontal"
                         />
                         <Text variant="body1">
-                            {offer.trader_currency.currency}
+                            {offer.offeror_currency.currency}
                         </Text>
                     </HStack>
                 </VStack>
@@ -62,7 +56,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                         displayType="text"
                         value={offer.price}
                         decimalScale={4}
-                        suffix={` ${offer.trader_currency.currency}`}
+                        suffix={` ${offer.offeror_currency.currency}`}
                         thousandSeparator
                         fixedDecimalScale
                         renderText={value => (
@@ -75,10 +69,8 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
             <HStack
                 justifyContent="space-between"
                 flex={1}
-                style={{
-                    gap: 4,
-                    width: '100%',
-                }}>
+                width="100%"
+                gap={4}>
                 <Text variant="body3" color="textSecondary">
                     {t('marketplace.limit')}
                 </Text>
@@ -98,7 +90,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                         displayType="text"
                         value={offer.limit_max}
                         decimalScale={2}
-                        suffix={` ${offer.trader_currency.currency}`}
+                        suffix={` ${offer.offeror_currency.currency}`}
                         thousandSeparator
                         fixedDecimalScale
                         renderText={value => (
@@ -110,10 +102,8 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
             <HStack
                 justifyContent="space-between"
                 flex={1}
-                style={{
-                    gap: 4,
-                    width: '100%',
-                }}>
+                width="100%"
+                gap={4}>
                 <Text variant="body3" color="textSecondary">
                     {t('marketplace.available')}
                 </Text>
@@ -128,22 +118,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                 />
             </HStack>
 
-            {offer.memo && (
-                <HStack
-                    justifyContent="space-between"
-                    style={{width: '100%', gap: 4}}>
-                    <Text variant="body3" color="textSecondary">
-                        {t('newTrade.offerDetails.memo')}
-                    </Text>
-                    <Text variant="body3" style={{marginTop: 4}}>
-                        {offer.memo}
-                    </Text>
-                </HStack>
-            )}
-
-            <HStack
-                justifyContent="space-between"
-                style={{width: '100%', gap: 4}}>
+            <HStack justifyContent="space-between" width="100%" gap={4}>
                 <Text variant="body3" color="textSecondary">
                     {t('newTrade.offerDetails.seller')}
                 </Text>

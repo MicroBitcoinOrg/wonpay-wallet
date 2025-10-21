@@ -48,6 +48,10 @@ const Typography: TypographyProps = {
         fontSize: sizes.xl,
         fontFamily: fonts.regular,
     },
+    h4: {
+        fontSize: sizes.lg,
+        fontFamily: fonts.regular,
+    },
     body1: {
         fontSize: sizes.md,
         fontFamily: fonts.bold,

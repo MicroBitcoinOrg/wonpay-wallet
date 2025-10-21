@@ -1,4 +1,4 @@
-import {Avatar, HStack, Text} from '../../../../components/common';
+import {Avatar, HStack, Text, VStack} from '../../../../components/common';
 import {Pressable, useColorScheme, View} from 'react-native';
 import {Badge} from '../../../../components/extended';
 import {Colors} from '../../../../theme';
@@ -16,7 +16,7 @@ interface Props extends CryptoTradeResponse {}
 
 const Component = (props: Props) => {
     const {t} = useTranslation('p2p');
-    const {created, amount, offer, status, reference} = props;
+    const {created, amount, offer, status, reference, user} = props;
     const scheme = useColorScheme();
     const {wallet} = useContext(WalletContext);
     const navigation = useNavigation<NavigationProp<Navigation.P2PParamList>>();
@@ -51,44 +51,53 @@ const Component = (props: Props) => {
                 alignItems: 'flex-start',
             }}
             onPress={navigateToTradeDetails}>
-            <HStack justifyContent="space-between" style={{width: '100%'}}>
-                <HStack style={{gap: 8}}>
+            <HStack justifyContent="space-between" width="100%">
+                <HStack gap={16} justifyContent="flex-start" flex={1}>
                     <Avatar
                         size="sm"
                         backgroundColor="card"
                         color="textSecondary">
                         <IoniconsIcon size={20} name="swap-horizontal" />
                     </Avatar>
-                    <View>
-                        <View style={{gap: 4}}>
-                            <Text variant="body1">
-                                {isMyOffer
-                                    ? t('trades.selling')
-                                    : t('trades.buying')}
-                            </Text>
-                            <NumberFormat
-                                displayType="text"
-                                value={amount}
-                                decimalScale={2}
-                                suffix={` ${offer.currency}`}
-                                thousandSeparator
-                                fixedDecimalScale
-                                renderText={value => (
-                                    <Text variant="body3" color="textSecondary">
-                                        {value}
-                                    </Text>
-                                )}
-                            />
-                        </View>
-                        <Text color="textSecondary" variant="sub1">
-                            {format(new Date(created * 1000), 'd MMM yyyy HH:mm')}
+                    <VStack gap={4}>
+                        <Text variant="body1">
+                            {isMyOffer
+                                ? t('trades.selling')
+                                : t('trades.buying')}
                         </Text>
-                    </View>
+                        <Text
+                            color="textSecondary"
+                            variant="sub1"
+                            numberOfLines={1}>
+                            {isMyOffer ? user.address : offer.user.address}
+                        </Text>
+                    </VStack>
                 </HStack>
-                <Badge
-                    label={t(`trades.status.${status}`)}
-                    color={getStatusColor()}
-                />
+                <VStack alignItems="flex-end" gap={4} flex={1}>
+                    <NumberFormat
+                        displayType="text"
+                        value={isMyOffer ? amount : amount * offer.price}
+                        decimalScale={2}
+                        suffix={` ${
+                            isMyOffer
+                                ? offer.trader_currency.currency
+                                : offer.offeror_currency.currency
+                        }`}
+                        thousandSeparator
+                        fixedDecimalScale
+                        renderText={value => (
+                            <Text
+                                variant="body1"
+                                numberOfLines={1}
+                                color="textPrimary">
+                                {value}
+                            </Text>
+                        )}
+                    />
+                    <Text color="textSecondary" variant="sub1">
+                        {format(new Date(created * 1000), 'd MMM yyyy HH:mm')}
+                    </Text>
+                </VStack>
             </HStack>
         </Pressable>
     );

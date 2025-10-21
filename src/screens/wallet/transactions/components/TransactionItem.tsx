@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         paddingVertical: 15,
     },
     iconContainer: {
-        marginRight: 15,
         borderRadius: 35,
         width: 35,
         height: 35,
@@ -72,12 +71,13 @@ const TransactionItem = memo(
                             opacity: transaction.confirmations === 0 ? 0.5 : 1,
                         },
                     ]}>
-                    <HStack flex={1} justifyContent="flex-start">
+                    <HStack
+                        flex={1}
+                        style={{gap: 16}}
+                        justifyContent="flex-start">
                         <HStack
-                            style={[
-                                styles.iconContainer,
-                                {backgroundColor: Colors[scheme!].card},
-                            ]}>
+                            backgroundColor={Colors[scheme!].card}
+                            style={[styles.iconContainer]}>
                             {transaction.confirmations === 0 && (
                                 <EntypoIcon
                                     name="dots-three-horizontal"
@@ -102,7 +102,7 @@ const TransactionItem = memo(
                                     />
                                 )}
                         </HStack>
-                        <View style={styles.fromContainer}>
+                        <VStack style={styles.fromContainer} gap={4}>
                             <Text
                                 numberOfLines={1}
                                 ellipsizeMode="middle"
@@ -124,9 +124,9 @@ const TransactionItem = memo(
                                 variant="sub1">
                                 {getTitleFromAdressBook()}
                             </Text>
-                        </View>
+                        </VStack>
                     </HStack>
-                    <VStack alignItems="flex-end">
+                    <VStack alignItems="flex-end" gap={4}>
                         <HStack justifyContent="flex-start">
                             <NumberFormat
                                 displayType="text"

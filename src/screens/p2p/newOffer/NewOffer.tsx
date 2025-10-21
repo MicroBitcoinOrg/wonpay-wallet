@@ -1,7 +1,10 @@
-import React, {useContext, useMemo, useState} from 'react';
+import React, {useContext, useMemo} from 'react';
 import {Alert, ScrollView, StyleSheet, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
+import {useForm, Controller} from 'react-hook-form';
+import {zodResolver} from '@hookform/resolvers/zod';
+import {z} from 'zod';
 import {P2PContext} from '../../../providers';
 import {
     Container,
@@ -23,6 +26,7 @@ import {useCreateOffer} from '../../../services/mex/hooks';
 import {StackScreenProps} from '@react-navigation/stack';
 import {Navigation} from '../../../types/Navigation';
 import {Currency, SideEnum} from '../../../services/mex/api/types';
+import {MEX_CURRENCIES} from '../../../utils/constants';
 
 const styles = StyleSheet.create({
     container: {
@@ -39,7 +43,24 @@ const styles = StyleSheet.create({
 
 type NewOfferProps = StackScreenProps<Navigation.P2PParamList, 'NewOffer'>;
 
-interface FormData {
+// Zod schema for form validation
+const formSchema = z.object({
+    currency: z.object({
+        network: z.string(),
+        currency: z.string(),
+    }),
+    side_currency: z.object({
+        network: z.string(),
+        currency: z.string(),
+    }),
+    side: z.nativeEnum(SideEnum),
+    quantity: z.string().min(1),
+    price: z.string().min(1),
+    limit_min: z.string().min(1),
+    limit_max: z.string().min(1),
+});
+
+type FormData = {
     currency: Currency;
     side_currency: Currency;
     side: SideEnum;
@@ -47,24 +68,80 @@ interface FormData {
     price: string;
     limit_min: string;
     limit_max: string;
-    sns_name: string;
-    sns_id: string;
-    memo: string;
-}
+};
 
-interface FormErrors {
-    quantity?: string;
-    price?: string;
-    limit_min?: string;
-    limit_max?: string;
-    sns_name?: string;
-    sns_id?: string;
-}
-
-const CURRENCIES: Currency[] = [
-    {network: 'microbitcoin', currency: 'TEST'},
-    {network: 'TRON', currency: 'USDT'},
-];
+const createFormSchema = (t: (key: string) => string) =>
+    formSchema
+        .refine(
+            data => {
+                const quantity = parseFloat(data.quantity);
+                return !isNaN(quantity) && quantity > 0;
+            },
+            {
+                message: t('newOffer.errors.invalidQuantity'),
+                path: ['quantity'],
+            },
+        )
+        .refine(
+            data => {
+                const price = parseFloat(data.price);
+                return !isNaN(price) && price > 0;
+            },
+            {
+                message: t('newOffer.errors.invalidPrice'),
+                path: ['price'],
+            },
+        )
+        .refine(
+            data => {
+                const limitMin = parseFloat(data.limit_min);
+                return !isNaN(limitMin) && limitMin > 0;
+            },
+            {
+                message: t('newOffer.errors.invalidLimitMin'),
+                path: ['limit_min'],
+            },
+        )
+        .refine(
+            data => {
+                const limitMax = parseFloat(data.limit_max);
+                return !isNaN(limitMax) && limitMax > 0;
+            },
+            {
+                message: t('newOffer.errors.invalidLimitMax'),
+                path: ['limit_max'],
+            },
+        )
+        .refine(
+            data => {
+                const limitMin = parseFloat(data.limit_min);
+                const limitMax = parseFloat(data.limit_max);
+                return (
+                    isNaN(limitMin) || isNaN(limitMax) || limitMax >= limitMin
+                );
+            },
+            {
+                message: t('newOffer.errors.limit_maxLessThanMin'),
+                path: ['limit_max'],
+            },
+        )
+        .refine(
+            data => {
+                const quantity = parseFloat(data.quantity);
+                const price = parseFloat(data.price);
+                const limitMax = parseFloat(data.limit_max);
+                return (
+                    isNaN(quantity) ||
+                    isNaN(price) ||
+                    isNaN(limitMax) ||
+                    quantity * price >= limitMax
+                );
+            },
+            {
+                message: t('newOffer.errors.limit_maxExceedsTotal'),
+                path: ['limit_max'],
+            },
+        );
 
 // Picker options
 const SIDE_OPTIONS: PickerOption[] = [
@@ -78,139 +155,58 @@ const SIDE_OPTIONS: PickerOption[] = [
     },
 ];
 
-const SNS_OPTIONS: PickerOption[] = [
-    {label: 'Telegram', value: 'Telegram'},
-    {label: 'WhatsApp', value: 'WhatsApp'},
-    {label: 'WeChat', value: 'WeChat'},
-    {label: 'Discord', value: 'Discord'},
-    {label: 'Signal', value: 'Signal'},
-];
-
 const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
     const scheme = useColorScheme();
     const {t} = useTranslation('p2p');
     const store = useAppStore();
     const {token} = useContext(P2PContext);
+    const createOfferMutation = useCreateOffer(token || '');
 
-    const [formData, setFormData] = useState<FormData>({
-        currency: CURRENCIES[0],
-        side_currency: CURRENCIES[1],
-        side: SideEnum.SELL,
-        quantity: '',
-        price: '',
-        limit_min: '',
-        limit_max: '',
-        sns_name: 'Telegram',
-        sns_id: '',
-        memo: '',
+    const validationSchema = useMemo(() => createFormSchema(t), [t]);
+
+    const {
+        control,
+        handleSubmit,
+        formState: {errors, isValid},
+        watch,
+    } = useForm({
+        resolver: zodResolver(validationSchema),
+        mode: 'onChange',
+        defaultValues: {
+            currency: MEX_CURRENCIES[0] as Currency,
+            side_currency: MEX_CURRENCIES[1] as Currency,
+            side: SideEnum.SELL,
+            quantity: '',
+            price: '',
+            limit_min: '',
+            limit_max: '',
+        },
     });
 
-    const [errors, setErrors] = useState<FormErrors>({});
-    const createOfferMutation = useCreateOffer(token || '');
+    const sideCurrency = watch('side_currency');
 
     const currencyOptions: PickerOption[] = useMemo(
         () =>
-            CURRENCIES.map(crypto => ({
+            MEX_CURRENCIES.map(crypto => ({
                 label: crypto.currency!,
                 value: JSON.stringify(crypto),
                 description: crypto.network!,
             })),
-        [CURRENCIES],
+        [],
     );
 
-    const validateForm = (): boolean => {
-        const newErrors: FormErrors = {};
-
-        // Validate quantity
-        const quantity = parseFloat(formData.quantity);
-        if (!formData.quantity || isNaN(quantity) || quantity <= 0) {
-            newErrors.quantity = t('newOffer.errors.invalidQuantity');
-        }
-
-        // Validate price
-        const price = parseFloat(formData.price);
-        if (!formData.price || isNaN(price) || price <= 0) {
-            newErrors.price = t('newOffer.errors.invalidPrice');
-        }
-
-        // Validate limit min
-        const limit_min = parseFloat(formData.limit_min);
-        if (!formData.limit_min || isNaN(limit_min) || limit_min <= 0) {
-            newErrors.limit_min = t('newOffer.errors.invalidLimitMin');
-        }
-
-        // Validate limit max
-        const limit_max = parseFloat(formData.limit_max);
-        if (!formData.limit_max || isNaN(limit_max) || limit_max <= 0) {
-            newErrors.limit_max = t('newOffer.errors.invalidLimitMax');
-        } else if (!isNaN(limit_min) && limit_max < limit_min) {
-            newErrors.limit_max = t('newOffer.errors.limit_maxLessThanMin');
-        }
-
-        // Validate total availability
-        if (
-            !isNaN(quantity) &&
-            !isNaN(price) &&
-            !isNaN(limit_max) &&
-            quantity * price < limit_max
-        ) {
-            newErrors.limit_max = t('newOffer.errors.limit_maxExceedsTotal');
-        }
-
-        // Validate SNS name
-        if (!formData.sns_name.trim()) {
-            newErrors.sns_name = t('newOffer.errors.invalidSnsName');
-        }
-
-        // Validate SNS ID
-        if (!formData.sns_id.trim()) {
-            newErrors.sns_id = t('newOffer.errors.invalidSnsId');
-        }
-
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+    const getCurrencyLabel = (crypto: Currency): string => {
+        return `${crypto.currency} (${crypto.network})`;
     };
 
-    const updateField = (field: keyof FormData, value: string | Currency) => {
-        // Handle cryptocurrency fields
-        if (field === 'currency' || field === 'side_currency') {
-            if (typeof value === 'string') {
-                try {
-                    const crypto = JSON.parse(value) as Currency;
-                    setFormData(prev => ({...prev, [field]: crypto}));
-                } catch {
-                    // If parsing fails, ignore
-                    return;
-                }
-            } else {
-                setFormData(prev => ({...prev, [field]: value}));
-            }
-        } else {
-            setFormData(prev => ({...prev, [field]: value}));
-        }
-        // Clear error for this field when user starts typing
-        if (errors[field as keyof FormErrors]) {
-            setErrors(prev => ({...prev, [field]: undefined}));
-        }
-    };
-
-    const createOffer = async () => {
-        if (!validateForm()) {
-            showMessage({
-                message: t('newOffer.alerts.validationError.message'),
-                description: t('newOffer.alerts.validationError.description'),
-                type: 'danger',
-            });
-            return;
-        }
-
+    const onSubmit = async (formData: any) => {
         const createOfferConfirmed = async () => {
             store.setLoading(true);
 
             try {
                 // Format currency string as "network:currency" (e.g., "microbitcoin:MBC", "TRON:USDT")
                 const formatCurrency = (crypto: Currency): string => {
-                    return `${crypto.network?.toLocaleLowerCase()}:${
+                    return `${crypto.network.toLocaleLowerCase()}:${
                         crypto.currency
                     }`;
                 };
@@ -223,9 +219,6 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                     price: parseFloat(formData.price),
                     limit_min: parseFloat(formData.limit_min),
                     limit_max: parseFloat(formData.limit_max),
-                    sns_name: formData.sns_name,
-                    sns_id: formData.sns_id,
-                    memo: formData.memo,
                 });
 
                 showMessage({
@@ -234,7 +227,6 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                     backgroundColor: Colors[scheme!].primary,
                 });
 
-                store.setLoading(false);
                 navigation.goBack();
             } catch (e) {
                 showMessage({
@@ -242,15 +234,9 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                     description: (e as Error).message,
                     type: 'danger',
                 });
-
+            } finally {
                 store.setLoading(false);
             }
-        };
-
-        const getCurrencyLabel = (crypto: Currency): string => {
-            return crypto.network
-                ? `${crypto.currency} (${crypto.network})`
-                : crypto.currency;
         };
 
         Alert.alert(
@@ -278,18 +264,6 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
         );
     };
 
-    const isFormValid = () => {
-        return (
-            formData.quantity &&
-            formData.price &&
-            formData.limit_min &&
-            formData.limit_max &&
-            formData.sns_name &&
-            formData.sns_id &&
-            Object.keys(errors).length === 0
-        );
-    };
-
     return (
         <DismissKeyboard>
             <Container>
@@ -299,231 +273,236 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                         contentContainerStyle={{paddingBottom: 20}}>
                         <VStack style={{gap: 8}}>
                             {/* Offer Type */}
-                            <FormItem
-                                title={t('newOffer.form.side.title')}
-                                description={t(
-                                    'newOffer.form.side.description',
-                                )}>
-                                <BottomSheetPicker
-                                    options={SIDE_OPTIONS}
-                                    selectedValue={formData.side}
-                                    onValueChange={(value: string) =>
-                                        updateField('side', value)
-                                    }
-                                    title={t('newOffer.form.side.title')}
-                                />
-                            </FormItem>
+                            <Controller
+                                control={control}
+                                name="side"
+                                render={({field: {onChange, value}}) => (
+                                    <FormItem
+                                        title={t('newOffer.form.side.title')}
+                                        description={t(
+                                            'newOffer.form.side.description',
+                                        )}>
+                                        <BottomSheetPicker
+                                            options={SIDE_OPTIONS}
+                                            selectedValue={value}
+                                            onValueChange={onChange}
+                                            title={t(
+                                                'newOffer.form.side.title',
+                                            )}
+                                        />
+                                    </FormItem>
+                                )}
+                            />
 
                             {/* Currency Pair */}
-                            <FormItem
-                                title={t('newOffer.form.currency.title')}
-                                description={t(
-                                    'newOffer.form.currency.description',
-                                )}>
-                                <BottomSheetPicker
-                                    options={currencyOptions}
-                                    selectedValue={JSON.stringify(
-                                        formData.currency,
-                                    )}
-                                    onValueChange={(value: string) =>
-                                        updateField('currency', value)
-                                    }
-                                    title={t('newOffer.form.currency.title')}
-                                />
-                            </FormItem>
+                            <Controller
+                                control={control}
+                                name="currency"
+                                render={({field: {onChange, value}}) => (
+                                    <FormItem
+                                        title={t(
+                                            'newOffer.form.currency.title',
+                                        )}
+                                        description={t(
+                                            'newOffer.form.currency.description',
+                                        )}>
+                                        <BottomSheetPicker
+                                            options={currencyOptions}
+                                            selectedValue={JSON.stringify(
+                                                value,
+                                            )}
+                                            onValueChange={(val: string) => {
+                                                try {
+                                                    onChange(JSON.parse(val));
+                                                } catch {
+                                                    // ignore
+                                                }
+                                            }}
+                                            title={t(
+                                                'newOffer.form.currency.title',
+                                            )}
+                                        />
+                                    </FormItem>
+                                )}
+                            />
 
-                            <FormItem
-                                title={t('newOffer.form.side_currency.title')}
-                                description={t(
-                                    'newOffer.form.side_currency.description',
-                                )}>
-                                <BottomSheetPicker
-                                    options={currencyOptions}
-                                    selectedValue={JSON.stringify(
-                                        formData.side_currency,
-                                    )}
-                                    onValueChange={(value: string) =>
-                                        updateField('side_currency', value)
-                                    }
-                                    title={t(
-                                        'newOffer.form.side_currency.title',
-                                    )}
-                                />
-                            </FormItem>
+                            <Controller
+                                control={control}
+                                name="side_currency"
+                                render={({field: {onChange, value}}) => (
+                                    <FormItem
+                                        title={t(
+                                            'newOffer.form.side_currency.title',
+                                        )}
+                                        description={t(
+                                            'newOffer.form.side_currency.description',
+                                        )}>
+                                        <BottomSheetPicker
+                                            options={currencyOptions}
+                                            selectedValue={JSON.stringify(
+                                                value,
+                                            )}
+                                            onValueChange={(val: string) => {
+                                                try {
+                                                    onChange(JSON.parse(val));
+                                                } catch {
+                                                    // ignore
+                                                }
+                                            }}
+                                            title={t(
+                                                'newOffer.form.side_currency.title',
+                                            )}
+                                        />
+                                    </FormItem>
+                                )}
+                            />
 
                             {/* Quantity */}
-                            <FormItem
-                                title={t('newOffer.form.quantity.title')}
-                                description={t(
-                                    'newOffer.form.quantity.description',
-                                )}>
-                                <Input
-                                    placeholder={t(
-                                        'newOffer.form.quantity.placeholder',
-                                    )}
-                                    value={formData.quantity}
-                                    onChangeText={value =>
-                                        updateField('quantity', value)
-                                    }
-                                    keyboardType="decimal-pad"
-                                />
-                                {errors.quantity && (
-                                    <Text
-                                        variant="body3"
-                                        color="error"
-                                        style={{marginTop: 4}}>
-                                        {errors.quantity}
-                                    </Text>
+                            <Controller
+                                control={control}
+                                name="quantity"
+                                render={({
+                                    field: {onChange, value},
+                                    fieldState: {error},
+                                }) => (
+                                    <FormItem
+                                        title={t(
+                                            'newOffer.form.quantity.title',
+                                        )}
+                                        description={t(
+                                            'newOffer.form.quantity.description',
+                                        )}>
+                                        <Input
+                                            placeholder={t(
+                                                'newOffer.form.quantity.placeholder',
+                                            )}
+                                            value={value}
+                                            onChangeText={onChange}
+                                            keyboardType="decimal-pad"
+                                        />
+                                        {error && (
+                                            <Text
+                                                variant="body3"
+                                                color="error"
+                                                style={{marginTop: 4}}>
+                                                {error.message}
+                                            </Text>
+                                        )}
+                                    </FormItem>
                                 )}
-                            </FormItem>
+                            />
 
                             {/* Price */}
-                            <FormItem
-                                title={t('newOffer.form.price.title')}
-                                description={t(
-                                    'newOffer.form.price.description',
-                                    {
-                                        side_currency: `${formData.side_currency.currency} (${formData.side_currency.network})`,
-                                    },
-                                )}>
-                                <Input
-                                    placeholder={t(
-                                        'newOffer.form.price.placeholder',
-                                    )}
-                                    value={formData.price}
-                                    onChangeText={value =>
-                                        updateField('price', value)
-                                    }
-                                    keyboardType="decimal-pad"
-                                />
-                                {errors.price && (
-                                    <Text
-                                        variant="body3"
-                                        color="error"
-                                        style={{marginTop: 4}}>
-                                        {errors.price}
-                                    </Text>
+                            <Controller
+                                control={control}
+                                name="price"
+                                render={({
+                                    field: {onChange, value},
+                                    fieldState: {error},
+                                }) => (
+                                    <FormItem
+                                        title={t('newOffer.form.price.title')}
+                                        description={t(
+                                            'newOffer.form.price.description',
+                                            {
+                                                side_currency: `${sideCurrency.currency} (${sideCurrency.network})`,
+                                            },
+                                        )}>
+                                        <Input
+                                            placeholder={t(
+                                                'newOffer.form.price.placeholder',
+                                            )}
+                                            value={value}
+                                            onChangeText={onChange}
+                                            keyboardType="decimal-pad"
+                                        />
+                                        {error && (
+                                            <Text
+                                                variant="body3"
+                                                color="error"
+                                                style={{marginTop: 4}}>
+                                                {error.message}
+                                            </Text>
+                                        )}
+                                    </FormItem>
                                 )}
-                            </FormItem>
+                            />
 
                             {/* Min Limit */}
-                            <FormItem
-                                title={t('newOffer.form.limit_min.title')}
-                                description={t(
-                                    'newOffer.form.limit_min.description',
-                                    {
-                                        side_currency: `${formData.side_currency.currency} (${formData.side_currency.network})`,
-                                    },
-                                )}>
-                                <Input
-                                    placeholder={t(
-                                        'newOffer.form.limit_min.placeholder',
-                                    )}
-                                    value={formData.limit_min}
-                                    onChangeText={value =>
-                                        updateField('limit_min', value)
-                                    }
-                                    keyboardType="decimal-pad"
-                                />
-                                {errors.limit_min && (
-                                    <Text
-                                        variant="body3"
-                                        color="error"
-                                        style={{marginTop: 4}}>
-                                        {errors.limit_min}
-                                    </Text>
+                            <Controller
+                                control={control}
+                                name="limit_min"
+                                render={({
+                                    field: {onChange, value},
+                                    fieldState: {error},
+                                }) => (
+                                    <FormItem
+                                        title={t(
+                                            'newOffer.form.limit_min.title',
+                                        )}
+                                        description={t(
+                                            'newOffer.form.limit_min.description',
+                                            {
+                                                side_currency: `${sideCurrency.currency} (${sideCurrency.network})`,
+                                            },
+                                        )}>
+                                        <Input
+                                            placeholder={t(
+                                                'newOffer.form.limit_min.placeholder',
+                                            )}
+                                            value={value}
+                                            onChangeText={onChange}
+                                            keyboardType="decimal-pad"
+                                        />
+                                        {error && (
+                                            <Text
+                                                variant="body3"
+                                                color="error"
+                                                style={{marginTop: 4}}>
+                                                {error.message}
+                                            </Text>
+                                        )}
+                                    </FormItem>
                                 )}
-                            </FormItem>
+                            />
 
                             {/* Max Limit */}
-                            <FormItem
-                                title={t('newOffer.form.limit_max.title')}
-                                description={t(
-                                    'newOffer.form.limit_max.description',
-                                    {
-                                        side_currency: `${formData.side_currency.currency} (${formData.side_currency.network})`,
-                                    },
-                                )}>
-                                <Input
-                                    placeholder={t(
-                                        'newOffer.form.limit_max.placeholder',
-                                    )}
-                                    value={formData.limit_max}
-                                    onChangeText={value =>
-                                        updateField('limit_max', value)
-                                    }
-                                    keyboardType="decimal-pad"
-                                />
-                                {errors.limit_max && (
-                                    <Text
-                                        variant="body3"
-                                        color="error"
-                                        style={{marginTop: 4}}>
-                                        {errors.limit_max}
-                                    </Text>
+                            <Controller
+                                control={control}
+                                name="limit_max"
+                                render={({
+                                    field: {onChange, value},
+                                    fieldState: {error},
+                                }) => (
+                                    <FormItem
+                                        title={t(
+                                            'newOffer.form.limit_max.title',
+                                        )}
+                                        description={t(
+                                            'newOffer.form.limit_max.description',
+                                            {
+                                                side_currency: `${sideCurrency.currency} (${sideCurrency.network})`,
+                                            },
+                                        )}>
+                                        <Input
+                                            placeholder={t(
+                                                'newOffer.form.limit_max.placeholder',
+                                            )}
+                                            value={value}
+                                            onChangeText={onChange}
+                                            keyboardType="decimal-pad"
+                                        />
+                                        {error && (
+                                            <Text
+                                                variant="body3"
+                                                color="error"
+                                                style={{marginTop: 4}}>
+                                                {error.message}
+                                            </Text>
+                                        )}
+                                    </FormItem>
                                 )}
-                            </FormItem>
-
-                            {/* Contact Method */}
-                            <FormItem
-                                title={t('newOffer.form.sns_name.title')}
-                                description={t(
-                                    'newOffer.form.sns_name.description',
-                                )}>
-                                <BottomSheetPicker
-                                    options={SNS_OPTIONS}
-                                    selectedValue={formData.sns_name}
-                                    onValueChange={value =>
-                                        updateField('sns_name', value)
-                                    }
-                                    title={t('newOffer.form.sns_name.title')}
-                                />
-                            </FormItem>
-
-                            <FormItem
-                                title={t('newOffer.form.sns_id.title')}
-                                description={t(
-                                    'newOffer.form.sns_id.description',
-                                )}>
-                                <Input
-                                    placeholder={t(
-                                        'newOffer.form.sns_id.placeholder',
-                                    )}
-                                    value={formData.sns_id}
-                                    onChangeText={value =>
-                                        updateField('sns_id', value)
-                                    }
-                                    autoCapitalize="none"
-                                />
-                                {errors.sns_id && (
-                                    <Text
-                                        variant="body3"
-                                        color="error"
-                                        style={{marginTop: 4}}>
-                                        {errors.sns_id}
-                                    </Text>
-                                )}
-                            </FormItem>
-
-                            {/* Memo (Optional) */}
-                            <FormItem
-                                title={t('newOffer.form.memo.title')}
-                                optional
-                                description={t(
-                                    'newOffer.form.memo.description',
-                                )}>
-                                <Input
-                                    placeholder={t(
-                                        'newOffer.form.memo.placeholder',
-                                    )}
-                                    value={formData.memo}
-                                    onChangeText={value =>
-                                        updateField('memo', value)
-                                    }
-                                    multiline
-                                    numberOfLines={3}
-                                />
-                            </FormItem>
+                            />
                         </VStack>
                     </ScrollView>
                     <Container
@@ -538,11 +517,11 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                         <Button
                             title={t('newOffer.createButton')}
                             disabled={
-                                !isFormValid() ||
+                                !isValid ||
                                 createOfferMutation.isPending ||
                                 !token
                             }
-                            onPress={createOffer}
+                            onPress={handleSubmit(onSubmit)}
                         />
                     </Container>
                 </KeyboardAvoidingView>

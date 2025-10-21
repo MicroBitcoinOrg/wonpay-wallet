@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import {StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -10,12 +10,9 @@ const styles = StyleSheet.create({
     },
 });
 
-interface HStackProps {
+interface HStackProps extends ViewStyle {
     children?: any;
     style?: StyleProp<ViewStyle>;
-    flex?: number | undefined;
-    alignItems?: 'flex-end' | 'flex-start' | 'center';
-    justifyContent?: 'flex-end' | 'flex-start' | 'space-between' | 'center';
 }
 
 const HStack: React.FC<HStackProps> = ({
@@ -23,7 +20,17 @@ const HStack: React.FC<HStackProps> = ({
     style,
     alignItems = 'center',
     justifyContent = 'center',
-    flex,
-}: HStackProps) => <View style={[styles.container, { alignItems, justifyContent, flex }, style]}>{children}</View>;
+    flex = 0,
+    ...props
+}: HStackProps) => (
+    <View
+        style={[
+            styles.container,
+            {alignItems, justifyContent, flex, ...props},
+            style,
+        ]}>
+        {children}
+    </View>
+);
 
 export default HStack;

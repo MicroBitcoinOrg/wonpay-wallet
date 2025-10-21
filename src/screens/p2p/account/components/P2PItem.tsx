@@ -26,8 +26,8 @@ const Component = (props: Props) => {
         user,
         price,
         reference,
-        currency,
-        side_currency,
+        trader_currency,
+        offeror_currency,
         limit_min,
         limit_max,
     } = props;
@@ -80,7 +80,7 @@ const Component = (props: Props) => {
                                 displayType="text"
                                 value={price}
                                 decimalScale={2}
-                                suffix={` ${side_currency.currency}`}
+                                suffix={` ${offeror_currency.currency}`}
                                 thousandSeparator
                                 fixedDecimalScale
                                 renderText={value => (
@@ -93,7 +93,7 @@ const Component = (props: Props) => {
                                 name="swap-horizontal"
                             />
                             <Text variant="body1" color="textSecondary">
-                                1.00 {currency.currency}
+                                1.00 {trader_currency.currency}
                             </Text>
                         </HStack>
                     </View>
@@ -141,7 +141,7 @@ const Component = (props: Props) => {
                                 displayType="text"
                                 value={limit_max}
                                 decimalScale={2}
-                                suffix={` ${side_currency.currency}`}
+                                suffix={` ${offeror_currency.currency}`}
                                 thousandSeparator
                                 fixedDecimalScale
                                 renderText={value => (
@@ -165,7 +165,7 @@ const Component = (props: Props) => {
                             displayType="text"
                             value={quantity}
                             decimalScale={2}
-                            suffix={` ${currency.currency}`}
+                            suffix={` ${offeror_currency.currency}`}
                             thousandSeparator
                             fixedDecimalScale
                             renderText={value => (

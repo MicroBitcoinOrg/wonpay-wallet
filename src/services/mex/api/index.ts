@@ -70,6 +70,7 @@ export {
     getTradeInfo,
     getOutgoingTrades,
     getIncomingTrades,
+    getTrades,
 } from './trades';
 
 // Export withdrawal endpoints

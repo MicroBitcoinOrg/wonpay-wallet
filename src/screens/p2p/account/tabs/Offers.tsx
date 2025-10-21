@@ -1,4 +1,4 @@
-import React, {useCallback, useContext} from 'react';
+import React, {useCallback, useContext, useEffect} from 'react';
 import {
     FlatList,
     RefreshControl,
@@ -6,12 +6,13 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import {Colors} from '../../../theme';
-import {OfferItem} from './components';
-import {P2PContext, WalletContext} from '../../../providers';
+import {Colors} from '../../../../theme';
+import {P2PContext, WalletContext} from '../../../../providers';
 import {useFocusEffect} from '@react-navigation/native';
-import {NotFound} from '../../../components/extended';
-import {useOffers} from '../../../services/mex/hooks';
+import {useOffers} from '../../../../services/mex/hooks';
+import {OfferItem} from '../components';
+import {NotFound} from '../../../../components/extended';
+import {VStack} from '../../../../components/common';
 import {useTranslation} from 'react-i18next';
 
 const styles = StyleSheet.create({
@@ -20,9 +21,7 @@ const styles = StyleSheet.create({
     },
 });
 
-interface Props {}
-
-const Component = ({}: Props) => {
+const Offers = () => {
     const {t} = useTranslation('p2p');
     const {token} = useContext(P2PContext);
     const {wallet} = useContext(WalletContext);
@@ -33,6 +32,7 @@ const Component = ({}: Props) => {
         isRefetching: offersRefetching,
         isLoading: offersLoading,
         refetch,
+        error,
     } = useOffers(
         {
             user: wallet?.addresses?.[0]?.address || null,
@@ -47,25 +47,27 @@ const Component = ({}: Props) => {
         }, [refetch]),
     );
 
+    useEffect(() => {
+        console.log(error);
+        console.log('offersData', offersData);
+    }, [error, offersData]);
+
     return (
         <View style={styles.container}>
-            {offersData && (
-                <FlatList
-                    style={{flex: 1}}
-                    scrollEventThrottle={16}
-                    contentContainerStyle={{paddingBottom: 90}}
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={offersLoading || offersRefetching}
-                            onRefresh={refetch}
-                            tintColor={Colors[scheme!].textPrimary}
-                        />
-                    }
-                    data={offersData.list}
-                    keyExtractor={item => item.reference}
-                    renderItem={({item}) => <OfferItem {...item} />}
-                />
-            )}
+            <FlatList
+                style={{flex: 1}}
+                contentContainerStyle={{paddingBottom: 90, paddingTop: 10}}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={offersLoading || offersRefetching}
+                        onRefresh={refetch}
+                        tintColor={Colors[scheme!].textPrimary}
+                    />
+                }
+                data={offersData?.list || []}
+                keyExtractor={item => item.reference}
+                renderItem={({item}) => <OfferItem {...item} />}
+            />
             {offersData && offersData.list.length === 0 && (
                 <NotFound
                     size="sm"
@@ -83,4 +85,4 @@ const Component = ({}: Props) => {
     );
 };
 
-export default Component;
+export default Offers;

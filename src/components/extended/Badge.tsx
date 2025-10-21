@@ -23,8 +23,6 @@ const Badge = ({label, color = 'primary', style, ...props}: BadgeProps) => {
         switch (color) {
             case 'success':
                 return Colors[scheme!].success;
-            case 'warning':
-                return Colors[scheme!].warning;
             case 'error':
                 return Colors[scheme!].error;
             case 'primary':
@@ -48,6 +46,7 @@ const Badge = ({label, color = 'primary', style, ...props}: BadgeProps) => {
                 textTransform="capitalize"
                 variant="sub1"
                 color="white"
+                fontWeight={700}
                 align="center">
                 {label}
             </Text>

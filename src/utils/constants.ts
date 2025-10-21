@@ -1,5 +1,6 @@
 import Config from 'react-native-config';
 import {Wallet} from '../types/Wallet';
+import {Currency} from '../services/mex/api';
 
 export const MICROBITCOIN: Wallet.Chain = {
     derivationPath: "m/44'/0'/0'/",
@@ -140,3 +141,9 @@ export const CHAINS: Record<
     [Wallet.ChainEnum.SOLANA]: SOLANA,
     [Wallet.ChainEnum.BINANCECHAIN]: BINANCECHAIN,
 };
+
+export const MEX_CURRENCIES: Currency[] = [
+    {network: 'microbitcoin', currency: 'TEST'},
+    {network: 'microbitcoin', currency: 'SATOSHI'},
+    {network: 'TRON', currency: 'USDT'},
+];

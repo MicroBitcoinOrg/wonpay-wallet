@@ -3,7 +3,7 @@
  * Centralized query key management for cache invalidation and updates
  */
 
-import {PaginationParams} from '../api';
+import {GetTradesParams, PaginationParams} from '../api';
 /**
  * Query key factory for MEX API
  */
@@ -72,6 +72,18 @@ export const mexKeys = {
         all: () => [...mexKeys.all, 'trades'] as const,
         detail: (reference: string, token: string) =>
             [...mexKeys.trades.all(), 'detail', reference, token] as const,
+        list: (
+            token: string,
+            params: GetTradesParams,
+            pagination?: PaginationParams,
+        ) =>
+            [
+                ...mexKeys.trades.all(),
+                'list',
+                params,
+                token,
+                pagination,
+            ] as const,
         outgoing: (token: string, pagination?: PaginationParams) =>
             [...mexKeys.trades.all(), 'outgoing', token, pagination] as const,
         incoming: (token: string, pagination?: PaginationParams) =>

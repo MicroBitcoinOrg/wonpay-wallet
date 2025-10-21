@@ -35,7 +35,8 @@
             "p2p": {
                 "newOffer": "New Offer",
                 "newTrade": "New Trade",
-                "tradeDetails": "Trade Details"
+                "tradeDetails": "Trade Details",
+                "account": "Account"
             }
         },
         "migration": {
@@ -280,32 +281,18 @@
                 },
                 "price": {
                     "title": "Price per Unit",
-                    "description": "Price per 1 unit of cryptocurrency in {{sideCurrency}}",
+                    "description": "Price per 1 unit of cryptocurrency in {{side_currency}}",
                     "placeholder": "0.00"
                 },
                 "limit_min": {
                     "title": "Minimum trade limit",
-                    "description": "Minimum trade amount in {{sideCurrency}}",
+                    "description": "Minimum trade amount in {{side_currency}}",
                     "placeholder": "0.00"
                 },
                 "limit_max": {
                     "title": "Maximum trade limit",
-                    "description": "Maximum trade amount in {{sideCurrency}}",
+                    "description": "Maximum trade amount in {{side_currency}}",
                     "placeholder": "0.00"
-                },
-                "sns_name": {
-                    "title": "Contact method",
-                    "description": "Choose your preferred communication platform"
-                },
-                "sns_id": {
-                    "title": "Contact ID",
-                    "description": "Your username/ID on the selected platform",
-                    "placeholder": "@username"
-                },
-                "memo": {
-                    "title": "Additional notes",
-                    "description": "Any additional information or requirements for traders",
-                    "placeholder": "e.g., Payment methods accepted, trading hours, etc."
                 }
             },
             "createButton": "Create offer",
@@ -338,6 +325,19 @@
                     "message": "Offer Creation Failed"
                 }
             }
+        },
+        "account": {
+            "general": "General",
+            "username": "Username",
+            "address": "Address",
+            "actions": "Actions",
+            "deposit": "Deposit",
+            "withdraw": "Withdraw",
+            "balances": "Balances",
+            "trades": "Trades",
+            "offers": "Offers",
+            "frozen": "Frozen",
+            "noBalances": "No balances available"
         }
     },
     "transactions": {

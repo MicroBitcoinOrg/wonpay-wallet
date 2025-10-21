@@ -62,6 +62,7 @@ export {
     useOutgoingTrades,
     useIncomingTrades,
     useCreateTrade,
+    useTrades,
 } from './useTrades';
 
 // Export withdrawal hooks

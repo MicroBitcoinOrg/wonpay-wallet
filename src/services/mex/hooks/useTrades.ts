@@ -54,6 +54,28 @@ export function useOutgoingTrades(
 }
 
 /**
+ * Get trades
+ *
+ * @example
+ * ```tsx
+ * const { data: trades } = useTrades(token, { direction: 'any' }, { page: 1 });
+ * ```
+ */
+export function useTrades(
+    token: string | null,
+    params: MEX.GetTradesParams,
+    pagination?: MEX.PaginationParams,
+    options?: QueryOptions<MEX.CryptoTradeResponsePagination>,
+) {
+    return useQuery({
+        queryKey: token ? mexKeys.trades.list(token, params, pagination) : [],
+        queryFn: () => MEX.getTrades(token!, params, pagination),
+        enabled: !!token,
+        ...options,
+    });
+}
+
+/**
  * Get incoming trades
  *
  * @example

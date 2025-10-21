@@ -261,7 +261,6 @@ const TabBar: React.FC<Props> = ({state, descriptors, navigation}) => {
                                 })}
                             <Text
                                 variant="sub1"
-                                fontSize={10}
                                 color={isFocused ? 'white' : 'textSecondary'}>
                                 {options.title}
                             </Text>

@@ -21,6 +21,7 @@ import {
     BottomSheetView,
     BottomSheetFlatList,
 } from '@gorhom/bottom-sheet';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 export interface PickerOption {
     label: string;
@@ -48,6 +49,7 @@ const BottomSheetPicker = ({
 }: BottomSheetPickerProps) => {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
     const scheme = useColorScheme();
+    const {bottom} = useSafeAreaInsets();
 
     const handlePresentModalPress = useCallback(() => {
         bottomSheetModalRef.current?.present();
@@ -135,7 +137,7 @@ const BottomSheetPicker = ({
 
     const renderContent = useCallback(() => {
         return (
-            <View style={styles.contentContainer}>
+            <View style={[styles.contentContainer]}>
                 {title && (
                     <View style={styles.headerContainer}>
                         <Text variant="h3">{title}</Text>
@@ -145,11 +147,11 @@ const BottomSheetPicker = ({
                     data={options}
                     keyExtractor={item => item.value}
                     renderItem={renderItem}
-                    contentContainerStyle={styles.listContent}
+                    contentContainerStyle={{paddingBottom: bottom + 40}}
                 />
             </View>
         );
-    }, [title, options, renderItem]);
+    }, [title, options, renderItem, bottom]);
 
     return (
         <Fragment>
@@ -164,7 +166,9 @@ const BottomSheetPicker = ({
                     ]}>
                     <Text
                         variant="body2"
-                        color={selectedOption ? 'textPrimary' : 'textSecondary'}>
+                        color={
+                            selectedOption ? 'textPrimary' : 'textSecondary'
+                        }>
                         {selectedOption ? selectedOption.label : placeholder}
                     </Text>
                 </TouchableOpacity>
@@ -194,9 +198,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         paddingHorizontal: 20,
     },
-    listContent: {
-        paddingBottom: 20,
-    },
+
     optionItem: {
         paddingHorizontal: 20,
         paddingVertical: 10,

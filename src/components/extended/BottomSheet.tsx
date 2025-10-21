@@ -7,12 +7,9 @@ import React, {
     useRef,
 } from 'react';
 
-import {Alert, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
 
-import {Avatar, Container, Text} from '../../components/common';
-import {TableItem} from '../../components/extended';
-import {Wallet} from '../../types/Wallet';
-import {MICROBITCOIN} from '../../utils/constants';
+import {Container} from '../../components/common';
 import {Colors} from '../../theme';
 import {useColorScheme} from 'react-native';
 
@@ -20,10 +17,8 @@ import {
     BottomSheetBackdrop,
     BottomSheetBackdropProps,
     BottomSheetModal,
-    BottomSheetModalProvider,
     BottomSheetView,
 } from '@gorhom/bottom-sheet';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 interface BottomSheetProps {
     children: ReactElement;
