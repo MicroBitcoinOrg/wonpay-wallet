@@ -1,5 +1,32 @@
 {
     "extends": "@react-native/typescript-config/tsconfig.json",
+    "compilerOptions": {
+        "baseUrl": "./src",
+        "paths": {
+            "@/components": ["components"],
+            "@/components/*": ["components/*"],
+            "@/providers": ["providers"],
+            "@/providers/*": ["providers/*"],
+            "@/theme": ["theme"],
+            "@/theme/*": ["theme/*"],
+            "@/store": ["store"],
+            "@/store/*": ["store/*"],
+            "@/services": ["services"],
+            "@/services/*": ["services/*"],
+            "@/routes": ["routes"],
+            "@/routes/*": ["routes/*"],
+            "@/screens": ["screens"],
+            "@/screens/*": ["screens/*"],
+            "@/utils": ["utils"],
+            "@/utils/*": ["utils/*"],
+            "@/types": ["types"],
+            "@/types/*": ["types/*"],
+            "@/assets": ["assets"],
+            "@/assets/*": ["assets/*"],
+            "@/hooks": ["hooks"],
+            "@/hooks/*": ["hooks/*"]
+        }
+    },
     "exclude": [
         "node_modules",
         "babel.config.js",
