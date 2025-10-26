@@ -18,6 +18,7 @@ import {decryptData, encryptData} from '../../utils/common';
 import {Dot, Pad} from './components';
 import {Colors} from '../../theme';
 import useAppStore from '../../store/appStore';
+import {Wallet} from '../../types/Wallet';
 
 const styles = StyleSheet.create({
     container: {
@@ -115,8 +116,8 @@ const Password: React.FC<PasswordProps> = ({
             }
 
             if (store.wallets.length > 0) {
-                const decryptedWallets = [];
-                const newEncryptedWallets = [];
+                const decryptedWallets: Wallet.Wallet[] = [];
+                const newEncryptedWallets: Wallet.Wallet[] = [];
 
                 for (let i = 0; i < store.wallets.length; ++i) {
                     decryptedWallets.push({
@@ -125,23 +126,51 @@ const Password: React.FC<PasswordProps> = ({
                             store.wallets[i].seedPhrase,
                             unlockedPassword,
                         ),
-                        addresses: store.wallets[i].addresses.map(
-                            (address: any) => {
-                                return {
-                                    ...address,
-                                    wif: decryptData(
-                                        address.wif,
-                                        unlockedPassword,
-                                    ),
-                                    privateKey: address.privateKey
-                                        ? decryptData(
-                                              address.privateKey,
-                                              unlockedPassword,
-                                          )
-                                        : address.privateKey,
-                                };
+                        chains: {
+                            ...store.wallets[i].chains,
+                            microbitcoin: {
+                                ...store.wallets[i].chains.microbitcoin,
+                                addresses: store.wallets[
+                                    i
+                                ].chains.microbitcoin.addresses.map(
+                                    (address: any) => {
+                                        return {
+                                            ...address,
+                                            wif: decryptData(
+                                                address.wif,
+                                                unlockedPassword,
+                                            ),
+                                            privateKey: address.privateKey
+                                                ? decryptData(
+                                                      address.privateKey,
+                                                      unlockedPassword,
+                                                  )
+                                                : address.privateKey,
+                                        };
+                                    },
+                                ),
                             },
-                        ),
+                            tron: {
+                                ...store.wallets[i].chains.tron,
+                                addresses: store.wallets[
+                                    i
+                                ].chains.tron.addresses.map((address: any) => {
+                                    return {
+                                        ...address,
+                                        wif: decryptData(
+                                            address.wif,
+                                            unlockedPassword,
+                                        ),
+                                        privateKey: address.privateKey
+                                            ? decryptData(
+                                                  address.privateKey,
+                                                  unlockedPassword,
+                                              )
+                                            : address.privateKey,
+                                    };
+                                }),
+                            },
+                        },
                     });
                 }
 
@@ -152,20 +181,48 @@ const Password: React.FC<PasswordProps> = ({
                             decryptedWallets[i].seedPhrase,
                             password,
                         ),
-                        addresses: decryptedWallets[i].addresses.map(
-                            (address: any) => {
-                                return {
-                                    ...address,
-                                    wif: encryptData(address.wif, password),
-                                    privateKey: address.privateKey
-                                        ? encryptData(
-                                              address.privateKey,
-                                              password,
-                                          )
-                                        : address.privateKey,
-                                };
+                        chains: {
+                            ...decryptedWallets[i].chains,
+                            microbitcoin: {
+                                ...decryptedWallets[i].chains.microbitcoin,
+                                addresses: decryptedWallets[
+                                    i
+                                ].chains.microbitcoin.addresses.map(
+                                    (address: any) => {
+                                        return {
+                                            ...address,
+                                            wif: encryptData(
+                                                address.wif,
+                                                password,
+                                            ),
+                                            privateKey: address.privateKey
+                                                ? encryptData(
+                                                      address.privateKey,
+                                                      password,
+                                                  )
+                                                : address.privateKey,
+                                        };
+                                    },
+                                ),
                             },
-                        ),
+                            tron: {
+                                ...decryptedWallets[i].chains.tron,
+                                addresses: decryptedWallets[
+                                    i
+                                ].chains.tron.addresses.map((address: any) => {
+                                    return {
+                                        ...address,
+                                        wif: encryptData(address.wif, password),
+                                        privateKey: address.privateKey
+                                            ? encryptData(
+                                                  address.privateKey,
+                                                  password,
+                                              )
+                                            : address.privateKey,
+                                    };
+                                }),
+                            },
+                        },
                     });
                 }
 

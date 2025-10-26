@@ -1,5 +1,5 @@
 import {useContext} from 'react';
-import {WalletContext} from '../../providers';
+import {useWallet, WalletContext} from '../../providers';
 import {getWalletTransactions as getWalletTransactionsTron} from '../tron/utils/transaction';
 import {getWalletTransactions as getWalletTransactionsMicrobitcoin} from '../microbitcoin/utils/transaction';
 import useAppStore from '../../store/appStore';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const useTransactionUtils = ({chain}: Props) => {
-    const {wallet} = useContext(WalletContext);
+    const {wallet, walletChain, chainKey} = useWallet();
     const store = useAppStore();
 
     const getTransactionUtils = () => {
@@ -45,7 +45,7 @@ const useTransactionUtils = ({chain}: Props) => {
 
             let transactions: Wallet.Transaction[] =
                 data.currency.ticker === CHAINS[chain].currency!.ticker
-                    ? [...wallet!.transactions]
+                    ? [...walletChain!.transactions]
                     : [];
 
             if (apiTransactions.length > 0) {
@@ -66,7 +66,7 @@ const useTransactionUtils = ({chain}: Props) => {
                     });
 
                 if (data.currency.ticker === CHAINS[chain].currency!.ticker) {
-                    store.updateWallet(store.uuid!, {
+                    store.updateWalletChain(store.uuid!, chainKey!, {
                         transactions: transactions.slice(0, 100),
                     });
                 }
@@ -76,7 +76,7 @@ const useTransactionUtils = ({chain}: Props) => {
         } catch (e) {
             console.error(e);
 
-            return wallet!.transactions;
+            return walletChain!.transactions;
         }
     };
 

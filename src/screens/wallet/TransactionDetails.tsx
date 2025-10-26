@@ -21,7 +21,7 @@ import {Button, IconButton} from '../../components/extended';
 import {Colors} from '../../theme';
 import NumberFormat from 'react-number-format';
 import useAppStore from '../../store/appStore';
-import {WalletContext} from '../../providers';
+import {useWallet, WalletContext} from '../../providers';
 import {Wallet} from '../../types/Wallet';
 
 const styles = StyleSheet.create({
@@ -76,7 +76,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
     const {t} = useTranslation('transactionDetails');
     const {transaction} = route.params ?? {};
     const store = useAppStore();
-    const {walletChain} = useContext(WalletContext);
+    const {chain} = useWallet();
 
     const getAddressItemFromAdressBook = () => {
         const addressItem = store.addressBook.find(
@@ -139,9 +139,9 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                         iconSet="ionicons"
                         onPress={() =>
                             Linking.openURL(
-                                `${
-                                    walletChain!.links.explorer.url
-                                }/transaction/${transaction.hash}`,
+                                `${chain!.links.explorer.url}/transaction/${
+                                    transaction.hash
+                                }`,
                             )
                         }
                     />
@@ -256,9 +256,9 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                         displayType="text"
                                         value={
                                             transaction.fee /
-                                            10 ** walletChain!.currency.units
+                                            10 ** chain!.currency.units
                                         }
-                                        suffix={` ${walletChain?.currency.ticker}`}
+                                        suffix={` ${chain?.currency.ticker}`}
                                         decimalScale={8}
                                         thousandSeparator
                                         fixedDecimalScale

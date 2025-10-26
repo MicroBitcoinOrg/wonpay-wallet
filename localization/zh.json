@@ -34,7 +34,9 @@
             "p2p": {
                 "newOffer": "新报价",
                 "newTrade": "新交易",
-                "tradeDetails": "交易详情"
+                "tradeDetails": "交易详情",
+                "account": "账户",
+                "deposit": "存款"
             }
         },
         "migration": {
@@ -194,7 +196,9 @@
             "trade": "交易",
             "remove": "删除",
             "offerDeleted": "报价删除成功",
-            "deleteOfferFailed": "删除报价失败"
+            "deleteOfferFailed": "删除报价失败",
+            "selectCurrency": "选择货币",
+            "selectSideCurrency": "选择支付货币"
         },
         "trades": {
             "incoming": "收到",
@@ -297,6 +301,66 @@
                     "message": "创建报价失败"
                 }
             }
+        },
+        "newTrade": {
+            "offerDetails": {
+                "title": "报价详情",
+                "price": "价格",
+                "available": "可用",
+                "limitMin": "最低限额",
+                "limitMax": "最高限额",
+                "memo": "备注",
+                "seller": "卖家"
+            },
+            "amount": {
+                "title": "数量",
+                "placeholder": "0.00000000",
+                "max": "最大",
+                "errors": {
+                    "exceedsAvailable": "数量超过可用量",
+                    "belowMinLimit": "交易价值必须至少为 {{min}} {{currency}}",
+                    "aboveMaxLimit": "交易价值不能超过 {{max}} {{currency}}"
+                }
+            },
+            "total": {
+                "title": "总计"
+            },
+            "confirmButton": "创建交易",
+            "alerts": {
+                "tradeConfirmation": {
+                    "message": "创建交易",
+                    "description": "您即将以 {{total}} {{sideCurrency}} 购买 {{amount}} {{currency}}。确认吗？",
+                    "cancel": "取消",
+                    "confirm": "确认"
+                },
+                "tradeCreated": {
+                    "message": "交易已创建",
+                    "description": "您的交易已成功创建。请完成付款。"
+                },
+                "error": {
+                    "message": "交易创建失败"
+                }
+            }
+        },
+        "account": {
+            "general": "常规",
+            "username": "用户名",
+            "address": "地址",
+            "actions": "操作",
+            "deposit": "存款",
+            "withdraw": "提款",
+            "balances": "余额",
+            "trades": "交易",
+            "offers": "报价",
+            "frozen": "冻结",
+            "noBalances": "暂无余额",
+            "account": "账户",
+            "market": "市场"
+        },
+        "deposit": {
+            "loading": "加载中...",
+            "selectNetwork": "选择网络",
+            "noAddress": "此网络没有可用地址"
         }
     },
     "transactions": {

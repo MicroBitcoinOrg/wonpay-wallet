@@ -39,7 +39,6 @@ const ManageAddressBookItem: React.FC<ManageAddressBookItemProps> = ({
     navigation,
     route,
 }: ManageAddressBookItemProps) => {
-    const {walletChain} = useContext(WalletContext);
     const scheme = useColorScheme();
     const {t} = useTranslation('manageAddressBookItem');
     const {type, ...params} = route.params ?? {
@@ -52,14 +51,14 @@ const ManageAddressBookItem: React.FC<ManageAddressBookItemProps> = ({
     const [title, setTitle] = useState<string>(params.title);
     const [favorite, setFavorite] = useState<boolean>(params.favorite);
 
-    const chain = getChainByAddress(address);
+    const addressChain = getChainByAddress(address);
 
     const saveAddressBook = () => {
         store.saveAddressBookItem({
             address,
             title,
             favorite,
-            chain: walletChain!.key,
+            chain: addressChain!.key!,
         });
         navigation.goBack();
 
@@ -159,7 +158,7 @@ const ManageAddressBookItem: React.FC<ManageAddressBookItemProps> = ({
                         }
                         onPress={saveAddressBook}
                         style={{marginVertical: 20}}
-                        disabled={!chain || !title || title.length === 0}
+                        disabled={!addressChain || !title || title.length === 0}
                     />
                 </KeyboardAvoidingView>
             </Container>

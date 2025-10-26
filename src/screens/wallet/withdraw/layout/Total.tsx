@@ -4,7 +4,7 @@ import {useTranslation} from 'react-i18next';
 import {Coin, HStack, Text, VStack} from '../../../../components/common';
 import {Colors} from '../../../../theme';
 import NumberFormat from 'react-number-format';
-import {WalletContext} from '../../../../providers';
+import {useWallet, WalletContext} from '../../../../providers';
 import {Wallet} from '../../../../types/Wallet';
 
 const styles = StyleSheet.create({
@@ -20,7 +20,7 @@ interface TotalProps {
 const Total = ({amount, fee, balance}: TotalProps) => {
     const scheme = useColorScheme();
     const {t} = useTranslation('withdraw');
-    const {wallet} = useContext(WalletContext);
+    const {walletChain} = useWallet();
 
     return (
         <VStack alignItems="flex-start" flex={1} style={styles.inputContainer}>
@@ -52,7 +52,8 @@ const Total = ({amount, fee, balance}: TotalProps) => {
             </HStack>
             <Text variant="sub1" opacity={0.5}>
                 {t('transactionFee', {
-                    coin: wallet?.balances.find(b => b.main)?.currency.ticker,
+                    coin: walletChain?.balances.find(b => b.main)?.currency
+                        .ticker,
                     balance: parseFloat(!balance.main ? '0.005' : fee).toFixed(
                         4,
                     ),

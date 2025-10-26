@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 import {Text} from '../../../../components/common';
 import {Colors} from '../../../../theme';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
-import {WalletContext} from '../../../../providers';
+import {useWallet, WalletContext} from '../../../../providers';
 import useMempoolUtils from '../../../../services/hooks/useMempoolUtils';
 
 const styles = StyleSheet.create({
@@ -26,16 +26,16 @@ const styles = StyleSheet.create({
 const MempoolCounter: React.FC = () => {
     const queryClient = useQueryClient();
     const scheme = useColorScheme();
-    const {wallet} = useContext(WalletContext);
+    const {wallet, chainKey, walletChain} = useWallet();
     const {t} = useTranslation('transactions');
 
     // Use the mempool utils hook based on wallet chain
-    const {getMempool} = useMempoolUtils({chain: wallet?.chain!});
+    const {getMempool} = useMempoolUtils({chain: chainKey!});
 
     const mempool = useQuery({
-        queryKey: ['mempool', wallet?.chain],
+        queryKey: ['mempool', chainKey],
         queryFn: () =>
-            getMempool && getMempool({address: wallet!.depositAddress}),
+            getMempool && getMempool({address: walletChain!.depositAddress}),
         enabled: !!wallet && !!getMempool,
         refetchInterval: 10000,
     });

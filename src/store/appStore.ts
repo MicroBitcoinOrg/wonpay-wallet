@@ -44,9 +44,18 @@ interface AppActions {
     deleteAddressBook: () => void;
     deleteAddressBookItem: (address: string) => void;
     updateWallet: (uuid: string, data: Partial<Wallet.Wallet>) => void;
+    updateWalletChain: (
+        uuid: string,
+        chainKey: Wallet.ChainEnum.MICROBITCOIN | Wallet.ChainEnum.TRON,
+        data: Partial<Wallet.WalletChain>,
+    ) => void;
     deleteWallet: (uuid: string) => void;
     updateWallets: (wallets: Wallet.Wallet[]) => void;
-    addTransactions: (uuid: string, transactions: Wallet.Transaction[]) => void;
+    addTransactions: (
+        uuid: string,
+        chainKey: Wallet.ChainEnum.MICROBITCOIN | Wallet.ChainEnum.TRON,
+        transactions: Wallet.Transaction[],
+    ) => void;
     setQrRequestData: (data: {
         address: string;
         amount?: string;
@@ -81,16 +90,31 @@ const initialState: AppStore = {
     isLoading: false,
 };
 
+const initialWalletChains: Record<
+    Wallet.ChainEnum.MICROBITCOIN | Wallet.ChainEnum.TRON,
+    Wallet.WalletChain
+> = {
+    [Wallet.ChainEnum.MICROBITCOIN]: {
+        transactions: [],
+        balances: [],
+        depositAddress: '',
+        addresses: [],
+    },
+    [Wallet.ChainEnum.TRON]: {
+        transactions: [],
+        balances: [],
+        depositAddress: '',
+        addresses: [],
+    },
+};
+
 const initialWallet: Wallet.Wallet = {
     title: '',
     seedPhrase: '',
-    transactions: [],
-    balances: [],
-    depositAddress: '',
-    addresses: [],
+    chains: initialWalletChains,
     createdAt: Date.now() / 1000,
     uuid: '',
-    chain: Wallet.ChainEnum.MICROBITCOIN,
+    activeChain: Wallet.ChainEnum.MICROBITCOIN,
 };
 
 const appStore: StateCreator<
@@ -157,6 +181,25 @@ const appActions: StateCreator<
                 }
             }),
         })),
+    updateWalletChain: (uuid, chainKey, data) =>
+        set(state => ({
+            wallets: state.wallets.map((wallet: Wallet.Wallet) => {
+                if (wallet.uuid === uuid) {
+                    return {
+                        ...wallet,
+                        chains: {
+                            ...wallet.chains,
+                            [chainKey]: {
+                                ...wallet.chains[chainKey],
+                                ...data,
+                            },
+                        },
+                    };
+                } else {
+                    return wallet;
+                }
+            }),
+        })),
     deleteWallet: (uuid: string) =>
         set(state => {
             const newWallets = state.wallets.filter(
@@ -180,28 +223,38 @@ const appActions: StateCreator<
         set(state => ({
             wallets,
         })),
-    addTransactions: (uuid: string, transactions: Wallet.Transaction[]) =>
+    addTransactions: (uuid, chainKey, transactions) =>
         set(state => ({
             wallets: state.wallets.map((wallet: Wallet.Wallet) => {
                 if (wallet.uuid === uuid) {
                     return {
                         ...wallet,
-                        transactions: [...transactions, ...wallet.transactions]
-                            .filter(
-                                (transaction, index, self) =>
-                                    index ===
-                                    self.findIndex(
-                                        t => t.hash === transaction.hash,
-                                    ),
-                            )
-                            .sort((a, b) => {
-                                const keyA = new Date(a.time * 1000);
-                                const keyB = new Date(b.time * 1000);
+                        chains: {
+                            ...wallet.chains,
+                            [chainKey]: {
+                                ...wallet.chains[chainKey],
+                                transactions: [
+                                    ...transactions,
+                                    ...wallet.chains[chainKey].transactions,
+                                ]
+                                    .filter(
+                                        (transaction, index, self) =>
+                                            index ===
+                                            self.findIndex(
+                                                t =>
+                                                    t.hash === transaction.hash,
+                                            ),
+                                    )
+                                    .sort((a, b) => {
+                                        const keyA = new Date(a.time * 1000);
+                                        const keyB = new Date(b.time * 1000);
 
-                                if (keyA > keyB) return -1;
-                                if (keyA < keyB) return 1;
-                                return 0;
-                            }),
+                                        if (keyA > keyB) return -1;
+                                        if (keyA < keyB) return 1;
+                                        return 0;
+                                    }),
+                            },
+                        },
                     };
                 } else {
                     return wallet;
@@ -241,7 +294,55 @@ const useAppStore = create<AppStore & AppActions>()(
             ...appStore(...a),
             ...appActions(...a),
         }),
-        {name: 'root', storage: createJSONStorage(() => AsyncStorage)},
+        {
+            name: 'root',
+            storage: createJSONStorage(() => AsyncStorage),
+            version: 2,
+            migrate: (persistedState: any, version: number) => {
+                if (version < 2) {
+                    if (
+                        'wallets' in persistedState &&
+                        Array.isArray(persistedState.wallets)
+                    ) {
+                        const migratedWallets = persistedState.wallets.map(
+                            (wallet: any) => {
+                                if (
+                                    'transactions' in wallet &&
+                                    'balances' in wallet &&
+                                    'depositAddress' in wallet &&
+                                    'addresses' in wallet
+                                ) {
+                                    return {
+                                        title: wallet.title,
+                                        seedPhrase: wallet.seedPhrase,
+                                        chains: {
+                                            ...initialWalletChains,
+                                            [wallet.chain]: {
+                                                depositAddress:
+                                                    wallet.depositAddress,
+                                                addresses: wallet.addresses,
+                                                transactions:
+                                                    wallet.transactions,
+                                                balances: wallet.balances,
+                                            },
+                                        },
+                                        createdAt: wallet.createdAt,
+                                        uuid: wallet.uuid,
+                                        activeChain: wallet.chain,
+                                    };
+                                }
+
+                                return wallet;
+                            },
+                        );
+
+                        persistedState.wallets = migratedWallets;
+                    }
+                }
+
+                return persistedState;
+            },
+        },
     ),
 );
 

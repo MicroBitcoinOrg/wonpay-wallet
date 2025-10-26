@@ -24,17 +24,8 @@ interface Props extends Wallet.Wallet {
     onPress: any;
 }
 
-const WalletItem: React.FC<Props> = ({
-    title,
-    balances,
-    uuid,
-    chain,
-    depositAddress,
-    ...props
-}) => {
+const WalletItem: React.FC<Props> = ({title, uuid, chains, ...props}) => {
     const scheme = useColorScheme();
-
-    const mainBalance = balances.find(b => b.main);
 
     return (
         <TouchableHighlight underlayColor={Colors[scheme!].card} {...props}>
@@ -48,35 +39,15 @@ const WalletItem: React.FC<Props> = ({
                 ]}>
                 <Avatar
                     title={title}
-                    backgroundColor={`#${base64ToHex(depositAddress).substring(
-                        0,
-                        6,
-                    )}`}
+                    backgroundColor={`#${base64ToHex(
+                        chains.microbitcoin.depositAddress,
+                    ).substring(0, 6)}`}
                     color="white"
-                    additional={
-                        CHAINS[chain].logo && (
-                            <Image
-                                tintColor={Colors[scheme!].textSecondary}
-                                source={CHAINS[chain].logo}
-                                style={{
-                                    width: 12,
-                                    height: 12,
-                                }}
-                            />
-                        )
-                    }
                 />
                 <View style={styles.contentContainer}>
                     <HStack justifyContent="flex-start">
                         <Text variant="body1">{title}</Text>
                     </HStack>
-                    <Text variant="body3" opacity={0.5}>
-                        {(
-                            mainBalance!.balance /
-                            10 ** mainBalance!.currency.units
-                        ).toFixed(4)}{' '}
-                        {mainBalance!.currency.ticker}
-                    </Text>
                 </View>
             </View>
         </TouchableHighlight>

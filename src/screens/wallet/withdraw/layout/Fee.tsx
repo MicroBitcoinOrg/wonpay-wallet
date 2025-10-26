@@ -15,7 +15,7 @@ const Fee = ({fee, setFee}: FeeProps) => {
     const scheme = useColorScheme();
     const [isFeeEnabled, setIsFeeEnabled] = useState(false);
     const {t} = useTranslation('withdraw');
-    const {wallet} = useContext(WalletContext);
+    const {walletChain} = useContext(WalletContext);
 
     const checkFee = (text: string) => {
         const regex = /^[0-9]{0,100}([.,][0-9]{0,8})?$/;
@@ -31,8 +31,8 @@ const Fee = ({fee, setFee}: FeeProps) => {
                     <HStack>
                         <Text variant="body1">
                             {
-                                wallet?.balances.find(b => b.main)?.currency
-                                    .ticker
+                                walletChain?.balances.find(b => b.main)
+                                    ?.currency.ticker
                             }
                         </Text>
                         <IconButton

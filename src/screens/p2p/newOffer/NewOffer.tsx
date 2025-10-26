@@ -143,14 +143,14 @@ const createFormSchema = (t: (key: string) => string) =>
             },
         );
 
-// Picker options
-const SIDE_OPTIONS: PickerOption[] = [
+// Picker options - These will be translated in the component
+const getSideOptions = (t: (key: string) => string): PickerOption[] => [
     {
-        label: 'Buy',
+        label: t('newOffer.form.side.buy'),
         value: SideEnum.BUY,
     },
     {
-        label: 'Sell',
+        label: t('newOffer.form.side.sell'),
         value: SideEnum.SELL,
     },
 ];
@@ -163,6 +163,7 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
     const createOfferMutation = useCreateOffer(token || '');
 
     const validationSchema = useMemo(() => createFormSchema(t), [t]);
+    const sideOptions = useMemo(() => getSideOptions(t), [t]);
 
     const {
         control,
@@ -283,7 +284,7 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                             'newOffer.form.side.description',
                                         )}>
                                         <BottomSheetPicker
-                                            options={SIDE_OPTIONS}
+                                            options={sideOptions}
                                             selectedValue={value}
                                             onValueChange={onChange}
                                             title={t(

@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Alert, ScrollView, StyleSheet, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {WalletContext} from '../../../providers';
+import {useWallet, WalletContext} from '../../../providers';
 import {
     Container,
     DismissKeyboard,
@@ -45,12 +45,12 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
     const scheme = useColorScheme();
     const {t} = useTranslation('withdraw');
     const store = useAppStore();
-    const {wallet, walletChain} = useContext(WalletContext);
+    const {wallet, walletChain, chain, chainKey} = useWallet();
     const defaultParams = {
         address: '',
         amount: '',
         timelock: undefined,
-        fee: String(walletChain!.minFee.toFixed(2)),
+        fee: String(chain!.minFee.toFixed(2)),
         token: undefined,
     };
     const params = route.params
@@ -60,11 +60,12 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
     const [amount, setAmount] = useState<string>(params.amount);
     const [fee, setFee] = useState<string>(params.fee);
     const [balance, setBalance] = useState<Wallet.Balance | undefined>(
-        wallet!.balances.find(item => item.currency.ticker === params.token) ||
-            wallet?.balances.find(b => b.main),
+        walletChain!.balances.find(
+            item => item.currency.ticker === params.token,
+        ) || walletChain?.balances.find(b => b.main),
     );
     const {sendTransaction} = useWithdrawalUtils({
-        chain: wallet!.chain,
+        chain: chainKey!,
     });
 
     const send = async () => {
@@ -143,9 +144,9 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
 
         if (route.params?.token) {
             setBalance(
-                wallet!.balances.find(
+                walletChain!.balances.find(
                     item => item.currency.ticker === params.token,
-                ) || wallet?.balances.find(b => b.main),
+                ) || walletChain?.balances.find(b => b.main),
             );
         }
     }, [route.params]);
@@ -156,7 +157,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                 <KeyboardAvoidingView style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
                         <Currency
-                            currencies={wallet!.balances}
+                            currencies={walletChain!.balances}
                             balance={balance!}
                             setBalance={setBalance}
                         />
@@ -175,7 +176,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                                 setAmount={setAmount}
                                 balance={balance!}
                             />
-                            {walletChain!.minFee > 0 && (
+                            {chain!.minFee > 0 && (
                                 <Fee fee={fee} setFee={setFee} />
                             )}
                         </VStack>
@@ -193,7 +194,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                             disabled={
                                 !isMatchAddress(
                                     address,
-                                    walletChain!.regex.address,
+                                    chain!.regex.address,
                                 ) ||
                                 !amount ||
                                 amount === '' ||

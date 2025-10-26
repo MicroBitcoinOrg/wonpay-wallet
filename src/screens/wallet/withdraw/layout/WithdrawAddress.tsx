@@ -9,7 +9,7 @@ import {AddressBookItem} from '../../../addressBook/components';
 import {Navigation} from '../../../../types/Navigation';
 import {useColorScheme} from 'react-native';
 import useAppStore from '../../../../store/appStore';
-import {WalletContext} from '../../../../providers';
+import {useWallet, WalletContext} from '../../../../providers';
 import {getChainByAddress, isMatchAddress} from '../../../../utils/address';
 import {Wallet} from '../../../../types/Wallet';
 
@@ -23,7 +23,7 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
     const {t} = useTranslation('withdraw');
     const navigation = useNavigation<Navigation.AppNavigationProp>();
     const store = useAppStore();
-    const {walletChain} = useContext(WalletContext);
+    const {chain} = useWallet();
 
     const sortFunc = (a: Wallet.AddressBook, b: Wallet.AddressBook) => {
         if (a.title > b.title) return 1;
@@ -34,7 +34,7 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
     const sortedAddresses = [
         ...store.addressBook.filter(a => a.favorite).sort(sortFunc),
         ...store.addressBook.filter(a => !a.favorite).sort(sortFunc),
-    ].filter(a => isMatchAddress(a.address, walletChain!.regex.address));
+    ].filter(a => isMatchAddress(a.address, chain!.regex.address));
 
     const getFromQRCode = () => {
         navigation.navigate('RootStack', {
@@ -47,7 +47,7 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
 
     const getFromClipboard = () => {
         Clipboard.getString().then(string => {
-            const match = isMatchAddress(string, walletChain!.regex.address);
+            const match = isMatchAddress(string, chain!.regex.address);
 
             if (match) {
                 setAddress(string);

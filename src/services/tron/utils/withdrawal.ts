@@ -25,10 +25,10 @@ export const sendMainTransaction = async (data: {
         const tronWeb = getTronWeb();
 
         // Get the first address from wallet (main address)
-        const fromAddress = data.wallet.depositAddress!;
+        const fromAddress = data.wallet.chains.tron.depositAddress!;
 
         // Decrypt the private key for the main address
-        const addressData = data.wallet.addresses.find(
+        const addressData = data.wallet.chains.tron.addresses.find(
             addr => addr.address === fromAddress,
         );
 
@@ -84,13 +84,13 @@ export const sendTokenTransaction = async (data: {
         const tronWeb = getTronWeb();
 
         // Get the first address from wallet (main address)
-        const fromAddress = data.wallet.depositAddress!;
+        const fromAddress = data.wallet.chains.tron.depositAddress!;
 
         // Debug: Log the fromAddress
         console.log('TRON fromAddress:', fromAddress);
 
         // Decrypt the private key for the main address
-        const addressData = data.wallet.addresses.find(
+        const addressData = data.wallet.chains.tron.addresses.find(
             addr => addr.address === fromAddress,
         );
 

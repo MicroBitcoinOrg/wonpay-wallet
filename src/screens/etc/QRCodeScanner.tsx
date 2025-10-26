@@ -26,7 +26,7 @@ import {useTranslation} from 'react-i18next';
 import {isMatchAddress} from '../../utils/address';
 import {FocusAwareStatusBar, HStack} from '../../components/common';
 import useAppStore from '../../store/appStore';
-import {WalletContext} from '../../providers';
+import {useWallet, WalletContext} from '../../providers';
 import {Camera, CameraType} from 'react-native-camera-kit';
 import {OnReadCodeData} from 'react-native-camera-kit/dist/CameraProps';
 import {Colors} from '../../theme';
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
 const QRCodeScanner: React.FC<QRCodeScannerProps> = ({navigation, route}) => {
     const {type} = route?.params ?? {};
     const store = useAppStore();
-    const {walletChain} = useContext(WalletContext);
+    const {chain} = useWallet();
     const [isCameraPermissionGranted, setIsCameraPermissionGranted] =
         useState(false);
     const [isProcessing, setIsProcessing] = useState(false);
@@ -346,13 +346,13 @@ const QRCodeScanner: React.FC<QRCodeScannerProps> = ({navigation, route}) => {
 
     const validateAddress = useCallback(
         (address: string): boolean => {
-            if (!walletChain?.regex?.address) {
+            if (!chain?.regex?.address) {
                 console.warn('Wallet chain regex not available');
                 return false;
             }
-            return isMatchAddress(address, walletChain.regex.address);
+            return isMatchAddress(address, chain.regex.address);
         },
-        [walletChain],
+        [chain],
     );
 
     const onQrScanned = useCallback(

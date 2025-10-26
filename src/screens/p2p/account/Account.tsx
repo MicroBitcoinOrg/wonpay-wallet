@@ -16,6 +16,7 @@ import Offers from './tabs/Offers';
 import {useTranslation} from 'react-i18next';
 import {Colors, Typography} from '../../../theme';
 import P2PList from './tabs/P2PList';
+import {useP2PNavigation} from '../../../hooks/useTypedNavigation';
 
 const styles = StyleSheet.create({
     tabsContainer: {
@@ -34,6 +35,7 @@ const Tab = createMaterialTopTabNavigator();
 const Account = () => {
     const scheme = useColorScheme();
     const {t} = useTranslation('p2p');
+    const navigation = useP2PNavigation();
 
     return (
         <Container paddingTop gradient style={{gap: 20}}>
@@ -45,12 +47,13 @@ const Account = () => {
                         iconColor="textPrimary"
                         name="chevron-down"
                         iconSet="ionicons"
+                        onPress={() => navigation.navigate('Deposit')}
                     />
                     <Text
                         variant="sub1"
                         color="white"
                         style={styles.buttonText}>
-                        {t('Deposit')}
+                        {t('account.deposit')}
                     </Text>
                 </VStack>
                 <VStack alignItems="center" justifyContent="center">
@@ -63,7 +66,7 @@ const Account = () => {
                         variant="sub1"
                         color="white"
                         style={styles.buttonText}>
-                        {t('Withdraw')}
+                        {t('account.withdraw')}
                     </Text>
                 </VStack>
             </HStack>
@@ -88,7 +91,7 @@ const Account = () => {
                 }}>
                 <Tab.Screen
                     name="P2PList"
-                    options={{title: 'Market'}}
+                    options={{title: t('account.market')}}
                     component={P2PList}
                 />
                 <Tab.Screen

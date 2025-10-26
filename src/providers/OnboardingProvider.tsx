@@ -50,9 +50,7 @@ export const OnboardingProvider = ({children}: OnboardingProviderProps) => {
         onboardingReducer,
         {
             processType: 'create',
-            wallet: {
-                chain: Wallet.ChainEnum.MICROBITCOIN,
-            },
+            wallet: {},
         },
     );
 

@@ -12,7 +12,7 @@ import {useTranslation} from 'react-i18next';
 // @ts-ignore
 import Share from 'react-native-share';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {WalletContext} from '../../providers';
+import {useWallet, WalletContext} from '../../providers';
 import {Container, HStack, Text, VStack} from '../../components/common';
 import {Colors} from '../../theme';
 import {IconButton} from '../../components/extended';
@@ -63,13 +63,13 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
         ? {...defaultParams, ...route.params}
         : defaultParams;
     const {t} = useTranslation('deposit');
-    const {wallet} = useContext(WalletContext);
-    const balance = wallet!.balances?.find(b =>
+    const {walletChain} = useWallet();
+    const balance = walletChain!.balances?.find(b =>
         params.token ? b.currency.ticker === params.token : b.main,
     );
 
     const generateQRValue = () => {
-        let value = `wonpay://deposit?address=${wallet!.depositAddress}`;
+        let value = `wonpay://deposit?address=${walletChain!.depositAddress}`;
 
         if (params.amount) {
             value += `&amount=${params.amount}`;
@@ -82,12 +82,12 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
         return value;
     };
 
-    if (!wallet) {
+    if (!walletChain) {
         return <View />;
     }
 
     const copyToClipboard = () => {
-        Clipboard.setString(wallet!.depositAddress);
+        Clipboard.setString(walletChain!.depositAddress);
         ReactNativeHapticFeedback.trigger('impactHeavy', hapticOptions);
         showMessage({
             message: t('alerts.copiedAddress.message'),
@@ -98,7 +98,7 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
 
     const share = async () => {
         await Share.open({
-            message: wallet!.depositAddress,
+            message: walletChain!.depositAddress,
         });
     };
 
@@ -141,7 +141,7 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
                     </View>
                 </TouchableWithoutFeedback>
                 <Text selectable numberOfLines={1} variant="body1">
-                    {wallet!.depositAddress}
+                    {walletChain!.depositAddress}
                 </Text>
                 <HStack style={styles.buttonsContainer}>
                     <VStack alignItems="center" justifyContent="center">

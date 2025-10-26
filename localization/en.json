@@ -36,7 +36,8 @@
                 "newOffer": "New Offer",
                 "newTrade": "New Trade",
                 "tradeDetails": "Trade Details",
-                "account": "Account"
+                "account": "Account",
+                "deposit": "Deposit"
             }
         },
         "migration": {
@@ -197,7 +198,9 @@
             "trade": "Trade",
             "remove": "Remove",
             "offerDeleted": "Offer deleted successfully",
-            "deleteOfferFailed": "Failed to delete offer"
+            "deleteOfferFailed": "Failed to delete offer",
+            "selectCurrency": "Select Currency",
+            "selectSideCurrency": "Select Payment Currency"
         },
         "trades": {
             "incoming": "Incoming",
@@ -232,6 +235,7 @@
             "amount": {
                 "title": "Amount",
                 "placeholder": "0.00000000",
+                "max": "Max",
                 "errors": {
                     "exceedsAvailable": "Amount exceeds available",
                     "belowMinLimit": "Trade value must be at least {{min}} {{currency}}",
@@ -337,7 +341,14 @@
             "trades": "Trades",
             "offers": "Offers",
             "frozen": "Frozen",
-            "noBalances": "No balances available"
+            "noBalances": "No balances available",
+            "account": "Account",
+            "market": "Market"
+        },
+        "deposit": {
+            "loading": "Loading...",
+            "selectNetwork": "Select Network",
+            "noAddress": "No address available for this network"
         }
     },
     "transactions": {

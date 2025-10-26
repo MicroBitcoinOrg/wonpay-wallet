@@ -20,7 +20,7 @@ import {useColorScheme} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {pick, types} from '@react-native-documents/picker';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import {PasswordContext, WalletContext} from '../../../../providers';
+import {PasswordContext, useWallet, WalletContext} from '../../../../providers';
 import {signMessage} from '../../../../utils/address';
 import {decryptData, encryptData} from '../../../../utils/common';
 import useBalanceUtils from '../../../../services/hooks/useBalanceUtils';
@@ -38,12 +38,12 @@ const ChangeIcon: React.FC<ChangeIconProps> = ({balance}: ChangeIconProps) => {
     const navigation = useNavigation();
     const {t} = useTranslation('tokenSettings');
     const scheme = useColorScheme();
-    const {wallet} = useContext(WalletContext);
+    const {walletChain, chainKey} = useWallet();
     const {unlockedPassword} = useContext(PasswordContext);
-    const {getCurrencyIcon} = useBalanceUtils({chain: wallet?.chain!});
+    const {getCurrencyIcon} = useBalanceUtils({chain: chainKey!});
 
-    const address = wallet?.addresses.find(
-        add => add.address === wallet?.depositAddress,
+    const address = walletChain?.addresses.find(
+        add => add.address === walletChain?.depositAddress,
     );
 
     const {data: authMessage, isFetching: isLoadingAuthMessage} = useQuery({
@@ -162,7 +162,7 @@ const ChangeIcon: React.FC<ChangeIconProps> = ({balance}: ChangeIconProps) => {
                     },
                     message: authMessage!.message,
                     signature: signature,
-                    address: wallet!.depositAddress,
+                    address: walletChain!.depositAddress,
                 });
             } catch (error) {
                 console.log(error);

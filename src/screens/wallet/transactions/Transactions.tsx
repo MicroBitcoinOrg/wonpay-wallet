@@ -17,7 +17,7 @@ import {
     ViewProps,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {WalletContext} from '../../../providers';
+import {useWallet, WalletContext} from '../../../providers';
 import {TransactionItem} from './components';
 import {IconButton, Input, NotFound} from '../../../components/extended';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
@@ -71,9 +71,9 @@ const Transactions: React.FC<TransactionsProps> = ({
     const historyScroll = useRef<FlatList>(null);
     const {searchActivated, setSearchActivated} = useContext(WalletContext);
     const [search, setSearch] = useState<string>('');
-    const {wallet} = useContext(WalletContext);
-    const {updateTransactions} = useTransactionUtils({chain: wallet!.chain});
-    const balance = balanceProp ?? wallet!.balances.find(b => b.main);
+    const {wallet, walletChain, chainKey} = useWallet();
+    const {updateTransactions} = useTransactionUtils({chain: chainKey!});
+    const balance = balanceProp ?? walletChain?.balances.find(b => b.main);
     const {
         refetch,
         data: transactions,
@@ -85,7 +85,7 @@ const Transactions: React.FC<TransactionsProps> = ({
             updateTransactions({
                 currency: balance!.currency,
             }),
-        initialData: wallet!.transactions,
+        initialData: walletChain?.transactions,
     });
 
     useFocusEffect(

@@ -6,7 +6,7 @@ import {Colors} from '../../../../theme';
 import React, {useContext} from 'react';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Navigation} from '../../../../types/Navigation';
-import {P2PContext, WalletContext} from '../../../../providers';
+import {P2PContext, useWallet, WalletContext} from '../../../../providers';
 import NumberFormat from 'react-number-format';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import {showMessage} from 'react-native-flash-message';
@@ -33,7 +33,7 @@ const Component = (props: Props) => {
     } = props;
     const navigation = useNavigation<NavigationProp<Navigation.P2PParamList>>();
     const scheme = useColorScheme();
-    const {wallet} = useContext(WalletContext);
+    const {wallet} = useWallet();
     const deleteOfferMutation = useDeleteOffer(token || '');
 
     const navigateToCreateTrade = () => {
@@ -56,7 +56,8 @@ const Component = (props: Props) => {
         }
     };
 
-    const isMyOffer = wallet?.addresses?.[0]?.address === user.address;
+    const isMyOffer =
+        wallet?.chains.microbitcoin.addresses?.[0]?.address === user.address;
 
     return (
         <Pressable onPress={isMyOffer ? undefined : navigateToCreateTrade}>

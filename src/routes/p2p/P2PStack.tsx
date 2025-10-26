@@ -6,6 +6,7 @@ import P2PList from '../../screens/p2p/account/tabs/P2PList';
 import NewOffer from '../../screens/p2p/newOffer/NewOffer';
 import NewTrade from '../../screens/p2p/newTrade/NewTrade';
 import Account from '../../screens/p2p/account/Account';
+import Deposit from '../../screens/p2p/deposit/Deposit';
 // import TradeDetails from '../../screens/p2p/tradeDetails/TradeDetails';
 import {Platform, useColorScheme} from 'react-native';
 import Config from 'react-native-config';
@@ -71,14 +72,8 @@ const P2PStack: React.FC = () => {
     };
 
     const openWalletList = () => {
-        // Filter only microbitcoin wallets for P2P
-        const microbitcoinWallets = store.wallets.filter(
-            (wallet: Wallet.Wallet) =>
-                wallet.chain === Wallet.ChainEnum.MICROBITCOIN,
-        );
-
         appNavigation.navigate('ChooseList', {
-            data: microbitcoinWallets,
+            data: store.wallets,
             keyExtractor: (item: Wallet.Wallet) => item.uuid,
             renderItem: (
                 item: Wallet.Wallet,
@@ -171,6 +166,16 @@ const P2PStack: React.FC = () => {
                     component={NewOffer}
                     options={{
                         title: t('screenTitles.p2p.newOffer'),
+                        cardStyle: {
+                            paddingBottom: 90,
+                        },
+                    }}
+                />
+                <Stack.Screen
+                    name="Deposit"
+                    component={Deposit}
+                    options={{
+                        title: t('screenTitles.p2p.deposit'),
                         cardStyle: {
                             paddingBottom: 90,
                         },

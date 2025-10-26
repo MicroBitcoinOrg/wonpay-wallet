@@ -33,8 +33,8 @@ interface CurrencyItemProps extends TouchableHighlightProps {
 
 const CurrencyItem = ({style, balance, ...props}: CurrencyItemProps) => {
     const scheme = useColorScheme();
-    const {walletChain} = useContext(WalletContext);
-    const {getCurrencyIcon} = useBalanceUtils({chain: walletChain!.key});
+    const {chainKey} = useContext(WalletContext);
+    const {getCurrencyIcon} = useBalanceUtils({chain: chainKey!});
 
     return (
         // @ts-ignore

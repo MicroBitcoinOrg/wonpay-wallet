@@ -78,7 +78,7 @@ const Amount = ({amount, offer, setAmount}: AmountProps) => {
                             {offer.trader_currency.currency}
                         </Text>
                         <Button
-                            title="Max"
+                            title={t('newTrade.amount.max')}
                             type="text"
                             color={
                                 scheme === 'dark' ? 'textPrimary' : 'primary'

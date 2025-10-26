@@ -14,6 +14,7 @@ import {P2PContext} from '../../../../providers';
 import {useMyProfile} from '../../../../services/mex/hooks';
 import {Button} from '../../../../components/extended';
 import {base64ToHex} from '../../../../utils/common';
+import {useTranslation} from 'react-i18next';
 
 const styles = StyleSheet.create({
     container: {
@@ -30,6 +31,7 @@ const styles = StyleSheet.create({
 });
 
 const AccountCard = () => {
+    const {t} = useTranslation('p2p');
     const {token} = useContext(P2PContext);
     const scheme = useColorScheme();
 
@@ -54,7 +56,7 @@ const AccountCard = () => {
                 />
                 <VStack gap={4}>
                     <Text variant="body1" numberOfLines={1}>
-                        Account
+                        {t('account.account')}
                     </Text>
                     <Text
                         variant="sub1"

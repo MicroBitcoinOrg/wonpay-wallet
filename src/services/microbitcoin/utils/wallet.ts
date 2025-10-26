@@ -1,16 +1,15 @@
 import {Wallet} from '../../../types/Wallet';
 import {generateAddressesAsync} from '../../../utils/address';
 import {encryptData} from '../../../utils/common';
+import {CHAINS} from '../../../utils/constants';
 import {checkAddresses} from '../api';
 import {v4 as uuidv4} from 'uuid';
 
 const findAddresses = async ({
     seedPhrase,
-    walletChain,
     offset = 20,
 }: {
     seedPhrase: string;
-    walletChain: Wallet.Chain;
     offset: number;
 }) => {
     let addressesWithHistory: Wallet.Address[] = [];
@@ -23,8 +22,8 @@ const findAddresses = async ({
             startIndex: searchRange[0],
             endIndex: searchRange[1],
             derive: 0,
-            networkAddress: walletChain.network,
-            derivePath: walletChain.derivationPath,
+            networkAddress: CHAINS.microbitcoin.network,
+            derivePath: CHAINS.microbitcoin.derivationPath!,
         });
         addressesWithHistory = [...addressesWithHistory, addresses[0]];
 
@@ -47,19 +46,17 @@ const findAddresses = async ({
     return [...new Set(addressesWithHistory)];
 };
 
-export const createWallet =
-    (externalData: {walletChain: Wallet.Chain; password: string}) =>
+export const createWalletChain =
+    (externalData: {password: string}) =>
     async ({
         seedPhrase,
-        title,
         offset = 20,
         type = 'create',
     }: {
         seedPhrase: string;
-        title: string;
-        offset: number;
+        offset?: number;
         type: 'create' | 'import';
-    }): Promise<Wallet.Wallet> => {
+    }): Promise<Wallet.WalletChain> => {
         try {
             let addresses =
                 type === 'create'
@@ -68,12 +65,11 @@ export const createWallet =
                           startIndex: 0,
                           endIndex: 1,
                           derive: 0,
-                          networkAddress: externalData.walletChain.network,
-                          derivePath: externalData.walletChain.derivationPath,
+                          networkAddress: CHAINS.microbitcoin.network,
+                          derivePath: CHAINS.microbitcoin.derivationPath!,
                       })
                     : await findAddresses({
                           seedPhrase,
-                          walletChain: externalData.walletChain,
                           offset,
                       });
 
@@ -85,18 +81,13 @@ export const createWallet =
             });
 
             return {
-                title,
                 transactions: [],
-                createdAt: Date.now(),
-                chain: externalData.walletChain.key,
-                uuid: uuidv4(),
-                seedPhrase: encryptData(seedPhrase, externalData.password),
                 addresses,
                 depositAddress: addresses[0].address,
                 balances: [
                     {
                         balance: 0,
-                        currency: externalData.walletChain.currency,
+                        currency: CHAINS.microbitcoin.currency!,
                         main: true,
                     },
                 ],

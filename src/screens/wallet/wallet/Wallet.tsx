@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         paddingHorizontal: 20,
-        marginBottom: 20,
         gap: 80,
     },
     buttonText: {
@@ -71,7 +70,7 @@ const Wallet = ({navigation}: WalletProps) => {
     };
 
     return (
-        <Container gradient>
+        <Container paddingTop gradient style={{gap: 20}}>
             <FocusAwareStatusBar barStyle="light-content" />
             <WalletCard />
             <HStack style={styles.buttonsContainer}>

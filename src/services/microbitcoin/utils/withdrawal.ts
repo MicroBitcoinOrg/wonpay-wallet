@@ -48,7 +48,7 @@ const addUnspentAndSign = (data: {
     // Add output to deposit address with remaining amount
     if (unspentSum > data.fee + data.amount) {
         data.txb.addOutput(
-            data.wallet.depositAddress!,
+            data.wallet.chains.microbitcoin.depositAddress!,
             unspentSum - data.fee - data.amount,
         );
 
@@ -59,7 +59,7 @@ const addUnspentAndSign = (data: {
 
     for (let i = 0; i < data.unspent.length; i++) {
         const wif = decryptData(
-            data.wallet!.addresses.find(
+            data.wallet!.chains.microbitcoin.addresses.find(
                 a => a.address === data.unspent[i].address,
             )!.wif,
             data.password,
@@ -118,7 +118,7 @@ export const sendTokenTransaction = async (data: {
     }[] = [];
 
     await Promise.all(
-        data.wallet.addresses.map(async address => {
+        data.wallet.chains.microbitcoin.addresses.map(async address => {
             const utxos = await getUTXO({
                 address: address.address,
             });
@@ -185,7 +185,7 @@ export const sendMainTransaction = async (data: {
     }[] = [];
 
     await Promise.all(
-        data.wallet.addresses.map(async address => {
+        data.wallet.chains.microbitcoin.addresses.map(async address => {
             let utxos = await getUTXO({
                 address: address.address,
             });

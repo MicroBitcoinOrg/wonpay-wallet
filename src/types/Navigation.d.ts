@@ -50,6 +50,7 @@ declare namespace Navigation {
         NewOffer: undefined; // Create new offer
         TradeDetails: {trade_reference: string}; // Trade details
         Account: undefined; // P2P account screen
+        Deposit: undefined; // P2P deposit screen
     };
 
     type OnboardingParamList = {

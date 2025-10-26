@@ -3,7 +3,7 @@ import {Pressable, useColorScheme, View} from 'react-native';
 import {Badge} from '../../../../components/extended';
 import {Colors} from '../../../../theme';
 import React, {useContext} from 'react';
-import {WalletContext} from '../../../../providers';
+import {useWallet, WalletContext} from '../../../../providers';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import NumberFormat from 'react-number-format';
 import {format} from 'date-fns';
@@ -18,10 +18,12 @@ const Component = (props: Props) => {
     const {t} = useTranslation('p2p');
     const {created, amount, offer, status, reference, user} = props;
     const scheme = useColorScheme();
-    const {wallet} = useContext(WalletContext);
+    const {wallet} = useWallet();
     const navigation = useNavigation<NavigationProp<Navigation.P2PParamList>>();
 
-    const isMyOffer = wallet?.addresses?.[0]?.address === offer.user.address;
+    const isMyOffer =
+        wallet?.chains.microbitcoin.addresses?.[0]?.address ===
+        offer.user.address;
 
     const navigateToTradeDetails = () => {
         navigation.navigate('TradeDetails', {trade_reference: reference});

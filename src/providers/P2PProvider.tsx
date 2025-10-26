@@ -54,7 +54,10 @@ export const P2PProvider = ({children}: P2PProviderProps) => {
                 throw new Error('Failed to get authentication message');
             }
 
-            const wif = decryptData(wallet.addresses[0].wif, unlockedPassword!);
+            const wif = decryptData(
+                wallet.chains.microbitcoin.addresses[0].wif,
+                unlockedPassword!,
+            );
 
             // Sign the message with the wallet
             const signature = signMessage(
@@ -67,7 +70,7 @@ export const P2PProvider = ({children}: P2PProviderProps) => {
             const response = await loginMutation.mutateAsync({
                 message: authMessage,
                 signature,
-                address: wallet.addresses[0].address,
+                address: wallet.chains.microbitcoin.addresses[0].address,
             });
 
             console.log(response);

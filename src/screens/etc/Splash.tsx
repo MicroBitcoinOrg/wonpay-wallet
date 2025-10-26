@@ -26,6 +26,7 @@ const Splash: React.FC<SplashProps> = ({navigation, route}: SplashProps) => {
     const [isAnimationFinished, setIsAnimationFinished] = useState(false);
     const store = useAppStore();
     const params = route.params;
+    const [isRehydrated, setIsRehydrated] = useState(false);
 
     useEffect(() => {
         if (store.isLoading) {
@@ -176,7 +177,7 @@ const Splash: React.FC<SplashProps> = ({navigation, route}: SplashProps) => {
                 });
             }
         }
-    }, [store.uuid, isAnimationFinished]);
+    }, [store.uuid, isAnimationFinished, isRehydrated]);
 
     return (
         <Container gradient style={styles.container}>

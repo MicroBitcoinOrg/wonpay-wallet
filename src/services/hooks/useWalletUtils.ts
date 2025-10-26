@@ -1,46 +1,65 @@
 import {useContext} from 'react';
 import {PasswordContext} from '../../providers';
 import {Wallet} from '../../types/Wallet';
-import {createWallet as createMicrobitcoinWallet} from '../microbitcoin/utils/wallet';
-import {createWallet as createTronWallet} from '../tron/utils/wallet';
-import {MICROBITCOIN, TRON} from '../../utils/constants';
+import {createWalletChain as createMicrobitcoinWalletChain} from '../microbitcoin/utils/wallet';
+import {createWalletChain as createTronWalletChain} from '../tron/utils/wallet';
+import {v4 as uuidv4} from 'uuid';
+import {encryptData} from '../../utils/common';
 
-interface Props {
-    chain: Wallet.ChainEnum;
-}
+type CreateWalletArgs = {
+    seedPhrase: string;
+    title: string;
+    type: 'create' | 'import';
+    offset?: number;
+};
 
-const useWalletUtils = ({chain}: Props) => {
+const useWalletUtils = () => {
     const {unlockedPassword} = useContext(PasswordContext);
 
-    if (!chain)
-        return {
-            createWallet: () => {
-                throw new Error('useWalletUtils: chain is undefined');
-            },
-        };
-
-    const getWalletUtils = () => {
+    const createWalletChain = (chain: Wallet.ChainEnum) => {
         switch (chain) {
             case Wallet.ChainEnum.MICROBITCOIN:
-                return {
-                    createWallet: createMicrobitcoinWallet({
-                        walletChain: MICROBITCOIN,
-                        password: unlockedPassword!,
-                    }),
-                };
+                return createMicrobitcoinWalletChain({
+                    password: unlockedPassword!,
+                });
             case Wallet.ChainEnum.TRON:
-                return {
-                    createWallet: createTronWallet({
-                        walletChain: TRON,
-                        password: unlockedPassword!,
-                    }),
-                };
+                return createTronWalletChain({
+                    password: unlockedPassword!,
+                });
             default:
                 throw new Error(`useWalletUtils: unsupported chain: ${chain}`);
         }
     };
 
-    return getWalletUtils();
+    const createWallet = async ({
+        seedPhrase,
+        title,
+        type,
+        offset = 20,
+    }: CreateWalletArgs): Promise<Wallet.Wallet> => {
+        const microbitcoinWalletChain = await createWalletChain(
+            Wallet.ChainEnum.MICROBITCOIN,
+        )({type, seedPhrase, offset});
+        const tronWalletChain = await createWalletChain(Wallet.ChainEnum.TRON)({
+            type,
+            seedPhrase,
+            offset,
+        });
+
+        return {
+            title,
+            createdAt: Date.now(),
+            activeChain: Wallet.ChainEnum.MICROBITCOIN,
+            uuid: uuidv4(),
+            seedPhrase: encryptData(seedPhrase, unlockedPassword!),
+            chains: {
+                [Wallet.ChainEnum.MICROBITCOIN]: microbitcoinWalletChain,
+                [Wallet.ChainEnum.TRON]: tronWalletChain,
+            },
+        };
+    };
+
+    return {createWalletChain, createWallet};
 };
 
 export default useWalletUtils;

@@ -48,8 +48,6 @@ const Trades = () => {
         }, [tradesRefetch]),
     );
 
-    console.log(trades);
-
     return (
         <View style={styles.container}>
             <FlatList

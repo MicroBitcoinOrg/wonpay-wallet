@@ -87,8 +87,14 @@ export interface BalanceResponse {
 /**
  * Address information
  */
+export type SupportedCurrency = {
+    currency: string;
+    min_withdrawal: number;
+    min_deposit: number;
+};
+
 export interface AddressResponse {
-    supported_currencies: string[];
+    supported_currencies: SupportedCurrency[];
     min_withdrawal: number;
     address: string | null;
     confirmations: number;

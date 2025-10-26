@@ -41,16 +41,20 @@ export namespace Wallet {
         currency: Currency;
     };
 
-    export type Wallet = {
-        title: string;
-        seedPhrase: string;
+    export type WalletChain = {
         transactions: Transaction[];
         balances: Balance[];
         depositAddress: string;
         addresses: Address[];
+    };
+
+    export type Wallet = {
+        title: string;
+        seedPhrase: string;
+        chains: Record<ChainEnum.MICROBITCOIN | ChainEnum.TRON, WalletChain>;
         createdAt: number;
         uuid: string;
-        chain: ChainEnum;
+        activeChain: ChainEnum.MICROBITCOIN | ChainEnum.TRON;
     };
 
     export type ChainLink = {

@@ -7,7 +7,7 @@ import {
     View,
 } from 'react-native';
 import {Colors} from '../../../../theme';
-import {P2PContext, WalletContext} from '../../../../providers';
+import {P2PContext, useWallet, WalletContext} from '../../../../providers';
 import {useFocusEffect} from '@react-navigation/native';
 import {useOffers} from '../../../../services/mex/hooks';
 import {OfferItem} from '../components';
@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
 const Offers = () => {
     const {t} = useTranslation('p2p');
     const {token} = useContext(P2PContext);
-    const {wallet} = useContext(WalletContext);
+    const {wallet} = useWallet();
     const scheme = useColorScheme();
 
     const {
@@ -35,7 +35,7 @@ const Offers = () => {
         error,
     } = useOffers(
         {
-            user: wallet?.addresses?.[0]?.address || null,
+            user: wallet?.chains.microbitcoin.addresses?.[0]?.address || null,
         },
         {page: 1},
         {enabled: !!token && !!wallet},

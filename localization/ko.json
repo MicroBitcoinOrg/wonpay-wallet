@@ -34,7 +34,9 @@
             "p2p": {
                 "newOffer": "새 제안",
                 "newTrade": "새 거래",
-                "tradeDetails": "거래 세부정보"
+                "tradeDetails": "거래 세부정보",
+                "account": "계정",
+                "deposit": "입금"
             }
         },
         "migration": {
@@ -194,7 +196,9 @@
             "trade": "거래",
             "remove": "제거",
             "offerDeleted": "제안이 성공적으로 삭제되었습니다",
-            "deleteOfferFailed": "제안 삭제에 실패했습니다"
+            "deleteOfferFailed": "제안 삭제에 실패했습니다",
+            "selectCurrency": "통화 선택",
+            "selectSideCurrency": "결제 통화 선택"
         },
         "trades": {
             "incoming": "수신",
@@ -297,6 +301,66 @@
                     "message": "제안 생성 실패"
                 }
             }
+        },
+        "newTrade": {
+            "offerDetails": {
+                "title": "제안 세부정보",
+                "price": "가격",
+                "available": "사용 가능",
+                "limitMin": "최소 한도",
+                "limitMax": "최대 한도",
+                "memo": "메모",
+                "seller": "판매자"
+            },
+            "amount": {
+                "title": "수량",
+                "placeholder": "0.00000000",
+                "max": "최대",
+                "errors": {
+                    "exceedsAvailable": "수량이 사용 가능한 양을 초과합니다",
+                    "belowMinLimit": "거래 가치는 최소 {{min}} {{currency}}이어야 합니다",
+                    "aboveMaxLimit": "거래 가치는 {{max}} {{currency}}를 초과할 수 없습니다"
+                }
+            },
+            "total": {
+                "title": "합계"
+            },
+            "confirmButton": "거래 만들기",
+            "alerts": {
+                "tradeConfirmation": {
+                    "message": "거래 만들기",
+                    "description": "{{total}} {{sideCurrency}}로 {{amount}} {{currency}}를 구매하려고 합니다. 확인하시겠습니까?",
+                    "cancel": "취소",
+                    "confirm": "확인"
+                },
+                "tradeCreated": {
+                    "message": "거래가 생성되었습니다",
+                    "description": "거래가 성공적으로 생성되었습니다. 결제를 완료하세요."
+                },
+                "error": {
+                    "message": "거래 생성 실패"
+                }
+            }
+        },
+        "account": {
+            "general": "일반",
+            "username": "사용자 이름",
+            "address": "주소",
+            "actions": "작업",
+            "deposit": "입금",
+            "withdraw": "출금",
+            "balances": "잔액",
+            "trades": "거래",
+            "offers": "제안",
+            "frozen": "동결",
+            "noBalances": "사용 가능한 잔액이 없습니다",
+            "account": "계정",
+            "market": "시장"
+        },
+        "deposit": {
+            "loading": "로딩 중...",
+            "selectNetwork": "네트워크 선택",
+            "noAddress": "이 네트워크에 사용 가능한 주소가 없습니다"
         }
     },
     "transactions": {

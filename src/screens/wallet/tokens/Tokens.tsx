@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
-import {WalletContext} from '../../../providers';
+import {useWallet, WalletContext} from '../../../providers';
 import {NotFound} from '../../../components/extended';
 import {FlatList, StyleSheet, View} from 'react-native';
 import {CurrencyItem} from '../components';
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
 const Tokens: React.FC<TokensProps> = ({isNFT}) => {
     const navigation = useNavigation<Navigation.AppNavigationProp>();
     const {t} = useTranslation('tokens');
-    const {wallet} = useContext(WalletContext);
-    const tokens = wallet?.balances.filter(b => !b.main);
+    const {walletChain} = useWallet();
+    const tokens = walletChain?.balances.filter(b => !b.main);
 
     return (
         <View style={styles.container}>

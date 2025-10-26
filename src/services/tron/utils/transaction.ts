@@ -8,7 +8,13 @@ import {
 
 const extractWalletAddresses = (wallet: Wallet.Wallet): string[] => {
     return wallet
-        ? [...new Set(wallet.addresses.map((a: Wallet.Address) => a.address))]
+        ? [
+              ...new Set(
+                  wallet.chains.tron.addresses.map(
+                      (a: Wallet.Address) => a.address,
+                  ),
+              ),
+          ]
         : [];
 };
 
@@ -37,7 +43,7 @@ export const getWalletMainTransactions = async (data: {
     wallet: Wallet.Wallet;
 }): Promise<Wallet.Transaction[]> => {
     const walletAddresses = extractWalletAddresses(data.wallet);
-    const address = data.wallet.depositAddress;
+    const address = data.wallet.chains.tron.depositAddress;
 
     try {
         const responseData = await fetchTrxTransfers(address);
@@ -58,7 +64,7 @@ export const getWalletTokenTransactions = async (data: {
     currency: Wallet.Currency;
 }): Promise<Wallet.Transaction[]> => {
     const walletAddresses = extractWalletAddresses(data.wallet);
-    const address = data.wallet.depositAddress;
+    const address = data.wallet.chains.tron.depositAddress;
     const contractAddress = data.currency.contract;
     const type = data.currency.type;
 

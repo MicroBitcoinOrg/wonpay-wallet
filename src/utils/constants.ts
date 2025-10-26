@@ -143,7 +143,7 @@ export const CHAINS: Record<
 };
 
 export const MEX_CURRENCIES: Currency[] = [
-    {network: 'microbitcoin', currency: 'TEST'},
-    {network: 'microbitcoin', currency: 'SATOSHI'},
-    {network: 'TRON', currency: 'USDT'},
+    {network: Wallet.ChainEnum.MICROBITCOIN, currency: 'TEST'},
+    {network: Wallet.ChainEnum.MICROBITCOIN, currency: 'SATOSHI'},
+    {network: Wallet.ChainEnum.TRON, currency: 'USDT'},
 ];

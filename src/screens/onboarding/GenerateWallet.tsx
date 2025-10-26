@@ -39,14 +39,13 @@ const GenerateWallet: React.FC<GenerateWalletProps> = ({
     const {onboarding, dispatchOnboardingAction} =
         useContext(OnboardingContext);
 
-    const {createWallet} = useWalletUtils({chain: onboarding!.wallet.chain!});
+    const {createWallet} = useWalletUtils();
 
     const handleCreateWallet = async () => {
         try {
             const wallet = await createWallet({
                 seedPhrase: onboarding?.wallet.seedPhrase!,
                 title: onboarding?.wallet.title!,
-                offset: 20,
                 type: onboarding!.processType,
             });
 
@@ -59,7 +58,6 @@ const GenerateWallet: React.FC<GenerateWalletProps> = ({
     const {data, isError, error, isSuccess} = useQuery({
         queryKey: [
             'wallet',
-            onboarding?.wallet.chain,
             onboarding?.wallet.seedPhrase,
             onboarding?.wallet.title,
             onboarding?.processType,
@@ -67,7 +65,6 @@ const GenerateWallet: React.FC<GenerateWalletProps> = ({
         queryFn: handleCreateWallet,
         retry: false,
         enabled:
-            onboarding?.wallet.chain !== undefined &&
             onboarding?.wallet.seedPhrase !== undefined &&
             onboarding?.wallet.title !== undefined &&
             onboarding?.processType !== undefined,
@@ -109,7 +106,10 @@ const GenerateWallet: React.FC<GenerateWalletProps> = ({
                     autoPlay
                     loop
                 />
-                <VStack style={styles.infoContainer}>
+                <VStack
+                    alignItems="center"
+                    justifyContent="center"
+                    style={styles.infoContainer}>
                     <View style={styles.titleContainer}>
                         <Text variant="h3" color="white">
                             {t('title')}

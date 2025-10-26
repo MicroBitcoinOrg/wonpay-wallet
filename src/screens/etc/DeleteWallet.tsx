@@ -75,9 +75,12 @@ const DeleteWallet: React.FC<DeleteWalletProps> = ({
     return (
         <Container gradient header={false}>
             <FocusAwareStatusBar barStyle="light-content" />
-            <VStack flex={1}>
+            <VStack alignItems="center" justifyContent="center" flex={1}>
                 <ActivityIndicator color="white" size="large" />
-                <VStack style={styles.infoContainer}>
+                <VStack
+                    alignItems="center"
+                    justifyContent="center"
+                    style={styles.infoContainer}>
                     <Text variant="h3" color="white">
                         {t('deletingWallet')}
                     </Text>

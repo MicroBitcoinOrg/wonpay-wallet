@@ -3,31 +3,26 @@ import {
     Dimensions,
     Image,
     Platform,
+    Pressable,
     StyleSheet,
+    TouchableOpacity,
     useColorScheme,
     View,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
-import {Avatar, HStack, Text} from '../../../../components/common';
-import Config from 'react-native-config';
-import {Navigation} from '../../../../types/Navigation';
+import {Avatar, HStack, Text, VStack} from '../../../../components/common';
 import {Colors} from '../../../../theme';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import NumberFormat from 'react-number-format';
-import {PasswordContext, WalletContext} from '../../../../providers';
+import {useWallet} from '../../../../providers';
 import useAppStore from '../../../../store/appStore';
 import useBalanceUtils from '../../../../services/hooks/useBalanceUtils';
 import {useQuery} from '@tanstack/react-query';
-import {decryptData} from '../../../../utils/common';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
+import {BottomSheetPicker} from '../../../../components/extended';
+import {CHAINS} from '../../../../utils/constants';
+import {Wallet} from '../../../../types/Wallet';
 
 const styles = StyleSheet.create({
-    container: {
-        height: 150,
-        width: Dimensions.get('window').width - 60,
-        borderRadius: 10,
-        justifyContent: 'space-between',
-        overflow: 'hidden',
-    },
     alignment: {
         height: '100%',
         padding: 15,
@@ -49,10 +44,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    walletCardContainer: {
-        marginBottom: 30,
-        marginHorizontal: -20,
-    },
     innerHStack: {
         marginTop: 15,
     },
@@ -68,15 +59,15 @@ const styles = StyleSheet.create({
 });
 
 const WalletCard = () => {
-    const {wallet, walletChain} = useContext(WalletContext);
+    const {wallet, walletChain, chainKey, chain} = useWallet();
     const store = useAppStore();
     const scheme = useColorScheme();
-    const mainBalance = wallet!.balances.find(b => b.main);
+    const mainBalance = walletChain?.balances.find(b => b.main);
     const formattedBalance =
         mainBalance!.balance / 10 ** mainBalance!.currency.units;
 
     const {getBalance, registerAddress} = useBalanceUtils({
-        chain: walletChain!.key,
+        chain: chainKey!,
     });
     const {
         data: balance,
@@ -85,114 +76,144 @@ const WalletCard = () => {
         isRefetching: isBalanceRefetching,
     } = useQuery({
         queryKey: ['balance', wallet!.uuid],
-        queryFn: () => getBalance({addresses: wallet!.addresses}),
+        queryFn: () => getBalance({addresses: walletChain!.addresses}),
     });
+
+    const mappedNetworks = wallet
+        ? (Object.keys(wallet?.chains) as Wallet.ChainEnum[]).map(_chain => ({
+              label: CHAINS[_chain].name!,
+              value: _chain,
+              description: CHAINS[_chain].currency!.ticker,
+          }))
+        : [];
 
     useEffect(() => {
         if (balance) {
-            store.updateWallet(wallet!.uuid, {balances: balance});
+            store.updateWalletChain(wallet!.uuid, chainKey!, {
+                balances: balance,
+            });
         }
     }, [balance]);
 
     useEffect(() => {
-        if (wallet?.transactions && wallet?.transactions.length > 0) {
+        if (walletChain?.transactions && walletChain?.transactions.length > 0) {
             refetchBalance();
         }
-    }, [wallet?.transactions]);
+    }, [walletChain?.transactions]);
 
     useEffect(() => {
-        if (registerAddress && wallet?.depositAddress) {
+        if (registerAddress && walletChain?.depositAddress) {
             registerAddress({
-                address: wallet!.depositAddress,
+                address: walletChain!.depositAddress,
                 service: 'wonpay',
             });
         }
-    }, [registerAddress, wallet?.depositAddress]);
+    }, [registerAddress, walletChain?.depositAddress]);
 
     return (
-        <HStack
-            style={[
-                styles.walletCardContainer,
-                {
-                    marginTop: parseInt(
-                        Platform.OS === 'ios'
-                            ? Config.HEADER_HEIGHT_IOS
-                            : Config.HEADER_HEIGHT_ANDROID,
-                    ),
-                },
-            ]}>
-            <View
-                style={[
-                    styles.container,
-                    {backgroundColor: Colors[scheme!].background},
-                ]}>
-                <View style={styles.alignment}>
-                    <HStack justifyContent="flex-start">
-                        {isBalanceLoading || isBalanceRefetching ? (
-                            <SkeletonPlaceholder
-                                backgroundColor={Colors[scheme!].background}
-                                highlightColor={Colors[scheme!].card}>
-                                <SkeletonPlaceholder.Item
-                                    width={75}
-                                    height={25}
-                                    borderRadius={4}
-                                />
-                            </SkeletonPlaceholder>
-                        ) : (
-                            <>
-                                <NumberFormat
-                                    displayType="text"
-                                    value={formattedBalance}
-                                    decimalScale={4}
-                                    thousandSeparator
-                                    fixedDecimalScale
-                                    suffix={` ${mainBalance?.currency.ticker}`}
-                                    renderText={value => (
-                                        <Text>
-                                            <Text
-                                                variant="h2"
-                                                color="textPrimary">
-                                                {value.split('.')[0]}
-                                            </Text>
-                                            <Text
-                                                variant="number2"
-                                                color="textPrimary">
-                                                .{value.split('.')[1]}
-                                            </Text>
-                                        </Text>
-                                    )}
-                                />
-                            </>
-                        )}
-                    </HStack>
-                    <HStack style={styles.innerHStack}>
-                        <HStack flex={1} justifyContent="space-between">
-                            <Text variant="body2" numberOfLines={1}>
-                                {wallet!.title}
+        <VStack>
+            <BottomSheetPicker
+                options={mappedNetworks}
+                selectedValue={chainKey!}
+                onValueChange={value =>
+                    store.updateWallet(wallet?.uuid!, {
+                        activeChain: value as
+                            | Wallet.ChainEnum.MICROBITCOIN
+                            | Wallet.ChainEnum.TRON,
+                    })
+                }>
+                <TouchableOpacity>
+                    <HStack
+                        justifyContent="space-between"
+                        width="100%"
+                        backgroundColor={Colors[scheme!].card}
+                        padding={15}
+                        borderRadius={10}
+                        borderBottomLeftRadius={0}
+                        borderBottomRightRadius={0}>
+                        <HStack gap={8}>
+                            <Avatar
+                                source={chain?.logo}
+                                backgroundColor={chain?.color}
+                                style={{width: 25, height: 25}}
+                                size="sm"
+                                imageProps={{
+                                    tintColor: Colors[scheme!].white,
+                                }}
+                            />
+                            <Text
+                                color="textSecondary"
+                                textTransform="uppercase"
+                                variant="sub1"
+                                fontWeight="bold">
+                                {chain?.name}
                             </Text>
-                            <HStack style={[styles.chainInfoContainer]}>
-                                <Text
-                                    color="textSecondary"
-                                    textTransform="uppercase"
-                                    variant="sub1"
-                                    fontWeight="bold">
-                                    {walletChain?.name}
-                                </Text>
-                                <Avatar
-                                    source={walletChain?.logo}
-                                    backgroundColor={walletChain?.color}
-                                    style={{width: 25, height: 25}}
-                                    size="sm"
-                                    imageProps={{
-                                        tintColor: Colors[scheme!].white,
-                                    }}
-                                />
-                            </HStack>
+                        </HStack>
+                        <HStack gap={4}>
+                            <Text color="textSecondary" variant="body3">
+                                Change network
+                            </Text>
+                            <EntypoIcon
+                                name="chevron-thin-right"
+                                size={12}
+                                color={Colors[scheme!].textSecondary}
+                            />
                         </HStack>
                     </HStack>
-                </View>
-            </View>
-        </HStack>
+                </TouchableOpacity>
+            </BottomSheetPicker>
+            <VStack
+                backgroundColor={Colors[scheme!].background}
+                gap={16}
+                borderRadius={10}
+                borderTopLeftRadius={0}
+                borderTopRightRadius={0}
+                padding={15}>
+                <HStack justifyContent="flex-start">
+                    {isBalanceLoading || isBalanceRefetching ? (
+                        <SkeletonPlaceholder
+                            backgroundColor={Colors[scheme!].background}
+                            highlightColor={Colors[scheme!].card}>
+                            <SkeletonPlaceholder.Item
+                                width={75}
+                                height={25}
+                                borderRadius={4}
+                            />
+                        </SkeletonPlaceholder>
+                    ) : (
+                        <>
+                            <NumberFormat
+                                displayType="text"
+                                value={formattedBalance}
+                                decimalScale={4}
+                                thousandSeparator
+                                fixedDecimalScale
+                                suffix={` ${mainBalance?.currency.ticker}`}
+                                renderText={value => (
+                                    <Text>
+                                        <Text variant="h2" color="textPrimary">
+                                            {value.split('.')[0]}
+                                        </Text>
+                                        <Text
+                                            variant="number2"
+                                            color="textPrimary">
+                                            .{value.split('.')[1]}
+                                        </Text>
+                                    </Text>
+                                )}
+                            />
+                        </>
+                    )}
+                </HStack>
+                <HStack style={styles.innerHStack}>
+                    <HStack flex={1} justifyContent="flex-end">
+                        <Text variant="body2" numberOfLines={1}>
+                            {wallet!.title}
+                        </Text>
+                    </HStack>
+                </HStack>
+            </VStack>
+        </VStack>
     );
 };
 

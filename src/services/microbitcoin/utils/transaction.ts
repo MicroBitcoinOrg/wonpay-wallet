@@ -111,7 +111,11 @@ export const getWalletTokenTransactions = async (data: {
     currency: Wallet.Currency;
 }) => {
     const walletAddresses: string[] = [
-        ...new Set(data.wallet.addresses.map((a: Wallet.Address) => a.address)),
+        ...new Set(
+            data.wallet.chains.microbitcoin.addresses.map(
+                (a: Wallet.Address) => a.address,
+            ),
+        ),
     ];
 
     try {
@@ -120,7 +124,7 @@ export const getWalletTokenTransactions = async (data: {
         let apiTransactions: any[] = [];
 
         apiTransactions = await getTokenTransactions({
-            address: data.wallet.depositAddress!,
+            address: data.wallet.chains.microbitcoin.depositAddress!,
             currency: data.currency.ticker,
         });
 
@@ -153,7 +157,11 @@ export const getWalletMainTransactions = async (data: {
     wallet: Wallet.Wallet;
 }) => {
     const walletAddresses: string[] = [
-        ...new Set(data.wallet.addresses.map((a: Wallet.Address) => a.address)),
+        ...new Set(
+            data.wallet.chains.microbitcoin.addresses.map(
+                (a: Wallet.Address) => a.address,
+            ),
+        ),
     ];
 
     try {

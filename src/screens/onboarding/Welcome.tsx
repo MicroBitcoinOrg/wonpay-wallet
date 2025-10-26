@@ -112,38 +112,6 @@ const Welcome: React.FC<WelcomeProps> = ({navigation}: WelcomeProps) => {
         );
     };
 
-    const chooseChain = (
-        chain: Wallet.ChainEnum,
-        type: 'create' | 'import',
-    ) => {
-        dispatchOnboardingAction({
-            type: 'setWalletValues',
-            wallet: {
-                chain,
-            },
-        });
-
-        if (type === 'create') {
-            handleCreateWallet();
-        } else {
-            handleImportWallet();
-        }
-    };
-
-    const openChainsList = (type: 'create' | 'import') => {
-        navigation.navigate('ChooseList', {
-            data: Object.keys(CHAINS),
-            keyExtractor: (item: Wallet.ChainEnum) => CHAINS[item].name,
-            renderItem: (item: Wallet.ChainEnum) => (
-                <ChainItem
-                    chain={CHAINS[item] as Wallet.Chain}
-                    onPress={() => chooseChain(item, type)}
-                />
-            ),
-            headerTitle: 'Choose Wallet',
-        });
-    };
-
     const handleCreateWallet = () => {
         dispatchOnboardingAction({
             type: 'setProcessType',
@@ -200,14 +168,14 @@ const Welcome: React.FC<WelcomeProps> = ({navigation}: WelcomeProps) => {
                 title={t('create')}
                 style={{marginTop: 60}}
                 color="secondary"
-                onPress={() => openChainsList('create')}
+                onPress={handleCreateWallet}
             />
             <Button
                 title={t('import')}
                 style={{marginVertical: 20}}
                 type="text"
                 color="secondary"
-                onPress={() => openChainsList('import')}
+                onPress={handleImportWallet}
             />
         </Container>
     );
