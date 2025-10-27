@@ -79,6 +79,7 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
                 rightContent={
                     <HStack>
                         <BottomSheetPicker
+                            title="Choose address"
                             options={sortedAddresses}
                             onValueChange={chooseAddressBookItem}>
                             <IconButton

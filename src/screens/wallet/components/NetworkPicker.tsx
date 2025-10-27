@@ -25,6 +25,7 @@ const NetworkPicker = (props: HStackProps) => {
 
     return (
         <BottomSheetPicker
+            title="Choose wallet network"
             options={mappedNetworks}
             selectedValue={chainKey!}
             onValueChange={value =>

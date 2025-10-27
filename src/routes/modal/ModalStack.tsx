@@ -1,7 +1,7 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {ChooseList, ManageAddressBookItem} from '@/screens';
+import {ManageAddressBookItem} from '@/screens';
 import {RootStack} from '@/routes';
 import {Navigation} from '@/types/Navigation';
 import {Text} from '@/components/common';
@@ -16,8 +16,6 @@ const ModalStack = () => {
         <Stack.Navigator
             screenOptions={{presentation: 'modal', headerShown: false}}>
             <Stack.Screen name="RootStack" component={RootStack} />
-            <Stack.Screen name="ChooseList" component={ChooseList} />
-
             <Stack.Screen
                 name="ManageAddressBookItem"
                 options={{

@@ -198,12 +198,13 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                         </VStack>
                     </ScrollView>
                     <Container
-                        style={[
-                            styles.bottomContainer,
-                            {
-                                borderColor: Colors[scheme!].border,
-                            },
-                        ]}>
+                        flex={0}
+                        marginHorizontal={-20}
+                        borderTopWidth={1}
+                        gap={16}
+                        justifyContent="center"
+                        paddingVertical={16}
+                        borderColor={Colors[scheme!].border}>
                         <Total amount={amount} fee={fee} balance={balance!} />
                         <Button
                             title={t('confirmButton')}

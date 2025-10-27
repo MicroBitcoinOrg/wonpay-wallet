@@ -108,9 +108,30 @@ const WalletStack: React.FC = () => {
                     headerRight: () => (
                         <>
                             <BottomSheetPicker
+                                title={t('screenTitles.wallet.walletList')}
                                 selectedValue={store.uuid}
                                 options={mappedWallets}
-                                onValueChange={chooseWallet}>
+                                onValueChange={chooseWallet}
+                                titleActions={ref => (
+                                    <IconButton
+                                        onPress={() => {
+                                            ref.current?.dismiss();
+                                            appNavigation.navigate(
+                                                'RootStack',
+                                                {
+                                                    screen: 'OnboardingStack',
+                                                    params: {
+                                                        screen: 'Welcome',
+                                                    },
+                                                },
+                                            );
+                                        }}
+                                        name="add"
+                                        iconSet="ionicons"
+                                        color="textPrimary"
+                                        transparent
+                                    />
+                                )}>
                                 <IconButton
                                     name="list"
                                     iconSet="ionicons"

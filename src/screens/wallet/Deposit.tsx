@@ -144,28 +144,20 @@ const Receive: React.FC<ReceiveProps> = ({navigation, route}: ReceiveProps) => {
                     {walletChain!.depositAddress}
                 </Text>
                 <HStack style={styles.buttonsContainer}>
-                    <VStack alignItems="center" justifyContent="center">
-                        <IconButton
-                            iconColor="textPrimary"
-                            name="copy-outline"
-                            iconSet="ionicons"
-                            onPress={copyToClipboard}
-                        />
-                        <Text variant="sub1" style={styles.text}>
-                            {t('copy')}
-                        </Text>
-                    </VStack>
-                    <VStack alignItems="center" justifyContent="center">
-                        <IconButton
-                            iconColor="textPrimary"
-                            name="share-outline"
-                            iconSet="ionicons"
-                            onPress={share}
-                        />
-                        <Text variant="sub1" style={styles.text}>
-                            {t('share')}
-                        </Text>
-                    </VStack>
+                    <IconButton
+                        iconColor="textPrimary"
+                        name="copy-outline"
+                        iconSet="ionicons"
+                        onPress={copyToClipboard}>
+                        {t('copy')}
+                    </IconButton>
+                    <IconButton
+                        iconColor="textPrimary"
+                        name="share-outline"
+                        iconSet="ionicons"
+                        onPress={share}>
+                        {t('share')}
+                    </IconButton>
                 </HStack>
             </View>
         </Container>

@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
+import React, {useContext, useMemo, useState, useCallback} from 'react';
+import {Pressable, StyleSheet, useColorScheme} from 'react-native';
 import {
     Container,
     FocusAwareStatusBar,
@@ -7,7 +7,8 @@ import {
     Text,
     VStack,
 } from '@/components/common';
-import {IconButton} from '@/components/extended';
+import {IconButton, BottomSheetPicker} from '@/components/extended';
+import type {PickerOption} from '@/components/extended';
 import AccountCard from './layout/AccountCard';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Balances from './tabs/Balances';
@@ -17,6 +18,12 @@ import {useTranslation} from 'react-i18next';
 import {Colors, Typography} from '@/theme';
 import P2PList from './tabs/P2PList';
 import {useP2PNavigation} from '@/hooks/useTypedNavigation';
+import {useAddresses} from '@/services/mex/hooks';
+import {P2PContext} from '@/providers';
+import {useWallet} from '@/providers';
+import {Wallet} from '@/types/Wallet';
+import useAppStore from '@/store/appStore';
+import {useNavigation} from '@react-navigation/native';
 
 const styles = StyleSheet.create({
     tabsContainer: {
@@ -36,43 +43,95 @@ const Account = () => {
     const scheme = useColorScheme();
     const {t} = useTranslation('p2p');
     const navigation = useP2PNavigation();
+    const rootNavigation = useNavigation<any>();
+    const {token} = useContext(P2PContext);
+    const {wallet} = useWallet();
+    const store = useAppStore();
+
+    const {data: addresses, isLoading} = useAddresses(token);
+
+    // Create network options from addresses
+    const networkOptions: PickerOption[] = useMemo(() => {
+        if (!addresses) return [];
+        return addresses
+            .filter(addr => addr.address) // Only show networks with addresses
+            .map(addr => ({
+                label: addr.network.toUpperCase(),
+                value: addr.network,
+                description: `${addr.supported_currencies.length} currencies`,
+            }));
+    }, [addresses]);
+
+    const handleNetworkSelect = useCallback(
+        (network: string) => {
+            const selectedAddress = addresses?.find(
+                addr => addr.network === network,
+            );
+
+            if (!selectedAddress || !selectedAddress.address) {
+                return;
+            }
+
+            const chainKey = network.toLowerCase() as
+                | Wallet.ChainEnum.MICROBITCOIN
+                | Wallet.ChainEnum.TRON;
+
+            if (chainKey !== null && wallet) {
+                // Update active chain in wallet
+                store.updateWallet(wallet.uuid, {
+                    activeChain: chainKey,
+                });
+
+                // Navigate to Withdraw screen in WalletStack with deposit address
+                rootNavigation.navigate('MainTabs', {
+                    screen: 'WalletStack',
+                    params: {
+                        screen: 'Withdraw',
+                        params: {
+                            address: selectedAddress.address,
+                        },
+                    },
+                });
+            }
+        },
+        [addresses, wallet, store, rootNavigation],
+    );
 
     return (
         <Container paddingTop gradient style={{gap: 20}}>
             <FocusAwareStatusBar barStyle="light-content" />
             <AccountCard />
             <HStack gap={64}>
-                <VStack alignItems="center" justifyContent="center">
+                <BottomSheetPicker
+                    options={networkOptions}
+                    onValueChange={handleNetworkSelect}
+                    title={t('account.selectNetwork', {
+                        defaultValue: 'Select Network',
+                    })}>
                     <IconButton
                         iconColor="textPrimary"
                         name="chevron-down"
-                        iconSet="ionicons"
-                        onPress={() => navigation.navigate('Deposit')}
-                    />
-                    <Text
-                        variant="sub1"
-                        color="white"
-                        style={styles.buttonText}>
-                        {t('account.deposit')}
-                    </Text>
-                </VStack>
-                <VStack alignItems="center" justifyContent="center">
-                    <IconButton
-                        iconColor="textPrimary"
-                        name="chevron-up"
-                        iconSet="ionicons"
-                    />
-                    <Text
-                        variant="sub1"
-                        color="white"
-                        style={styles.buttonText}>
+                        iconSet="ionicons">
+                        <Text variant="sub1" fontWeight={700} color="white">
+                            {t('account.deposit')}
+                        </Text>
+                    </IconButton>
+                </BottomSheetPicker>
+                <IconButton
+                    iconColor="textPrimary"
+                    name="chevron-up"
+                    iconSet="ionicons">
+                    <Text variant="sub1" fontWeight={700} color="white">
                         {t('account.withdraw')}
                     </Text>
-                </VStack>
+                </IconButton>
             </HStack>
 
             <Tab.Navigator
-                style={styles.tabsContainer}
+                style={[
+                    styles.tabsContainer,
+                    {backgroundColor: Colors[scheme!].background},
+                ]}
                 screenOptions={{
                     tabBarLabelStyle: {
                         ...Typography.body2,

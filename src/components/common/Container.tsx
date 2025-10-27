@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect} from 'react';
+import React, {ReactNode} from 'react';
 import {
     Image,
     Platform,
@@ -6,25 +6,18 @@ import {
     StyleSheet,
     useColorScheme,
     View,
-    ViewProps,
     ViewStyle,
 } from 'react-native';
 import Config from 'react-native-config';
-import {Colors} from '../../theme';
-import LinearGradient from 'react-native-linear-gradient';
-import Animated, {
-    interpolateColor,
-    useAnimatedProps,
-    useSharedValue,
-    withTiming,
-} from 'react-native-reanimated';
-import {useIsFocused} from '@react-navigation/native';
+import {Colors} from '@/theme';
 import {AnimatedGradientBackground} from './AnimatedGradientBackground';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const AnimatedLinearGradient = Animated.createAnimatedComponent(LinearGradient);
-
-interface ContainerProps extends ViewProps {
+interface ContainerProps
+    extends Omit<
+        ViewStyle,
+        'paddingBottom' | 'paddingTop' | 'paddingHorizontal'
+    > {
     paddingHorizontal?: boolean;
     paddingTop?: boolean;
     paddingBottom?: boolean;
@@ -37,6 +30,7 @@ interface ContainerProps extends ViewProps {
     areaStyle?: ViewStyle;
     flex?: number;
     animated?: boolean;
+    style?: ViewStyle | ViewStyle[];
     backgroundImage?: Image;
 }
 
@@ -83,8 +77,8 @@ const Container = ({
             ? 'transparent'
             : Colors[scheme!].background,
         paddingHorizontal: paddingHorizontal ? PADDING_HORIZONTAL : 0,
-        paddingTop: paddingTop ? HEADER_HEIGHT : 0,
-        paddingBottom: paddingBottom ? bottom : 0,
+        ...(paddingTop && {paddingTop: HEADER_HEIGHT}),
+        ...(paddingBottom && {paddingBottom: bottom}),
         flex: flex !== undefined ? flex : 1,
     };
 
@@ -93,7 +87,8 @@ const Container = ({
     return gradient ? (
         <AnimatedGradientBackground
             colors={['#000F92', '#0214B0']}
-            style={[styles.container, containerStyles, style]}>
+            style={[styles.container, containerStyles, style]}
+            {...props}>
             {safeArea ? (
                 <SafeAreaView
                     style={[styles.areaContainer, areaStyles, areaStyle]}>
@@ -104,7 +99,7 @@ const Container = ({
             )}
         </AnimatedGradientBackground>
     ) : (
-        <View style={[styles.container, containerStyles, style]} {...props}>
+        <View style={[styles.container, containerStyles, props, style]}>
             {safeArea ? (
                 <SafeAreaView style={[styles.areaContainer, areaStyles]}>
                     {children}

@@ -5,13 +5,6 @@ import {Offer} from '../services/mex/hooks';
 
 declare namespace Navigation {
     type ModalParamList = {
-        ChooseList: {
-            data: any[];
-            keyExtractor: (item: any) => string;
-            renderItem: (item: any, nav: AppNavigationProp) => React.ReactNode;
-            headerTitle: string;
-            headerRight?: React.ReactNode;
-        };
         ManageAddressBookItem: {
             address?: string;
             title?: string;

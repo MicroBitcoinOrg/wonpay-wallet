@@ -18,9 +18,15 @@ import {
 // Example 1: Basic Screen with Typed Navigation
 // ============================================================================
 
-type DepositScreenProps = StackScreenProps<Navigation.WalletParamList, 'Deposit'>;
+type DepositScreenProps = StackScreenProps<
+    Navigation.WalletParamList,
+    'Deposit'
+>;
 
-const DepositScreenExample: React.FC<DepositScreenProps> = ({route, navigation}) => {
+const DepositScreenExample: React.FC<DepositScreenProps> = ({
+    route,
+    navigation,
+}) => {
     // Route params are fully typed
     const {amount, token} = route.params;
 
@@ -126,33 +132,6 @@ const HomeScreenExample: React.FC = () => {
 };
 
 // ============================================================================
-// Example 5: Using ChooseList (Generic List Modal)
-// ============================================================================
-
-const SelectWalletExample: React.FC = () => {
-    const navigation = useAppNavigation();
-    const wallets: any[] = []; // Wallet.Wallet[]
-
-    const handleShowWalletList = () => {
-        navigation.navigate('ChooseList', {
-            data: wallets,
-            keyExtractor: (item: any) => item.uuid,
-            renderItem: (item: any, nav: Navigation.AppNavigationProp) => {
-                // Return your custom list item component
-                return null;
-            },
-            headerTitle: 'Select Wallet',
-            headerRight: (
-                // Optional header right component
-                null
-            ),
-        });
-    };
-
-    return null; // ... component implementation
-};
-
-// ============================================================================
 // Example 6: Screen with Optional Params
 // ============================================================================
 
@@ -195,8 +174,7 @@ const WalletStackExample = () => {
                         type: 'home', // Typed as 'address-book' | 'withdraw' | 'home'
                     },
                 });
-            }}
-        >
+            }}>
             Scan QR
         </button>
     );
@@ -224,7 +202,7 @@ function navigateToDeposit(
     options?: {
         token?: string;
         amount?: string;
-    }
+    },
 ) {
     navigation.navigate('Deposit', {
         token: options?.token,
@@ -256,9 +234,15 @@ const TokenListExample: React.FC = () => {
 // ============================================================================
 
 // Method 1: Using StackScreenProps
-type CurrencyScreenProps = StackScreenProps<Navigation.WalletParamList, 'Currency'>;
+type CurrencyScreenProps = StackScreenProps<
+    Navigation.WalletParamList,
+    'Currency'
+>;
 
-const CurrencyScreenExample1: React.FC<CurrencyScreenProps> = ({route, navigation}) => {
+const CurrencyScreenExample1: React.FC<CurrencyScreenProps> = ({
+    route,
+    navigation,
+}) => {
     // Both route and navigation are properly typed
     const {balance} = route.params;
 
@@ -279,7 +263,9 @@ const CurrencyScreenExample2: React.FC = () => {
 // Example 10: Type Guards for Navigation Params
 // ============================================================================
 
-function isDepositParams(params: any): params is Navigation.WalletParamList['Deposit'] {
+function isDepositParams(
+    params: any,
+): params is Navigation.WalletParamList['Deposit'] {
     return (
         typeof params === 'object' &&
         (params.amount === undefined || typeof params.amount === 'string') &&
@@ -305,7 +291,6 @@ export {
     WalletScreenExample,
     AddressBookScreenExample,
     HomeScreenExample,
-    SelectWalletExample,
     WithdrawScreenExample,
     WalletStackExample,
     TokenListExample,

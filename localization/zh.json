@@ -11,7 +11,8 @@
                 "swap": "Swap",
                 "swapDetails": "交换详情",
                 "NFTDetails": "NFT Details",
-                "tokenSettings": "令牌设置"
+                "tokenSettings": "令牌设置",
+                "walletList": "Wallet list"
             },
             "settings": {
                 "globalSettings": "设定值",

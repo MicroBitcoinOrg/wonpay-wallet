@@ -40,7 +40,6 @@ App (NavigationContainer)
     │   └── PasswordStack
     │       ├── Password
     │       └── ChangePasswordMethod
-    ├── ChooseList (Modal)
     └── ManageAddressBookItem (Modal)
 ```
 
@@ -51,20 +50,22 @@ All navigation types are defined in `src/types/Navigation.d.ts`.
 ### Param Lists
 
 Each navigator has its own param list that defines:
-- Screen names
-- Parameters each screen accepts
-- Whether parameters are optional or required
+
+-   Screen names
+-   Parameters each screen accepts
+-   Whether parameters are optional or required
 
 **Example:**
+
 ```typescript
 type WalletParamList = {
-    Wallet: undefined;  // No params
+    Wallet: undefined; // No params
     Deposit: {
-        amount?: string;  // Optional params
+        amount?: string; // Optional params
         token?: string;
     };
     TransactionDetails: {
-        transaction: Wallet.Transaction;  // Required params
+        transaction: Wallet.Transaction; // Required params
     };
 };
 ```
@@ -73,40 +74,28 @@ type WalletParamList = {
 
 Pre-defined navigation prop types for each stack:
 
-- `AppNavigationProp` - Modal stack (root level)
-- `RootNavigationProp` - Root stack
-- `WalletNavigationProp` - Wallet stack
-- `SettingsNavigationProp` - Settings stack
-- `OnboardingNavigationProp` - Onboarding stack
-- `PasswordNavigationProp` - Password stack
-- `AddressBookNavigationProp` - Address book stack
+-   `AppNavigationProp` - Modal stack (root level)
+-   `RootNavigationProp` - Root stack
+-   `WalletNavigationProp` - Wallet stack
+-   `SettingsNavigationProp` - Settings stack
+-   `OnboardingNavigationProp` - Onboarding stack
+-   `PasswordNavigationProp` - Password stack
+-   `AddressBookNavigationProp` - Address book stack
 
 ### Route Props
 
 Type-safe route props using generics:
 
 ```typescript
-type WalletRouteProp<T extends keyof WalletParamList> = RouteProp<WalletParamList, T>;
+type WalletRouteProp<T extends keyof WalletParamList> = RouteProp<
+    WalletParamList,
+    T
+>;
 ```
 
 ## Typed Navigation Hooks
 
 Located in `src/hooks/useTypedNavigation.ts`, these hooks provide automatic type inference.
-
-### Navigation Hooks
-
-```typescript
-import {useAppNavigation, useWalletNavigation} from '../hooks/useTypedNavigation';
-
-// In a component
-const navigation = useAppNavigation();  // Typed as AppNavigationProp
-navigation.navigate('ChooseList', {
-    data: wallets,
-    keyExtractor: (item) => item.uuid,  // TypeScript knows the structure
-    renderItem: (item) => <WalletItem {...item} />,
-    headerTitle: 'Choose Wallet',
-});
-```
 
 ### Route Hooks
 
@@ -115,7 +104,7 @@ import {useWalletRoute} from '../hooks/useTypedNavigation';
 
 // In a component
 const route = useWalletRoute<'Currency'>();
-const {balance} = route.params;  // Typed as Wallet.Balance
+const {balance} = route.params; // Typed as Wallet.Balance
 ```
 
 ## Global Type Declaration
@@ -137,6 +126,7 @@ This allows using `useNavigation()` without explicit typing when appropriate.
 ### 1. Use Typed Hooks
 
 **Good:**
+
 ```typescript
 import {useWalletNavigation} from '../hooks/useTypedNavigation';
 
@@ -144,6 +134,7 @@ const navigation = useWalletNavigation();
 ```
 
 **Avoid:**
+
 ```typescript
 const navigation = useNavigation<any>();
 ```
@@ -151,6 +142,7 @@ const navigation = useNavigation<any>();
 ### 2. Type Screen Components Properly
 
 **Good:**
+
 ```typescript
 import {Navigation} from '../types/Navigation';
 import {StackScreenProps} from '@react-navigation/stack';
@@ -158,7 +150,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 type Props = StackScreenProps<Navigation.WalletParamList, 'Deposit'>;
 
 const DepositScreen: React.FC<Props> = ({route, navigation}) => {
-    const {amount, token} = route.params;  // Fully typed
+    const {amount, token} = route.params; // Fully typed
     // ...
 };
 ```
@@ -196,16 +188,6 @@ navigation.navigate('RootStack', {
 
 ## Common Patterns
 
-### Modal Navigation
-
-Modals are at the root level (ModalStack):
-
-```typescript
-const navigation = useAppNavigation();
-navigation.navigate('ChooseList', { /* params */ });
-navigation.navigate('ManageAddressBookItem', { /* params */ });
-```
-
 ### Tab Navigation
 
 Navigate to a tab and optionally a screen within it:
@@ -229,7 +211,7 @@ navigation.navigate('TransactionDetails', {
 
 // In child screen
 const route = useWalletRoute<'TransactionDetails'>();
-const {transaction} = route.params;  // Typed as Wallet.Transaction
+const {transaction} = route.params; // Typed as Wallet.Transaction
 ```
 
 ## Migration Guide
@@ -237,12 +219,14 @@ const {transaction} = route.params;  // Typed as Wallet.Transaction
 ### From Untyped to Typed Navigation
 
 **Before:**
+
 ```typescript
 const navigation = useNavigation<any>();
 const route = useRoute<any>();
 ```
 
 **After:**
+
 ```typescript
 import {useWalletNavigation, useWalletRoute} from '../hooks/useTypedNavigation';
 
@@ -255,6 +239,7 @@ const route = useWalletRoute<'Deposit'>();
 The `navigateDeprecated` method has been removed. Replace with standard `navigate`:
 
 **Before:**
+
 ```typescript
 navigation.navigateDeprecated('RootStack', {
     screen: 'OnboardingStack',
@@ -263,6 +248,7 @@ navigation.navigateDeprecated('RootStack', {
 ```
 
 **After:**
+
 ```typescript
 navigation.navigate('RootStack', {
     screen: 'OnboardingStack',
@@ -298,6 +284,6 @@ If autocomplete doesn't work:
 
 ## Additional Resources
 
-- [React Navigation TypeScript Documentation](https://reactnavigation.org/docs/typescript/)
-- [Navigation Types File](./Navigation.d.ts)
-- [Typed Hooks File](../hooks/useTypedNavigation.ts)
+-   [React Navigation TypeScript Documentation](https://reactnavigation.org/docs/typescript/)
+-   [Navigation Types File](./Navigation.d.ts)
+-   [Typed Hooks File](../hooks/useTypedNavigation.ts)

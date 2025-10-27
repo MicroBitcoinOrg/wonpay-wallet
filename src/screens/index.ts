@@ -34,7 +34,6 @@ import QRCodeScanner from './etc/QRCodeScanner';
 import Splash from './etc/Splash';
 import FactoryReset from './etc/FactoryReset';
 import DeleteWallet from './etc/DeleteWallet';
-import ChooseList from './etc/ChooseList';
 
 export {
     // onboarding
@@ -69,7 +68,6 @@ export {
     Splash,
     FactoryReset,
     DeleteWallet,
-    ChooseList,
 };
 
 export {default as TokenSettings} from './wallet/token/Settings';

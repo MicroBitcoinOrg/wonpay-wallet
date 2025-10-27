@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {
     Pressable,
     PressableProps,
@@ -16,6 +16,7 @@ import Animated, {
     useSharedValue,
     withSpring,
 } from 'react-native-reanimated';
+import {Text} from '../common';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -57,6 +58,7 @@ interface IconButtonProps extends PressableProps {
     name: string;
     iconSet: IconSet;
     transparent?: boolean;
+    children?: ReactNode | ReactNode[] | string;
 }
 
 // Styles
@@ -66,6 +68,7 @@ const createStyles = (size: ButtonSize) =>
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
+            gap: 8,
         },
         iconContainer: {
             textAlign: 'center',
@@ -129,6 +132,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     size = 'md',
     transparent = false,
     disabled = false,
+    children,
     ...props
 }) => {
     const scheme = useColorScheme() as 'dark' | 'light';
@@ -192,6 +196,14 @@ const IconButton: React.FC<IconButtonProps> = ({
                     color={resolvedIconColor}
                 />
             </View>
+            {children &&
+                (typeof children === 'string' ? (
+                    <Text variant="sub1" fontWeight={700}>
+                        {children}
+                    </Text>
+                ) : (
+                    children
+                ))}
         </AnimatedPressable>
     );
 };

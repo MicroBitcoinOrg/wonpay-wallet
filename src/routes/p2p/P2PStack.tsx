@@ -1,12 +1,11 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {Header, IconButton} from '@/components/extended';
+import {BottomSheetPicker, Header, IconButton} from '@/components/extended';
 import P2PList from '@/screens/p2p/account/tabs/P2PList';
 import NewOffer from '@/screens/p2p/newOffer/NewOffer';
 import NewTrade from '@/screens/p2p/newTrade/NewTrade';
 import Account from '@/screens/p2p/account/Account';
-import Deposit from '@/screens/p2p/deposit/Deposit';
 // import TradeDetails from '@/screens/p2p/tradeDetails/TradeDetails';
 import {Platform, useColorScheme} from 'react-native';
 import Config from 'react-native-config';
@@ -63,44 +62,13 @@ const P2PStack: React.FC = () => {
     const p2pNavigation = useP2PNavigation();
     const store = useAppStore();
 
-    const chooseWallet = (uuid: string, nav: Navigation.AppNavigationProp) => {
-        store.setUUID(uuid);
-        nav.goBack();
-    };
+    const mappedWallets = store.wallets.map(wallet => ({
+        label: wallet.title,
+        value: wallet.uuid,
+    }));
 
-    const openWalletList = () => {
-        appNavigation.navigate('ChooseList', {
-            data: store.wallets,
-            keyExtractor: (item: Wallet.Wallet) => item.uuid,
-            renderItem: (
-                item: Wallet.Wallet,
-                nav: Navigation.AppNavigationProp,
-            ) => {
-                return (
-                    <WalletItem
-                        {...item}
-                        onPress={() => chooseWallet(item.uuid, nav)}
-                    />
-                );
-            },
-            headerRight: (
-                <IconButton
-                    onPress={() =>
-                        appNavigation.navigateDeprecated('RootStack', {
-                            screen: 'OnboardingStack',
-                            params: {
-                                screen: 'Welcome',
-                            },
-                        })
-                    }
-                    name="add"
-                    iconSet="ionicons"
-                    color="textPrimary"
-                    transparent
-                />
-            ),
-            headerTitle: t('Choose Wallet'),
-        });
+    const chooseWallet = (uuid: string) => {
+        store.setUUID(uuid);
     };
 
     return (
@@ -126,13 +94,19 @@ const P2PStack: React.FC = () => {
                     header: props => <Header {...props} transparent />,
                     headerRight: () => (
                         <>
-                            <IconButton
-                                onPress={openWalletList}
-                                name="list"
-                                iconSet="ionicons"
-                                color="white"
-                                transparent
-                            />
+                            <BottomSheetPicker
+                                title={t('screenTitles.wallet.walletList')}
+                                selectedValue={store.uuid}
+                                options={mappedWallets}
+                                onValueChange={chooseWallet}>
+                                <IconButton
+                                    name="list"
+                                    iconSet="ionicons"
+                                    color="white"
+                                    transparent
+                                />
+                            </BottomSheetPicker>
+
                             <IconButton
                                 onPress={() => navigation.navigate('NewOffer')}
                                 name="add"
@@ -160,16 +134,6 @@ const P2PStack: React.FC = () => {
                 component={NewOffer}
                 options={{
                     title: t('screenTitles.p2p.newOffer'),
-                    cardStyle: {
-                        paddingBottom: 90,
-                    },
-                }}
-            />
-            <Stack.Screen
-                name="Deposit"
-                component={Deposit}
-                options={{
-                    title: t('screenTitles.p2p.deposit'),
                     cardStyle: {
                         paddingBottom: 90,
                     },

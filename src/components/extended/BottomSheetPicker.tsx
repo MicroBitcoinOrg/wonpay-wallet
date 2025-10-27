@@ -2,6 +2,7 @@ import React, {
     cloneElement,
     Fragment,
     ReactElement,
+    ReactNode,
     useCallback,
     useMemo,
     useRef,
@@ -9,7 +10,7 @@ import React, {
 
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
-import {Avatar, Text, VStack} from '@/components/common';
+import {Avatar, HStack, Text, VStack} from '@/components/common';
 import {Colors} from '@/theme';
 import {useColorScheme} from 'react-native';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
@@ -39,6 +40,7 @@ interface BottomSheetPickerProps {
     onValueChange: (value: string) => void;
     title?: string;
     placeholder?: string;
+    titleActions?: (ref: React.RefObject<BottomSheetModal>) => ReactNode;
 }
 
 const BottomSheetPicker = ({
@@ -47,6 +49,7 @@ const BottomSheetPicker = ({
     selectedValue,
     onValueChange,
     title,
+    titleActions,
     placeholder = 'Select an option',
 }: BottomSheetPickerProps) => {
     const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -171,15 +174,16 @@ const BottomSheetPicker = ({
                 return null;
             }
             return (
-                <View
-                    style={[
-                        styles.sectionHeader,
-                        {backgroundColor: Colors[scheme!].background},
-                    ]}>
+                <HStack
+                    justifyContent="flex-start"
+                    paddingHorizontal={20}
+                    paddingVertical={8}
+                    paddingTop={16}
+                    backgroundColor={Colors[scheme!].background}>
                     <Text variant="sub1" color="textSecondary">
                         {section.title}
                     </Text>
-                </View>
+                </HStack>
             );
         },
         [scheme],
@@ -189,16 +193,21 @@ const BottomSheetPicker = ({
         return (
             <View style={[styles.contentContainer]}>
                 {title && (
-                    <View style={styles.headerContainer}>
+                    <HStack
+                        justifyContent="space-between"
+                        marginBottom={16}
+                        marginTop={8}
+                        paddingHorizontal={20}>
                         <Text variant="h3">{title}</Text>
-                    </View>
+                        {titleActions && titleActions(bottomSheetModalRef)}
+                    </HStack>
                 )}
                 <BottomSheetSectionList
                     sections={groupedSections}
                     keyExtractor={item => item.value}
                     renderItem={renderItem}
                     renderSectionHeader={renderSectionHeader}
-                    contentContainerStyle={{paddingBottom: bottom + 40}}
+                    contentContainerStyle={{paddingBottom: bottom + 80}}
                 />
             </View>
         );
@@ -234,7 +243,7 @@ const BottomSheetPicker = ({
                 handleIndicatorStyle={handleIndicatorStyle}
                 backdropComponent={renderBackdrop}
                 ref={bottomSheetModalRef}
-                snapPoints={['50%', '75%']}>
+                snapPoints={['90%']}>
                 <BottomSheetView style={styles.sheetContent}>
                     {renderContent()}
                 </BottomSheetView>
@@ -250,10 +259,6 @@ const styles = StyleSheet.create({
     contentContainer: {
         flex: 1,
     },
-    headerContainer: {
-        marginBottom: 16,
-        paddingHorizontal: 20,
-    },
 
     optionItem: {
         paddingHorizontal: 20,
@@ -265,11 +270,6 @@ const styles = StyleSheet.create({
     optionContent: {
         marginLeft: 15,
         flex: 1,
-    },
-    sectionHeader: {
-        paddingHorizontal: 20,
-        paddingVertical: 8,
-        paddingTop: 16,
     },
     defaultTrigger: {
         width: '100%',

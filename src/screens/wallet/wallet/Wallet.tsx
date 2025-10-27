@@ -5,7 +5,6 @@ import {
     FocusAwareStatusBar,
     HStack,
     Text,
-    VStack,
 } from '@/components/common';
 import {IconButton} from '@/components/extended';
 import {WalletCard} from './layout';
@@ -22,25 +21,6 @@ interface WalletProps {
     navigation: any;
     route?: any;
 }
-
-const styles = StyleSheet.create({
-    tabsContainer: {
-        marginHorizontal: -20,
-        borderTopRightRadius: 15,
-        borderTopLeftRadius: 15,
-    },
-    currencyTransactionsContainer: {
-        flex: 1,
-        overflow: 'scroll',
-    },
-    buttonsContainer: {
-        paddingHorizontal: 20,
-        gap: 80,
-    },
-    buttonText: {
-        marginTop: 5,
-    },
-});
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -70,57 +50,45 @@ const Wallet = ({navigation}: WalletProps) => {
     };
 
     return (
-        <Container paddingTop gradient style={{gap: 20}}>
+        <Container paddingTop gradient gap={20}>
             <FocusAwareStatusBar barStyle="light-content" />
             <WalletCard />
-            <HStack style={styles.buttonsContainer}>
-                <VStack alignItems="center" justifyContent="center">
-                    <IconButton
-                        iconColor="textPrimary"
-                        name="chevron-down"
-                        iconSet="ionicons"
-                        onPress={() => navigation.navigate('Deposit')}
-                    />
-                    <Text
-                        variant="sub1"
-                        color="white"
-                        style={styles.buttonText}>
+            <HStack gap={80}>
+                <IconButton
+                    iconColor="textPrimary"
+                    name="chevron-down"
+                    iconSet="ionicons"
+                    onPress={() => navigation.navigate('Deposit')}>
+                    <Text variant="sub1" fontWeight={700} color="white">
                         {t('deposit')}
                     </Text>
-                </VStack>
+                </IconButton>
 
-                <VStack alignItems="center" justifyContent="center">
-                    <IconButton
-                        iconColor="textPrimary"
-                        name="chevron-up"
-                        iconSet="ionicons"
-                        onPress={() => navigation.navigate('Withdraw')}
-                    />
-                    <Text
-                        variant="sub1"
-                        color="white"
-                        style={styles.buttonText}>
+                <IconButton
+                    iconColor="textPrimary"
+                    name="chevron-up"
+                    iconSet="ionicons"
+                    onPress={() => navigation.navigate('Withdraw')}>
+                    <Text variant="sub1" fontWeight={700} color="white">
                         {t('withdraw')}
                     </Text>
-                </VStack>
+                </IconButton>
 
-                <VStack alignItems="center" justifyContent="center">
-                    <IconButton
-                        iconSet="ionicons"
-                        name="options-outline"
-                        iconColor="textPrimary"
-                        onPress={onSettings}
-                    />
-                    <Text
-                        variant="sub1"
-                        color="white"
-                        style={styles.buttonText}>
+                <IconButton
+                    iconSet="ionicons"
+                    name="options-outline"
+                    iconColor="textPrimary"
+                    onPress={onSettings}>
+                    <Text variant="sub1" fontWeight={700} color="white">
                         {t('settings')}
                     </Text>
-                </VStack>
+                </IconButton>
             </HStack>
             <Tab.Navigator
-                style={styles.tabsContainer}
+                style={[
+                    styles.tabsContainer,
+                    {backgroundColor: Colors[scheme!].background},
+                ]}
                 screenOptions={{
                     tabBarLabelStyle: {
                         ...Typography.body2,
@@ -156,5 +124,13 @@ const Wallet = ({navigation}: WalletProps) => {
         </Container>
     );
 };
+
+const styles = StyleSheet.create({
+    tabsContainer: {
+        marginHorizontal: -20,
+        borderTopRightRadius: 15,
+        borderTopLeftRadius: 15,
+    },
+});
 
 export default Wallet;

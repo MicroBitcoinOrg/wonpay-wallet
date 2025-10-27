@@ -11,7 +11,8 @@
                 "swap": "Swap",
                 "swapDetails": "Swap Details",
                 "NFTDetails": "NFT Details",
-                "tokenSettings": "Token Settings"
+                "tokenSettings": "Token Settings",
+                "walletList": "Wallet list"
             },
             "settings": {
                 "globalSettings": "Settings",
