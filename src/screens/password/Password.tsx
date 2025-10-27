@@ -3,7 +3,7 @@ import {Alert, StyleSheet, useColorScheme, View} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
 import {showMessage} from 'react-native-flash-message';
 import {useTranslation} from 'react-i18next';
-import SInfo from '../../utils/keychain';
+import SInfo from '@/utils/keychain';
 import {
     Container,
     DismissKeyboard,
@@ -11,14 +11,14 @@ import {
     HStack,
     Text,
     VStack,
-} from '../../components/common';
-import {Button, Input} from '../../components/extended';
-import {PasswordContext} from '../../providers';
-import {decryptData, encryptData} from '../../utils/common';
+} from '@/components/common';
+import {Button, Input} from '@/components/extended';
+import {PasswordContext} from '@/providers';
+import {decryptData, encryptData} from '@/utils/common';
 import {Dot, Pad} from './components';
-import {Colors} from '../../theme';
-import useAppStore from '../../store/appStore';
-import {Wallet} from '../../types/Wallet';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
+import {Wallet} from '@/types/Wallet';
 
 const styles = StyleSheet.create({
     container: {

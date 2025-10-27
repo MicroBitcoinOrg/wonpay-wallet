@@ -6,23 +6,16 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import {Colors} from '../../../../theme';
-import {P2PItem} from '../components';
+import {Colors} from '@/theme';
+import {P2PItem} from '@/screens/p2p/account/components';
 import {useFocusEffect} from '@react-navigation/native';
-import {
-    Button,
-    NotFound,
-    BottomSheetPicker,
-} from '../../../../components/extended';
-import type {PickerOption} from '../../../../components/extended';
-import {HStack, VStack, Text} from '../../../../components/common';
-import {useOffers} from '../../../../services/mex/hooks';
-import {
-    SideEnum,
-    Currency as CurrencyType,
-} from '../../../../services/mex/api/types';
+import {Button, NotFound, BottomSheetPicker} from '@/components/extended';
+import type {PickerOption} from '@/components/extended';
+import {HStack, VStack, Text} from '@/components/common';
+import {useOffers} from '@/services/mex/hooks';
+import {SideEnum, Currency as CurrencyType} from '@/services/mex/api/types';
 import {useTranslation} from 'react-i18next';
-import {MEX_CURRENCIES} from '../../../../utils/constants';
+import {MEX_CURRENCIES} from '@/utils/constants';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 
 const styles = StyleSheet.create({

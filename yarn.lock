@@ -11264,15 +11264,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-number-format@npm:4.9.3":
-  version: 4.9.3
-  resolution: "react-number-format@npm:4.9.3"
-  dependencies:
-    prop-types: "npm:^15.7.2"
+"react-number-format@npm:5.4.4":
+  version: 5.4.4
+  resolution: "react-number-format@npm:5.4.4"
   peerDependencies:
-    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0
-  checksum: 10c0/b54c1633bcb4a00b4727679a7d94c28e4ea13903d84a85f6704fe1ca3fff63f37834df65c945ff7d7fc0e8e9eacbc432e9e205de86ceea390abab162f843b54b
+    react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+    react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
+  checksum: 10c0/e55cd16d9f7379a717e77d519db06ed455cc2df9842cd23499b60bc2ba1179df580742e27867a4ae84e0d308b18c0773b7e8943f9162e853f97bd194d15b0de7
   languageName: node
   linkType: hard
 
@@ -13594,7 +13592,7 @@ __metadata:
     react-native-svg-transformer: "npm:1.4.0"
     react-native-tab-view: "npm:3.5.2"
     react-native-vector-icons: "npm:10.2.0"
-    react-number-format: "npm:4.9.3"
+    react-number-format: "npm:5.4.4"
     react-test-renderer: "npm:19.1.0"
     readable-stream: "npm:4.5.2"
     rn-nodeify: "npm:10.3.0"

@@ -1,7 +1,7 @@
 import {TronWeb} from 'tronweb';
-import {decryptData} from '../../../utils/common';
-import {TRON} from '../../../utils/constants';
-import {Wallet} from '../../../types/Wallet';
+import {decryptData} from '@/utils/common';
+import {TRON} from '@/utils/constants';
+import {Wallet} from '@/types/Wallet';
 
 // Initialize TronWeb instance
 const getTronWeb = () => {

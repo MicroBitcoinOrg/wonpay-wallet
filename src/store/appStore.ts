@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {StateCreator, create} from 'zustand';
 import {createJSONStorage, persist} from 'zustand/middleware';
-import {Wallet} from '../types/Wallet';
+import {Wallet} from '@/types/Wallet';
 
 interface AppStore {
     password: {

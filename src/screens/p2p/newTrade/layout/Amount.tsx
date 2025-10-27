@@ -1,9 +1,9 @@
 import React from 'react';
-import {HStack, Text} from '../../../../components/common';
-import {Button, FormItem, Input} from '../../../../components/extended';
+import {HStack, Text} from '@/components/common';
+import {Button, FormItem, Input} from '@/components/extended';
 import {useTranslation} from 'react-i18next';
 import {useColorScheme} from 'react-native';
-import {CryptoOfferResponse} from '../../../../services/mex/api/types';
+import {CryptoOfferResponse} from '@/services/mex/api/types';
 
 interface AmountProps {
     amount: string;

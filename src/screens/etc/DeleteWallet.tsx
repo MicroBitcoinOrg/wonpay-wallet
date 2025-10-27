@@ -8,9 +8,9 @@ import {
     FocusAwareStatusBar,
     Text,
     VStack,
-} from '../../components/common';
-import {Colors} from '../../theme';
-import useAppStore from '../../store/appStore';
+} from '@/components/common';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
 
 const styles = StyleSheet.create({
     infoContainer: {

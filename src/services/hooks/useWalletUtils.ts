@@ -1,10 +1,10 @@
 import {useContext} from 'react';
-import {PasswordContext} from '../../providers';
-import {Wallet} from '../../types/Wallet';
-import {createWalletChain as createMicrobitcoinWalletChain} from '../microbitcoin/utils/wallet';
-import {createWalletChain as createTronWalletChain} from '../tron/utils/wallet';
+import {PasswordContext} from '@/providers';
+import {Wallet} from '@/types/Wallet';
+import {createWalletChain as createMicrobitcoinWalletChain} from '@/services/microbitcoin/utils/wallet';
+import {createWalletChain as createTronWalletChain} from '@/services/tron/utils/wallet';
 import {v4 as uuidv4} from 'uuid';
-import {encryptData} from '../../utils/common';
+import {encryptData} from '@/utils/common';
 
 type CreateWalletArgs = {
     seedPhrase: string;

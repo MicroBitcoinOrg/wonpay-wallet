@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Platform, StyleSheet, Switch, useColorScheme, View} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {getChainByAddress} from '../../utils/address';
+import {getChainByAddress} from '@/utils/address';
 import {
     Container,
     DismissKeyboard,
@@ -11,11 +11,11 @@ import {
     KeyboardAvoidingView,
     Text,
     VStack,
-} from '../../components/common';
-import {Button, IconButton, Input} from '../../components/extended';
-import {Colors} from '../../theme';
-import useAppStore from '../../store/appStore';
-import {WalletContext} from '../../providers';
+} from '@/components/common';
+import {Button, IconButton, Input} from '@/components/extended';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
+import {WalletContext} from '@/providers';
 
 interface ManageAddressBookItemProps {
     navigation: any;

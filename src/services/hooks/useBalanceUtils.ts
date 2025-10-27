@@ -1,8 +1,8 @@
-import {Wallet} from '../../types/Wallet';
+import {Wallet} from '@/types/Wallet';
 
-import {getBalance as getMicrobitcoinBalance} from '../microbitcoin/api/getBalance';
-import {registerAddress as registerMicrobitcoinAddress} from '../microbitcoin/api/registerAddress';
-import {getCurrencyIcon as getMicrobitcoinCurrencyIcon} from '../microbitcoin/utils/balance';
+import {getBalance as getMicrobitcoinBalance} from '@/services/microbitcoin/api/getBalance';
+import {registerAddress as registerMicrobitcoinAddress} from '@/services/microbitcoin/api/registerAddress';
+import {getCurrencyIcon as getMicrobitcoinCurrencyIcon} from '@/services/microbitcoin/utils/balance';
 import {
     getBalance as getTronBalance,
     getCurrencyIcon as getTronCurrencyIcon,

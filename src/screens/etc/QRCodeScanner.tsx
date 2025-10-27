@@ -23,13 +23,13 @@ import {
     Permission,
 } from 'react-native-permissions';
 import {useTranslation} from 'react-i18next';
-import {isMatchAddress} from '../../utils/address';
-import {FocusAwareStatusBar, HStack} from '../../components/common';
-import useAppStore from '../../store/appStore';
-import {useWallet, WalletContext} from '../../providers';
+import {isMatchAddress} from '@/utils/address';
+import {FocusAwareStatusBar, HStack} from '@/components/common';
+import useAppStore from '@/store/appStore';
+import {useWallet, WalletContext} from '@/providers';
 import {Camera, CameraType} from 'react-native-camera-kit';
 import {OnReadCodeData} from 'react-native-camera-kit/dist/CameraProps';
-import {Colors} from '../../theme';
+import {Colors} from '@/theme';
 
 // Constants
 const QR_FRAME_SIZE = 300;

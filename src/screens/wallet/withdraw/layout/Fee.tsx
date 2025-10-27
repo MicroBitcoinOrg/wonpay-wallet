@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react';
-import {HStack, Text} from '../../../../components/common';
-import {FormItem, IconButton, Input} from '../../../../components/extended';
+import {HStack, Text} from '@/components/common';
+import {FormItem, IconButton, Input} from '@/components/extended';
 import {useTranslation} from 'react-i18next';
 import Config from 'react-native-config';
 import {useColorScheme} from 'react-native';
-import {WalletContext} from '../../../../providers';
+import {WalletContext} from '@/providers';
 
 interface FeeProps {
     fee: string;

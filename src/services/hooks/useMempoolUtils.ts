@@ -1,6 +1,6 @@
-import {Wallet} from '../../types/Wallet';
+import {Wallet} from '@/types/Wallet';
 
-import {getMempool as getMicrobitcoinMempool} from '../microbitcoin/api';
+import {getMempool as getMicrobitcoinMempool} from '@/services/microbitcoin/api';
 
 interface Props {
     chain: Wallet.ChainEnum;

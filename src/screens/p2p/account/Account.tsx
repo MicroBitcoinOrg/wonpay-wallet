@@ -6,17 +6,17 @@ import {
     HStack,
     Text,
     VStack,
-} from '../../../components/common';
-import {IconButton} from '../../../components/extended';
+} from '@/components/common';
+import {IconButton} from '@/components/extended';
 import AccountCard from './layout/AccountCard';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import Balances from './tabs/Balances';
 import Trades from './tabs/Trades';
 import Offers from './tabs/Offers';
 import {useTranslation} from 'react-i18next';
-import {Colors, Typography} from '../../../theme';
+import {Colors, Typography} from '@/theme';
 import P2PList from './tabs/P2PList';
-import {useP2PNavigation} from '../../../hooks/useTypedNavigation';
+import {useP2PNavigation} from '@/hooks/useTypedNavigation';
 
 const styles = StyleSheet.create({
     tabsContainer: {

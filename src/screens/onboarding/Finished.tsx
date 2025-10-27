@@ -7,8 +7,8 @@ import {
     Image,
     Text,
     VStack,
-} from '../../components/common';
-import {Button} from '../../components/extended';
+} from '@/components/common';
+import {Button} from '@/components/extended';
 import Config from 'react-native-config';
 
 const styles = StyleSheet.create({

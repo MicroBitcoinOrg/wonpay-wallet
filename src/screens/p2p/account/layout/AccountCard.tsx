@@ -6,14 +6,14 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import {Avatar, HStack, Text, VStack} from '../../../../components/common';
+import {Avatar, HStack, Text, VStack} from '@/components/common';
 import Config from 'react-native-config';
-import {Colors} from '../../../../theme';
+import {Colors} from '@/theme';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {P2PContext} from '../../../../providers';
-import {useMyProfile} from '../../../../services/mex/hooks';
-import {Button} from '../../../../components/extended';
-import {base64ToHex} from '../../../../utils/common';
+import {P2PContext} from '@/providers';
+import {useMyProfile} from '@/services/mex/hooks';
+import {Button} from '@/components/extended';
+import {base64ToHex} from '@/utils/common';
 import {useTranslation} from 'react-i18next';
 
 const styles = StyleSheet.create({

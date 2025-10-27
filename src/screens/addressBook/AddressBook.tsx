@@ -4,11 +4,11 @@ import {Animated, FlatList, StyleSheet} from 'react-native';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import {RectButton} from 'react-native-gesture-handler';
 import {useTranslation} from 'react-i18next';
-import {Container} from '../../components/common';
+import {Container} from '@/components/common';
 import {AddressBookItem} from './components';
-import {NotFound} from '../../components/extended';
-import useAppStore from '../../store/appStore';
-import {Wallet} from '../../types/Wallet';
+import {NotFound} from '@/components/extended';
+import useAppStore from '@/store/appStore';
+import {Wallet} from '@/types/Wallet';
 
 const styles = StyleSheet.create({
     container: {

@@ -1,17 +1,20 @@
 import React, {useContext} from 'react';
-import {HStack} from '../../../../components/common';
-import {FormItem, Input, IconButton} from '../../../../components/extended';
+import {HStack} from '@/components/common';
+import {
+    FormItem,
+    Input,
+    IconButton,
+    BottomSheetPicker,
+} from '@/components/extended';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {AddressBookItem} from '../../../addressBook/components';
-import {Navigation} from '../../../../types/Navigation';
+import {Navigation} from '@/types/Navigation';
 import {useColorScheme} from 'react-native';
-import useAppStore from '../../../../store/appStore';
-import {useWallet, WalletContext} from '../../../../providers';
-import {getChainByAddress, isMatchAddress} from '../../../../utils/address';
-import {Wallet} from '../../../../types/Wallet';
+import useAppStore from '@/store/appStore';
+import {useWallet} from '@/providers';
+import {isMatchAddress} from '@/utils/address';
+import {Wallet} from '@/types/Wallet';
 
 interface WithdrawAddressProps {
     address: string;
@@ -34,7 +37,12 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
     const sortedAddresses = [
         ...store.addressBook.filter(a => a.favorite).sort(sortFunc),
         ...store.addressBook.filter(a => !a.favorite).sort(sortFunc),
-    ].filter(a => isMatchAddress(a.address, chain!.regex.address));
+    ].map(addr => ({
+        label: addr.title,
+        description: addr.address,
+        value: addr.address,
+        group: 'Address Book',
+    }));
 
     const getFromQRCode = () => {
         navigation.navigate('RootStack', {
@@ -55,29 +63,8 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
         });
     };
 
-    const chooseAddressBookItem = (
-        chosenAddressBookItem: Wallet.AddressBook,
-        nav: StackNavigationProp<any>,
-    ) => {
-        setAddress(chosenAddressBookItem.address);
-        nav.goBack();
-    };
-
-    const openAddressBookList = () => {
-        navigation.navigate('ChooseList', {
-            data: sortedAddresses,
-            keyExtractor: (item: Wallet.AddressBook) => item.address,
-            renderItem: (
-                item: Wallet.AddressBook,
-                nav: Navigation.AppNavigationProp,
-            ) => (
-                <AddressBookItem
-                    addressBookItem={item}
-                    onPress={() => chooseAddressBookItem(item, nav)}
-                />
-            ),
-            headerTitle: t('selectAddress'),
-        });
+    const chooseAddressBookItem = (address: string) => {
+        setAddress(address);
     };
 
     return (
@@ -91,19 +78,24 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
                 returnKeyType={'next'}
                 rightContent={
                     <HStack>
-                        <IconButton
-                            iconSet="ionicons"
-                            name="people-outline"
-                            disabled={
-                                !store.addressBook ||
-                                store.addressBook.length === 0
-                            }
-                            transparent
-                            color={
-                                scheme === 'dark' ? 'textPrimary' : 'primary'
-                            }
-                            onPress={openAddressBookList}
-                        />
+                        <BottomSheetPicker
+                            options={sortedAddresses}
+                            onValueChange={chooseAddressBookItem}>
+                            <IconButton
+                                iconSet="ionicons"
+                                name="people-outline"
+                                disabled={
+                                    !store.addressBook ||
+                                    store.addressBook.length === 0
+                                }
+                                transparent
+                                color={
+                                    scheme === 'dark'
+                                        ? 'textPrimary'
+                                        : 'primary'
+                                }
+                            />
+                        </BottomSheetPicker>
                         <IconButton
                             transparent
                             color={

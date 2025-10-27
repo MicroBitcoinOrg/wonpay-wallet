@@ -1,10 +1,10 @@
 import {useContext} from 'react';
-import {useWallet, WalletContext} from '../../providers';
-import {getWalletTransactions as getWalletTransactionsTron} from '../tron/utils/transaction';
-import {getWalletTransactions as getWalletTransactionsMicrobitcoin} from '../microbitcoin/utils/transaction';
-import useAppStore from '../../store/appStore';
-import {Wallet} from '../../types/Wallet';
-import {CHAINS} from '../../utils/constants';
+import {useWallet, WalletContext} from '@/providers';
+import {getWalletTransactions as getWalletTransactionsTron} from '@/services/tron/utils/transaction';
+import {getWalletTransactions as getWalletTransactionsMicrobitcoin} from '@/services/microbitcoin/utils/transaction';
+import useAppStore from '@/store/appStore';
+import {Wallet} from '@/types/Wallet';
+import {CHAINS} from '@/utils/constants';
 
 interface Props {
     chain: Wallet.ChainEnum;

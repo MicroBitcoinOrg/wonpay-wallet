@@ -8,11 +8,11 @@ import {
     FocusAwareStatusBar,
     Table,
     Text,
-} from '../../components/common';
-import {TableItem} from '../../components/extended';
+} from '@/components/common';
+import {TableItem} from '@/components/extended';
 import Config from 'react-native-config';
-import {Colors} from '../../theme';
-import useAppStore from '../../store/appStore';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
 
 const styles = StyleSheet.create({
     container: {

@@ -1,10 +1,10 @@
 import React from 'react';
 import {StyleSheet, useColorScheme, View} from 'react-native';
-import {HStack, Text, VStack} from '../../../../components/common';
-import {Colors} from '../../../../theme';
+import {HStack, Text, VStack} from '@/components/common';
+import {Colors} from '@/theme';
 import {useTranslation} from 'react-i18next';
-import NumberFormat from 'react-number-format';
-import {CryptoOfferResponse} from '../../../../services/mex/api/types';
+import {NumericFormat} from 'react-number-format';
+import {CryptoOfferResponse} from '@/services/mex/api/types';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 
 const styles = StyleSheet.create({
@@ -52,7 +52,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                     </HStack>
                 </VStack>
                 <VStack>
-                    <NumberFormat
+                    <NumericFormat
                         displayType="text"
                         value={offer.price}
                         decimalScale={4}
@@ -75,7 +75,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                     {t('marketplace.limit')}
                 </Text>
                 <HStack justifyContent="flex-start">
-                    <NumberFormat
+                    <NumericFormat
                         displayType="text"
                         value={offer.limit_min}
                         decimalScale={2}
@@ -86,7 +86,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                         )}
                     />
                     <Text variant="body3">-</Text>
-                    <NumberFormat
+                    <NumericFormat
                         displayType="text"
                         value={offer.limit_max}
                         decimalScale={2}
@@ -107,7 +107,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                 <Text variant="body3" color="textSecondary">
                     {t('marketplace.available')}
                 </Text>
-                <NumberFormat
+                <NumericFormat
                     displayType="text"
                     value={offer.quantity}
                     decimalScale={2}

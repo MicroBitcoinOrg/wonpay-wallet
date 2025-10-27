@@ -7,14 +7,14 @@ import {
 } from 'react-native';
 import EntypoIcon from 'react-native-vector-icons/Entypo';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {Coin, HStack, Text, VStack} from '../../../../components/common';
+import {Coin, HStack, Text, VStack} from '@/components/common';
 import {TouchableHighlight} from 'react-native-gesture-handler';
 import Config from 'react-native-config';
 import {format} from 'date-fns';
-import {Colors} from '../../../../theme';
-import NumberFormat from 'react-number-format';
-import useAppStore from '../../../../store/appStore';
-import {Wallet} from '../../../../types/Wallet';
+import {Colors} from '@/theme';
+import {NumericFormat} from 'react-number-format';
+import useAppStore from '@/store/appStore';
+import {Wallet} from '@/types/Wallet';
 
 const styles = StyleSheet.create({
     container: {
@@ -128,13 +128,14 @@ const TransactionItem = memo(
                     </HStack>
                     <VStack alignItems="flex-end" gap={4}>
                         <HStack justifyContent="flex-start">
-                            <NumberFormat
+                            <NumericFormat
                                 displayType="text"
                                 value={
                                     transaction.amount /
                                     10 ** transaction.currency.units
                                 }
                                 decimalScale={2}
+                                allowNegative={false}
                                 prefix={transaction.type === 'sent' ? '-' : '+'}
                                 suffix={` ${transaction.currency.ticker}`}
                                 thousandSeparator

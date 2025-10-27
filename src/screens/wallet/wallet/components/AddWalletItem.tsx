@@ -7,8 +7,8 @@ import {
 } from 'react-native';
 import AntDesignIcon from 'react-native-vector-icons/AntDesign';
 import {useTranslation} from 'react-i18next';
-import {HStack, Image, Text, VStack} from '../../../../components/common';
-import {Colors} from '../../../../theme';
+import {HStack, Image, Text, VStack} from '@/components/common';
+import {Colors} from '@/theme';
 
 const styles = StyleSheet.create({
     container: {

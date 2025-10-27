@@ -1,7 +1,7 @@
-import {Wallet} from '../../../types/Wallet';
-import {generateAddressesAsync} from '../../../utils/address';
-import {encryptData} from '../../../utils/common';
-import {CHAINS} from '../../../utils/constants';
+import {Wallet} from '@/types/Wallet';
+import {generateAddressesAsync} from '@/utils/address';
+import {encryptData} from '@/utils/common';
+import {CHAINS} from '@/utils/constants';
 
 export const createWalletChain =
     (externalData: {password: string}) =>

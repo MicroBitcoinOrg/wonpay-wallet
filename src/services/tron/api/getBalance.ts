@@ -1,4 +1,4 @@
-import {TRON} from '../../../utils/constants';
+import {TRON} from '@/utils/constants';
 
 export const getAddressTokens = async (address: string) => {
     const url = `${TRON.links.tronscanApi.url}/account/wallet`;

@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
-import {VStack, Text, HStack} from '../../../../components/common';
+import {VStack, Text, HStack} from '@/components/common';
 import {useTranslation} from 'react-i18next';
-import NumberFormat from 'react-number-format';
-import {CryptoOfferResponse} from '../../../../services/mex/api/types';
+import {NumericFormat} from 'react-number-format';
+import {CryptoOfferResponse} from '@/services/mex/api/types';
 
 const styles = StyleSheet.create({
     container: {
@@ -30,7 +30,7 @@ const Total = ({amount, offer}: TotalProps) => {
     return (
         <HStack justifyContent="space-between" style={{width: '100%'}}>
             <Text variant="body1">You receive</Text>
-            <NumberFormat
+            <NumericFormat
                 displayType="text"
                 value={calculateTotal()}
                 decimalScale={2}

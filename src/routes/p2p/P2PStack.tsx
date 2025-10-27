@@ -1,27 +1,24 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {Header, IconButton} from '../../components/extended';
-import P2PList from '../../screens/p2p/account/tabs/P2PList';
-import NewOffer from '../../screens/p2p/newOffer/NewOffer';
-import NewTrade from '../../screens/p2p/newTrade/NewTrade';
-import Account from '../../screens/p2p/account/Account';
-import Deposit from '../../screens/p2p/deposit/Deposit';
-// import TradeDetails from '../../screens/p2p/tradeDetails/TradeDetails';
+import {Header, IconButton} from '@/components/extended';
+import P2PList from '@/screens/p2p/account/tabs/P2PList';
+import NewOffer from '@/screens/p2p/newOffer/NewOffer';
+import NewTrade from '@/screens/p2p/newTrade/NewTrade';
+import Account from '@/screens/p2p/account/Account';
+import Deposit from '@/screens/p2p/deposit/Deposit';
+// import TradeDetails from '@/screens/p2p/tradeDetails/TradeDetails';
 import {Platform, useColorScheme} from 'react-native';
 import Config from 'react-native-config';
-import {Navigation} from '../../types/Navigation';
-import {defaultOptions} from '../config';
-import {P2PProvider} from '../../providers/P2PProvider';
+import {Navigation} from '@/types/Navigation';
+import {defaultOptions} from '@/routes/config';
+import {P2PProvider} from '@/providers/P2PProvider';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Colors, Typography} from '../../theme';
-import {
-    useP2PNavigation,
-    useRootNavigation,
-} from '../../hooks/useTypedNavigation';
-import useAppStore from '../../store/appStore';
-import {Wallet} from '../../types/Wallet';
-import {WalletItem} from '../../components/extended';
+import {Colors, Typography} from '@/theme';
+import {useP2PNavigation, useRootNavigation} from '@/hooks/useTypedNavigation';
+import useAppStore from '@/store/appStore';
+import {Wallet} from '@/types/Wallet';
+import {WalletItem} from '@/components/extended';
 import {useNavigation} from '@react-navigation/native';
 
 const Stack = createStackNavigator<Navigation.P2PParamList>();
@@ -107,82 +104,78 @@ const P2PStack: React.FC = () => {
     };
 
     return (
-        <P2PProvider>
-            <Stack.Navigator
-                initialRouteName="Account"
-                screenOptions={{
-                    header: props => <Header {...props} />,
-                    headerStyle: {
-                        height: parseInt(
-                            Platform.OS === 'ios'
-                                ? Config.HEADER_HEIGHT_IOS
-                                : Config.HEADER_HEIGHT_ANDROID,
-                        ),
-                    },
-                    ...defaultOptions,
-                }}>
-                <Stack.Screen
-                    name="Account"
-                    component={Account}
-                    options={({navigation}) => ({
-                        title: 'P2P',
-                        headerTransparent: true,
-                        header: props => <Header {...props} transparent />,
-                        headerRight: () => (
-                            <>
-                                <IconButton
-                                    onPress={openWalletList}
-                                    name="list"
-                                    iconSet="ionicons"
-                                    color="white"
-                                    transparent
-                                />
-                                <IconButton
-                                    onPress={() =>
-                                        navigation.navigate('NewOffer')
-                                    }
-                                    name="add"
-                                    iconSet="ionicons"
-                                    color="white"
-                                    transparent
-                                />
-                            </>
-                        ),
-                    })}
-                />
+        <Stack.Navigator
+            initialRouteName="Account"
+            screenOptions={{
+                header: props => <Header {...props} />,
+                headerStyle: {
+                    height: parseInt(
+                        Platform.OS === 'ios'
+                            ? Config.HEADER_HEIGHT_IOS
+                            : Config.HEADER_HEIGHT_ANDROID,
+                    ),
+                },
+                ...defaultOptions,
+            }}>
+            <Stack.Screen
+                name="Account"
+                component={Account}
+                options={({navigation}) => ({
+                    title: 'P2P',
+                    headerTransparent: true,
+                    header: props => <Header {...props} transparent />,
+                    headerRight: () => (
+                        <>
+                            <IconButton
+                                onPress={openWalletList}
+                                name="list"
+                                iconSet="ionicons"
+                                color="white"
+                                transparent
+                            />
+                            <IconButton
+                                onPress={() => navigation.navigate('NewOffer')}
+                                name="add"
+                                iconSet="ionicons"
+                                color="white"
+                                transparent
+                            />
+                        </>
+                    ),
+                })}
+            />
 
-                <Stack.Screen
-                    name="NewTrade"
-                    component={NewTrade}
-                    options={{
-                        title: t('screenTitles.p2p.newTrade'),
-                        cardStyle: {
-                            paddingBottom: 90,
-                        },
-                    }}
-                />
-                <Stack.Screen
-                    name="NewOffer"
-                    component={NewOffer}
-                    options={{
-                        title: t('screenTitles.p2p.newOffer'),
-                        cardStyle: {
-                            paddingBottom: 90,
-                        },
-                    }}
-                />
-                <Stack.Screen
-                    name="Deposit"
-                    component={Deposit}
-                    options={{
-                        title: t('screenTitles.p2p.deposit'),
-                        cardStyle: {
-                            paddingBottom: 90,
-                        },
-                    }}
-                />
-            </Stack.Navigator>
-        </P2PProvider>
+            <Stack.Screen
+                name="NewTrade"
+                component={NewTrade}
+                options={{
+                    title: t('screenTitles.p2p.newTrade'),
+                    cardStyle: {
+                        paddingBottom: 90,
+                    },
+                }}
+            />
+            <Stack.Screen
+                name="NewOffer"
+                component={NewOffer}
+                options={{
+                    title: t('screenTitles.p2p.newOffer'),
+                    cardStyle: {
+                        paddingBottom: 90,
+                    },
+                }}
+            />
+            <Stack.Screen
+                name="Deposit"
+                component={Deposit}
+                options={{
+                    title: t('screenTitles.p2p.deposit'),
+                    cardStyle: {
+                        paddingBottom: 90,
+                    },
+                }}
+            />
+        </Stack.Navigator>
     );
 };
 

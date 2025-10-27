@@ -17,17 +17,17 @@ import {
     ViewProps,
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
-import {useWallet, WalletContext} from '../../../providers';
+import {useWallet, WalletContext} from '@/providers';
 import {TransactionItem} from './components';
-import {IconButton, Input, NotFound} from '../../../components/extended';
+import {IconButton, Input, NotFound} from '@/components/extended';
 import {useFocusEffect, useNavigation} from '@react-navigation/native';
-import {Container, HStack, Text} from '../../../components/common';
-import {Colors} from '../../../theme';
-import {Navigation} from '../../../types/Navigation';
+import {Container, HStack, Text} from '@/components/common';
+import {Colors} from '@/theme';
+import {Navigation} from '@/types/Navigation';
 import {useQuery} from '@tanstack/react-query';
 import MempoolCounter from './components/MempoolCounter';
-import useTransactionUtils from '../../../services/hooks/useTransactionUtils';
-import {Wallet} from '../../../types/Wallet';
+import useTransactionUtils from '@/services/hooks/useTransactionUtils';
+import {Wallet} from '@/types/Wallet';
 
 interface TransactionsProps extends ViewProps {
     balance?: Wallet.Balance;

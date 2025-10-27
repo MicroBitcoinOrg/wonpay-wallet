@@ -1,6 +1,6 @@
 import React from 'react';
 import {FlatList, Platform, StyleSheet} from 'react-native';
-import {Container, Divider, HStack, Text} from '../../components/common';
+import {Container, Divider, HStack, Text} from '@/components/common';
 
 interface ChooseListProps {
     route: any;

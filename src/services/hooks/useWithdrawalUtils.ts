@@ -1,11 +1,8 @@
 import {useContext} from 'react';
-import {PasswordContext, WalletContext} from '../../providers';
-import {sendTransaction as sendTransactionMicrobitcoin} from '../microbitcoin/utils/withdrawal';
-import {
-    sendTokenTransaction as sendTokenTransactionTron,
-    sendTransaction as sendTransactionTron,
-} from '../tron/utils/withdrawal';
-import {Wallet} from '../../types/Wallet';
+import {PasswordContext, WalletContext} from '@/providers';
+import {sendTransaction as sendTransactionMicrobitcoin} from '@/services/microbitcoin/utils/withdrawal';
+import {sendTransaction as sendTransactionTron} from '@/services/tron/utils/withdrawal';
+import {Wallet} from '@/types/Wallet';
 
 interface Props {
     chain: Wallet.ChainEnum;

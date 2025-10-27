@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {Header} from '../../components/extended';
+import {Header} from '@/components/extended';
 import {
     Finished,
     GenerateWallet,
@@ -10,12 +10,12 @@ import {
     RecoveryPhrase,
     RecoveryTips,
     Welcome,
-} from '../../screens';
-import {OnboardingProvider} from '../../providers';
+} from '@/screens';
+import {OnboardingProvider} from '@/providers';
 import {Platform} from 'react-native';
 import Config from 'react-native-config';
-import {Navigation} from '../../types/Navigation';
-import {defaultOptions} from '../config';
+import {Navigation} from '@/types/Navigation';
+import {defaultOptions} from '@/routes/config';
 
 const Stack = createStackNavigator<Navigation.OnboardingParamList>();
 

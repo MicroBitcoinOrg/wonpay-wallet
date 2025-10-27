@@ -12,10 +12,10 @@ import {useTranslation} from 'react-i18next';
 // @ts-ignore
 import Share from 'react-native-share';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {useWallet, WalletContext} from '../../providers';
-import {Container, HStack, Text, VStack} from '../../components/common';
-import {Colors} from '../../theme';
-import {IconButton} from '../../components/extended';
+import {useWallet, WalletContext} from '@/providers';
+import {Container, HStack, Text, VStack} from '@/components/common';
+import {Colors} from '@/theme';
+import {IconButton} from '@/components/extended';
 
 const styles = StyleSheet.create({
     buttonsContainer: {

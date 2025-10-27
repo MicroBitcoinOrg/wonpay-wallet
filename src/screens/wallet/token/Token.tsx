@@ -1,9 +1,9 @@
 import React from 'react';
 import {StyleSheet, useColorScheme, View} from 'react-native';
-import {Container, FocusAwareStatusBar} from '../../../components/common';
+import {Container, FocusAwareStatusBar} from '@/components/common';
 import {Header} from './layout';
-import Transactions from '../transactions/Transactions';
-import {Colors} from '../../../theme';
+import Transactions from '@/screens/wallet/transactions/Transactions';
+import {Colors} from '@/theme';
 
 interface TokenProps {
     navigation: any;

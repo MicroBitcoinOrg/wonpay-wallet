@@ -7,12 +7,12 @@
 
 import React from 'react';
 import {StackScreenProps} from '@react-navigation/stack';
-import {Navigation} from '../types/Navigation';
+import {Navigation} from '@/types/Navigation';
 import {
     useAppNavigation,
     useWalletNavigation,
     useWalletRoute,
-} from '../hooks/useTypedNavigation';
+} from '@/hooks/useTypedNavigation';
 
 // ============================================================================
 // Example 1: Basic Screen with Typed Navigation

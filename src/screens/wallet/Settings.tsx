@@ -4,11 +4,11 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTranslation} from 'react-i18next';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {showMessage} from 'react-native-flash-message';
-import {decryptData} from '../../utils/common';
-import {PasswordContext, WalletContext} from '../../providers';
-import {Container, DismissKeyboard, Table, Text} from '../../components/common';
-import {Input, TableItem} from '../../components/extended';
-import {Colors} from '../../theme';
+import {decryptData} from '@/utils/common';
+import {PasswordContext, WalletContext} from '@/providers';
+import {Container, DismissKeyboard, Table, Text} from '@/components/common';
+import {Input, TableItem} from '@/components/extended';
+import {Colors} from '@/theme';
 import {useQueryClient} from '@tanstack/react-query';
 
 const styles = StyleSheet.create({

@@ -3,16 +3,16 @@ import {StyleSheet, View} from 'react-native';
 import LottieView from 'lottie-react-native';
 import {useTranslation} from 'react-i18next';
 import KeepAwake from '@sayem314/react-native-keep-awake';
-import {OnboardingContext} from '../../providers';
+import {OnboardingContext} from '@/providers';
 import {
     Container,
     FocusAwareStatusBar,
     Text,
     VStack,
-} from '../../components/common';
+} from '@/components/common';
 import {showMessage} from 'react-native-flash-message';
-import useAppStore from '../../store/appStore';
-import useWalletUtils from '../../services/hooks/useWalletUtils';
+import useAppStore from '@/store/appStore';
+import useWalletUtils from '@/services/hooks/useWalletUtils';
 import {useQuery} from '@tanstack/react-query';
 
 const styles = StyleSheet.create({

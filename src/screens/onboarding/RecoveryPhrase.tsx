@@ -25,12 +25,12 @@ import {
     KeyboardAvoidingView,
     Text,
     VStack,
-} from '../../components/common';
-import {Button, Input} from '../../components/extended';
+} from '@/components/common';
+import {Button, Input} from '@/components/extended';
 import {SeedWord, SeedWordInput} from './components';
-import {OnboardingContext} from '../../providers';
-import {generateSeedPhrase, isValidSeedPhrase} from '../../utils/address';
-import useAppStore from '../../store/appStore';
+import {OnboardingContext} from '@/providers';
+import {generateSeedPhrase, isValidSeedPhrase} from '@/utils/address';
+import useAppStore from '@/store/appStore';
 
 const styles = StyleSheet.create({
     container: {

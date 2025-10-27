@@ -2,21 +2,22 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Alert, ScrollView, StyleSheet, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {useWallet, WalletContext} from '../../../providers';
+import {useWallet} from '@/providers';
 import {
     Container,
     DismissKeyboard,
     KeyboardAvoidingView,
     VStack,
-} from '../../../components/common';
-import {Button} from '../../../components/extended';
-import {isMatchAddress} from '../../../utils/address';
-import {Amount, Currency, Fee, Total, WithdrawAddress} from './layout';
-import {Colors} from '../../../theme';
-import useAppStore from '../../../store/appStore';
+} from '@/components/common';
+import {Button} from '@/components/extended';
+import {isMatchAddress} from '@/utils/address';
+import {Amount, Fee, Total, WithdrawAddress} from './layout';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
 import {useQueryClient} from '@tanstack/react-query';
-import useWithdrawalUtils from '../../../services/hooks/useWithdrawalUtils';
-import {Wallet} from '../../../types/Wallet';
+import useWithdrawalUtils from '@/services/hooks/useWithdrawalUtils';
+import {Wallet} from '@/types/Wallet';
+import {Currency, NetworkPicker} from '@/screens/wallet/components';
 
 const styles = StyleSheet.create({
     container: {
@@ -26,9 +27,10 @@ const styles = StyleSheet.create({
         flex: 0,
         marginHorizontal: -20,
         borderTopWidth: 1,
-        height: 100,
-        flexDirection: 'row',
-        alignItems: 'center',
+        gap: 16,
+        justifyContent: 'center',
+        paddingBottom: 16,
+        paddingTop: 16,
     },
     confirmButton: {
         width: 100,
@@ -151,11 +153,25 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
         }
     }, [route.params]);
 
+    useEffect(() => {
+        if (chainKey) {
+            setBalance(
+                walletChain!.balances.find(
+                    item => item.currency.ticker === params.token,
+                ) || walletChain?.balances.find(b => b.main),
+            );
+        }
+    }, [chainKey]);
+
     return (
         <DismissKeyboard>
             <Container>
                 <KeyboardAvoidingView style={styles.container}>
                     <ScrollView showsVerticalScrollIndicator={false}>
+                        <NetworkPicker
+                            borderBottomLeftRadius={10}
+                            borderBottomRightRadius={10}
+                        />
                         <Currency
                             currencies={walletChain!.balances}
                             balance={balance!}
@@ -204,7 +220,6 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                                         (balance?.main ? Number(fee) : 0)
                             }
                             onPress={send}
-                            style={styles.confirmButton}
                         />
                     </Container>
                 </KeyboardAvoidingView>

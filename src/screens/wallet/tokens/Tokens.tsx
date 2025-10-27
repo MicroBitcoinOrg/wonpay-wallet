@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
 import {useTranslation} from 'react-i18next';
-import {useWallet, WalletContext} from '../../../providers';
-import {NotFound} from '../../../components/extended';
+import {useWallet, WalletContext} from '@/providers';
+import {NotFound} from '@/components/extended';
 import {FlatList, StyleSheet, View} from 'react-native';
-import {CurrencyItem} from '../components';
+import {CurrencyItem} from '@/screens/wallet/components';
 import {useNavigation} from '@react-navigation/native';
-import {Navigation} from '../../../types/Navigation';
+import {Navigation} from '@/types/Navigation';
 
 interface TokensProps {
     isNFT?: boolean;

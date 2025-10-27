@@ -1,11 +1,11 @@
 import React, {useContext} from 'react';
-import {HStack, Text} from '../../../../components/common';
-import {Button, FormItem, Input} from '../../../../components/extended';
+import {HStack, Text} from '@/components/common';
+import {Button, FormItem, Input} from '@/components/extended';
 import {useTranslation} from 'react-i18next';
 import Config from 'react-native-config';
-import {WalletContext} from '../../../../providers';
+import {WalletContext} from '@/providers';
 import {useColorScheme} from 'react-native';
-import {Wallet} from '../../../../types/Wallet';
+import {Wallet} from '@/types/Wallet';
 
 interface AmountProps {
     address: string;

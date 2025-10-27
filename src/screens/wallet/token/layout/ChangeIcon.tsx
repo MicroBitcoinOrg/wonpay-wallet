@@ -3,27 +3,27 @@ import {useTranslation} from 'react-i18next';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {View} from 'react-native';
 
-import {Avatar, HStack, Text} from '../../../../components/common';
-import {BottomSheet, Button, TableItem} from '../../../../components/extended';
-import {Wallet} from '../../../../types/Wallet';
+import {Avatar, HStack, Text} from '@/components/common';
+import {BottomSheet, Button, TableItem} from '@/components/extended';
+import {Wallet} from '@/types/Wallet';
 import {useMutation, useQuery} from '@tanstack/react-query';
 import {
     getAuthMessage,
     requestImageUpload,
     uploadSignedImage,
-} from '../../../../services/microbitcoin/api/icons';
+} from '@/services/microbitcoin/api/icons';
 import {showMessage} from 'react-native-flash-message';
-import {MICROBITCOIN} from '../../../../utils/constants';
-import useWithdrawalUtils from '../../../../services/hooks/useWithdrawalUtils';
-import {Colors} from '../../../../theme';
+import {MICROBITCOIN} from '@/utils/constants';
+import useWithdrawalUtils from '@/services/hooks/useWithdrawalUtils';
+import {Colors} from '@/theme';
 import {useColorScheme} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {pick, types} from '@react-native-documents/picker';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import {PasswordContext, useWallet, WalletContext} from '../../../../providers';
-import {signMessage} from '../../../../utils/address';
-import {decryptData, encryptData} from '../../../../utils/common';
-import useBalanceUtils from '../../../../services/hooks/useBalanceUtils';
+import {PasswordContext, useWallet, WalletContext} from '@/providers';
+import {signMessage} from '@/utils/address';
+import {decryptData, encryptData} from '@/utils/common';
+import useBalanceUtils from '@/services/hooks/useBalanceUtils';
 
 interface ChangeIconProps {
     balance: Wallet.Balance;

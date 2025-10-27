@@ -16,13 +16,13 @@ import {
     HStack,
     Text,
     VStack,
-} from '../../components/common';
-import {Button, IconButton} from '../../components/extended';
-import {Colors} from '../../theme';
-import NumberFormat from 'react-number-format';
-import useAppStore from '../../store/appStore';
-import {useWallet, WalletContext} from '../../providers';
-import {Wallet} from '../../types/Wallet';
+} from '@/components/common';
+import {Button, IconButton} from '@/components/extended';
+import {Colors} from '@/theme';
+import {NumericFormat} from 'react-number-format';
+import useAppStore from '@/store/appStore';
+import {useWallet, WalletContext} from '@/providers';
+import {Wallet} from '@/types/Wallet';
 
 const styles = StyleSheet.create({
     container: {
@@ -106,7 +106,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                             style={styles.balanceContainer}
                             justifyContent="flex-start"
                             alignItems="flex-end">
-                            <NumberFormat
+                            <NumericFormat
                                 displayType="text"
                                 value={
                                     transaction.amount /
@@ -232,7 +232,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                         <View style={styles.inputContainer}>
                             <Text variant="body1">{t('confirmations')}</Text>
                             <View style={styles.content}>
-                                <NumberFormat
+                                <NumericFormat
                                     displayType="text"
                                     value={transaction.confirmations}
                                     decimalScale={0}
@@ -252,7 +252,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                 <HStack
                                     style={styles.content}
                                     justifyContent="flex-end">
-                                    <NumberFormat
+                                    <NumericFormat
                                         displayType="text"
                                         value={
                                             transaction.fee /

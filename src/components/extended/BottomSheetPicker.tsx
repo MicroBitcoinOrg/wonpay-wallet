@@ -9,17 +9,18 @@ import React, {
 
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
-import {Avatar, HStack, Text} from '../../components/common';
-import {Colors} from '../../theme';
+import {Avatar, Text, VStack} from '@/components/common';
+import {Colors} from '@/theme';
 import {useColorScheme} from 'react-native';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
+import EntypoIcon from 'react-native-vector-icons/Entypo';
 
 import {
     BottomSheetBackdrop,
     BottomSheetBackdropProps,
     BottomSheetModal,
     BottomSheetView,
-    BottomSheetFlatList,
+    BottomSheetSectionList,
 } from '@gorhom/bottom-sheet';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
@@ -28,12 +29,13 @@ export interface PickerOption {
     value: string;
     description?: string;
     icon?: string; // Emoji or single character
+    group?: string; // Group header for this option
 }
 
 interface BottomSheetPickerProps {
     children?: ReactElement;
     options: PickerOption[];
-    selectedValue: string;
+    selectedValue?: string;
     onValueChange: (value: string) => void;
     title?: string;
     placeholder?: string;
@@ -92,6 +94,36 @@ const BottomSheetPicker = ({
         return options.find(opt => opt.value === selectedValue);
     }, [options, selectedValue]);
 
+    const groupedSections = useMemo(() => {
+        const groups: {[key: string]: PickerOption[]} = {};
+        const ungrouped: PickerOption[] = [];
+
+        options.forEach(option => {
+            if (option.group) {
+                if (!groups[option.group]) {
+                    groups[option.group] = [];
+                }
+                groups[option.group].push(option);
+            } else {
+                ungrouped.push(option);
+            }
+        });
+
+        const sections = [];
+
+        // Add ungrouped items first (without a header)
+        if (ungrouped.length > 0) {
+            sections.push({title: '', data: ungrouped});
+        }
+
+        // Add grouped items
+        Object.keys(groups).forEach(groupName => {
+            sections.push({title: groupName, data: groups[groupName]});
+        });
+
+        return sections;
+    }, [options]);
+
     const renderItem = useCallback(
         ({item}: {item: PickerOption}) => {
             const isSelected = item.value === selectedValue;
@@ -112,16 +144,14 @@ const BottomSheetPicker = ({
                         backgroundColor="card"
                         color="textSecondary"
                     />
-                    <View style={styles.optionContent}>
-                        <HStack justifyContent="flex-start">
-                            <Text variant="body1">{item.label}</Text>
-                        </HStack>
+                    <VStack gap={4} flex={1}>
+                        <Text variant="body1">{item.label}</Text>
                         {item.description && (
-                            <Text variant="body3" opacity={0.5}>
+                            <Text variant="sub1" color="textSecondary">
                                 {item.description}
                             </Text>
                         )}
-                    </View>
+                    </VStack>
                     {isSelected && (
                         <IoniconsIcon
                             name="checkmark-circle"
@@ -135,6 +165,26 @@ const BottomSheetPicker = ({
         [selectedValue, handleSelectOption, scheme],
     );
 
+    const renderSectionHeader = useCallback(
+        ({section}: {section: {title: string}}) => {
+            if (!section.title) {
+                return null;
+            }
+            return (
+                <View
+                    style={[
+                        styles.sectionHeader,
+                        {backgroundColor: Colors[scheme!].background},
+                    ]}>
+                    <Text variant="sub1" color="textSecondary">
+                        {section.title}
+                    </Text>
+                </View>
+            );
+        },
+        [scheme],
+    );
+
     const renderContent = useCallback(() => {
         return (
             <View style={[styles.contentContainer]}>
@@ -143,15 +193,16 @@ const BottomSheetPicker = ({
                         <Text variant="h3">{title}</Text>
                     </View>
                 )}
-                <BottomSheetFlatList
-                    data={options}
+                <BottomSheetSectionList
+                    sections={groupedSections}
                     keyExtractor={item => item.value}
                     renderItem={renderItem}
+                    renderSectionHeader={renderSectionHeader}
                     contentContainerStyle={{paddingBottom: bottom + 40}}
                 />
             </View>
         );
-    }, [title, options, renderItem, bottom]);
+    }, [title, groupedSections, renderItem, renderSectionHeader, bottom]);
 
     return (
         <Fragment>
@@ -171,6 +222,11 @@ const BottomSheetPicker = ({
                         }>
                         {selectedOption ? selectedOption.label : placeholder}
                     </Text>
+                    <EntypoIcon
+                        name="chevron-thin-right"
+                        size={12}
+                        color={Colors[scheme!].textSecondary}
+                    />
                 </TouchableOpacity>
             )}
             <BottomSheetModal
@@ -204,10 +260,16 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         flexDirection: 'row',
         alignItems: 'center',
+        gap: 16,
     },
     optionContent: {
         marginLeft: 15,
         flex: 1,
+    },
+    sectionHeader: {
+        paddingHorizontal: 20,
+        paddingVertical: 8,
+        paddingTop: 16,
     },
     defaultTrigger: {
         width: '100%',
@@ -215,8 +277,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         borderRadius: 10,
         padding: 5,
-        justifyContent: 'center',
-        alignItems: 'flex-start',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
 });
 

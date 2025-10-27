@@ -7,13 +7,13 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import {Colors} from '../../../../theme';
-import {P2PContext} from '../../../../providers';
-import {useBalances} from '../../../../services/mex/hooks';
+import {Colors} from '@/theme';
+import {P2PContext} from '@/providers';
+import {useBalances} from '@/services/mex/hooks';
 import {useTranslation} from 'react-i18next';
-import {Avatar, HStack, Text, VStack} from '../../../../components/common';
-import NumberFormat from 'react-number-format';
-import {NotFound} from '../../../../components/extended';
+import {Avatar, HStack, Text, VStack} from '@/components/common';
+import {NumericFormat} from 'react-number-format';
+import {NotFound} from '@/components/extended';
 
 const styles = StyleSheet.create({
     container: {
@@ -80,7 +80,7 @@ const Balances = () => {
                         </VStack>
                     </HStack>
                     <VStack gap={4} alignItems="flex-end">
-                        <NumberFormat
+                        <NumericFormat
                             displayType="text"
                             value={item.balance}
                             decimalScale={4}
@@ -92,7 +92,7 @@ const Balances = () => {
                         />
 
                         {item.frozen > 0 && (
-                            <NumberFormat
+                            <NumericFormat
                                 displayType="text"
                                 value={item.frozen}
                                 decimalScale={4}

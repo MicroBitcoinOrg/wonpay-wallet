@@ -1,19 +1,19 @@
-import {HStack, Text, VStack} from '../../../../components/common';
+import {HStack, Text, VStack} from '@/components/common';
 import {Pressable, useColorScheme, View} from 'react-native';
-import {Colors} from '../../../../theme';
+import {Colors} from '@/theme';
 import React, {useContext} from 'react';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {Navigation} from '../../../../types/Navigation';
+import {Navigation} from '@/types/Navigation';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import NumberFormat from 'react-number-format';
+import {NumericFormat} from 'react-number-format';
 import {format} from 'date-fns';
-import {Button} from '../../../../components/extended';
+import {Button} from '@/components/extended';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import {showMessage} from 'react-native-flash-message';
 import {useQueryClient} from '@tanstack/react-query';
-import {P2PContext} from '../../../../providers';
-import {CryptoOfferResponse} from '../../../../services/mex/api/types';
-import {useDeleteOffer} from '../../../../services/mex/hooks';
+import {P2PContext} from '@/providers';
+import {CryptoOfferResponse} from '@/services/mex/api/types';
+import {useDeleteOffer} from '@/services/mex/hooks';
 import {useTranslation} from 'react-i18next';
 
 interface Props extends CryptoOfferResponse {}
@@ -88,7 +88,7 @@ const Component = (props: Props) => {
                         </Text>
                     </View>
                     <View>
-                        <NumberFormat
+                        <NumericFormat
                             displayType="text"
                             value={price}
                             decimalScale={2}
@@ -114,7 +114,7 @@ const Component = (props: Props) => {
                             {t('marketplace.limit')}
                         </Text>
                         <HStack justifyContent="flex-start">
-                            <NumberFormat
+                            <NumericFormat
                                 displayType="text"
                                 value={limit_min}
                                 decimalScale={2}
@@ -125,7 +125,7 @@ const Component = (props: Props) => {
                                 )}
                             />
                             <Text variant="body3">-</Text>
-                            <NumberFormat
+                            <NumericFormat
                                 displayType="text"
                                 value={limit_max}
                                 decimalScale={2}
@@ -149,7 +149,7 @@ const Component = (props: Props) => {
                         <Text variant="body3" color="textSecondary">
                             {t('marketplace.available')}
                         </Text>
-                        <NumberFormat
+                        <NumericFormat
                             displayType="text"
                             value={quantity}
                             decimalScale={2}

@@ -6,17 +6,17 @@ import {
     HStack,
     Text,
     VStack,
-} from '../../../components/common';
-import {IconButton} from '../../../components/extended';
+} from '@/components/common';
+import {IconButton} from '@/components/extended';
 import {WalletCard} from './layout';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import Transactions from '../transactions/Transactions';
-import Tokens from '../tokens/Tokens';
+import Transactions from '@/screens/wallet/transactions/Transactions';
+import Tokens from '@/screens/wallet/tokens/Tokens';
 import {useTranslation} from 'react-i18next';
-import {Colors, Typography} from '../../../theme';
+import {Colors, Typography} from '@/theme';
 
-import useAppStore from '../../../store/appStore';
-import P2P from '../p2p/P2P';
+import useAppStore from '@/store/appStore';
+import P2P from '@/screens/wallet/p2p/P2P';
 
 interface WalletProps {
     navigation: any;

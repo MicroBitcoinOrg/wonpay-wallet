@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import {AnimatedLoader, Header, TabBar} from '../../components/extended';
-import {DeleteWallet, FactoryReset, QRCodeScanner, Splash} from '../../screens';
+import {AnimatedLoader, Header, TabBar} from '@/components/extended';
+import {DeleteWallet, FactoryReset, QRCodeScanner, Splash} from '@/screens';
 import {
     AddressBookStack,
     OnboardingStack,
@@ -9,17 +9,18 @@ import {
     SettingsStack,
     WalletStack,
     P2PStack,
-} from '../';
+} from '@/routes';
 import Config from 'react-native-config';
 import {Platform, useColorScheme} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
-import {Colors} from '../../theme';
-import {Navigation} from '../../types/Navigation';
-import {defaultOptions} from '../config';
-import useAppStore from '../../store/appStore';
+import {Colors} from '@/theme';
+import {Navigation} from '@/types/Navigation';
+import {defaultOptions} from '@/routes/config';
+import useAppStore from '@/store/appStore';
 import {createNativeBottomTabNavigator} from '@bottom-tabs/react-navigation';
+import {P2PProvider} from '@/providers';
 
 const Stack = createStackNavigator<Navigation.RootParamList>();
 const Tab = createNativeBottomTabNavigator<Navigation.MainTabsParamList>();
@@ -28,58 +29,62 @@ const MainTabs = () => {
     const scheme = useColorScheme();
 
     return (
-        <Tab.Navigator
-            initialRouteName="WalletStack"
-            tabBarActiveTintColor={Colors[scheme!].primaryLight}
-            tabBarStyle={{
-                backgroundColor: Colors[scheme!].background,
-            }}>
-            <Tab.Screen
-                name="AddressBookStack"
-                options={{
-                    tabBarIcon: ({focused}) => ({
-                        sfSymbol: focused ? 'book.pages.fill' : 'book.pages',
-                    }),
-                    tabBarLabel: 'Address Book',
-                }}
-                component={AddressBookStack}
-            />
-            <Tab.Screen
-                options={{
-                    tabBarLabel: 'Wallet',
-                    tabBarIcon: ({focused}) => ({
-                        sfSymbol: focused
-                            ? 'wallet.bifold.fill'
-                            : 'wallet.bifold',
-                    }),
-                }}
-                name="WalletStack"
-                component={WalletStack}
-            />
-            <Tab.Screen
-                options={{
-                    tabBarLabel: 'P2P',
+        <P2PProvider>
+            <Tab.Navigator
+                initialRouteName="WalletStack"
+                tabBarActiveTintColor={Colors[scheme!].primaryLight}
+                tabBarStyle={{
+                    backgroundColor: Colors[scheme!].background,
+                }}>
+                <Tab.Screen
+                    name="AddressBookStack"
+                    options={{
+                        tabBarIcon: ({focused}) => ({
+                            sfSymbol: focused
+                                ? 'book.pages.fill'
+                                : 'book.pages',
+                        }),
+                        tabBarLabel: 'Address Book',
+                    }}
+                    component={AddressBookStack}
+                />
+                <Tab.Screen
+                    options={{
+                        tabBarLabel: 'Wallet',
+                        tabBarIcon: ({focused}) => ({
+                            sfSymbol: focused
+                                ? 'wallet.bifold.fill'
+                                : 'wallet.bifold',
+                        }),
+                    }}
+                    name="WalletStack"
+                    component={WalletStack}
+                />
+                <Tab.Screen
+                    options={{
+                        tabBarLabel: 'P2P',
 
-                    tabBarIcon: ({focused}) => ({
-                        sfSymbol: focused
-                            ? 'arrow.down.left.arrow.up.right.square.fill'
-                            : 'arrow.down.left.arrow.up.right.square',
-                    }),
-                }}
-                name="P2PStack"
-                component={P2PStack}
-            />
-            <Tab.Screen
-                options={{
-                    tabBarLabel: 'Settings',
-                    tabBarIcon: ({focused}) => ({
-                        sfSymbol: focused ? 'gearshape.fill' : 'gearshape',
-                    }),
-                }}
-                name="SettingsStack"
-                component={SettingsStack}
-            />
-        </Tab.Navigator>
+                        tabBarIcon: ({focused}) => ({
+                            sfSymbol: focused
+                                ? 'arrow.down.left.arrow.up.right.square.fill'
+                                : 'arrow.down.left.arrow.up.right.square',
+                        }),
+                    }}
+                    name="P2PStack"
+                    component={P2PStack}
+                />
+                <Tab.Screen
+                    options={{
+                        tabBarLabel: 'Settings',
+                        tabBarIcon: ({focused}) => ({
+                            sfSymbol: focused ? 'gearshape.fill' : 'gearshape',
+                        }),
+                    }}
+                    name="SettingsStack"
+                    component={SettingsStack}
+                />
+            </Tab.Navigator>
+        </P2PProvider>
     );
 };
 

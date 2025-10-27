@@ -12,18 +12,18 @@ import {useTranslation} from 'react-i18next';
 // @ts-ignore
 import Share from 'react-native-share';
 import ReactNativeHapticFeedback from 'react-native-haptic-feedback';
-import {P2PContext} from '../../../providers';
-import {Container, HStack, Text, VStack} from '../../../components/common';
-import {Colors} from '../../../theme';
+import {P2PContext} from '@/providers';
+import {Container, HStack, Text, VStack} from '@/components/common';
+import {Colors} from '@/theme';
 import {
     IconButton,
     BottomSheetPicker,
     Badge,
-} from '../../../components/extended';
-import type {PickerOption} from '../../../components/extended';
-import {useAddresses} from '../../../services/mex/hooks';
+} from '@/components/extended';
+import type {PickerOption} from '@/components/extended';
+import {useAddresses} from '@/services/mex/hooks';
 import {StackScreenProps} from '@react-navigation/stack';
-import {Navigation} from '../../../types/Navigation';
+import {Navigation} from '@/types/Navigation';
 
 const styles = StyleSheet.create({
     buttonsContainer: {

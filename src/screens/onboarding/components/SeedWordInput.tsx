@@ -6,8 +6,8 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import {Text} from '../../../components/common';
-import {Colors, Typography} from '../../../theme';
+import {Text} from '@/components/common';
+import {Colors, Typography} from '@/theme';
 
 const styles = StyleSheet.create({
     container: {

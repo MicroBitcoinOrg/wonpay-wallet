@@ -6,13 +6,13 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import {Colors} from '../../../../theme';
-import {P2PContext, useWallet, WalletContext} from '../../../../providers';
+import {Colors} from '@/theme';
+import {P2PContext, useWallet, WalletContext} from '@/providers';
 import {useFocusEffect} from '@react-navigation/native';
-import {useOffers} from '../../../../services/mex/hooks';
-import {OfferItem} from '../components';
-import {NotFound} from '../../../../components/extended';
-import {VStack} from '../../../../components/common';
+import {useOffers} from '@/services/mex/hooks';
+import {OfferItem} from '@/screens/p2p/account/components';
+import {NotFound} from '@/components/extended';
+import {VStack} from '@/components/common';
 import {useTranslation} from 'react-i18next';
 
 const styles = StyleSheet.create({

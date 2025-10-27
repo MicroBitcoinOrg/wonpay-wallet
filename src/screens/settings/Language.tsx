@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { FlatList, useColorScheme } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import { Container, Table } from '../../components/common';
-import { TableItem } from '../../components/extended';
-import { Colors } from '../../theme';
+import { Container, Table } from '@/components/common';
+import { TableItem } from '@/components/extended';
+import { Colors } from '@/theme';
 
 interface LanguageProps {
     navigation: any;

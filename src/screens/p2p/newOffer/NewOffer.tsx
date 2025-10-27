@@ -5,28 +5,28 @@ import {showMessage} from 'react-native-flash-message';
 import {useForm, Controller} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
 import {z} from 'zod';
-import {P2PContext} from '../../../providers';
+import {P2PContext} from '@/providers';
 import {
     Container,
     DismissKeyboard,
     KeyboardAvoidingView,
     VStack,
     Text,
-} from '../../../components/common';
+} from '@/components/common';
 import {
     Button,
     FormItem,
     Input,
     BottomSheetPicker,
-} from '../../../components/extended';
-import type {PickerOption} from '../../../components/extended';
-import {Colors} from '../../../theme';
-import useAppStore from '../../../store/appStore';
-import {useCreateOffer} from '../../../services/mex/hooks';
+} from '@/components/extended';
+import type {PickerOption} from '@/components/extended';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
+import {useCreateOffer} from '@/services/mex/hooks';
 import {StackScreenProps} from '@react-navigation/stack';
-import {Navigation} from '../../../types/Navigation';
-import {Currency, SideEnum} from '../../../services/mex/api/types';
-import {MEX_CURRENCIES} from '../../../utils/constants';
+import {Navigation} from '@/types/Navigation';
+import {Currency, SideEnum} from '@/services/mex/api/types';
+import {MEX_CURRENCIES} from '@/utils/constants';
 
 const styles = StyleSheet.create({
     container: {

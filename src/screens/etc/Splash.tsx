@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {StyleSheet} from 'react-native';
-import {Container, FocusAwareStatusBar} from '../../components/common';
-import {PasswordContext} from '../../providers';
+import {Container, FocusAwareStatusBar} from '@/components/common';
+import {PasswordContext} from '@/providers';
 
 import LottieView from 'lottie-react-native';
-import useAppStore from '../../store/appStore';
+import useAppStore from '@/store/appStore';
 
 const styles = StyleSheet.create({
     container: {

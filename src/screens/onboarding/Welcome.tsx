@@ -2,21 +2,21 @@ import React, {useContext, useEffect, useState} from 'react';
 import {Dimensions, Platform, StyleSheet, View} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
 import {useTranslation} from 'react-i18next';
-import {OnboardingContext} from '../../providers';
+import {OnboardingContext} from '@/providers';
 import {
     Container,
     FocusAwareStatusBar,
     Image,
     Text,
     VStack,
-} from '../../components/common';
-import {Button} from '../../components/extended';
+} from '@/components/common';
+import {Button} from '@/components/extended';
 import Config from 'react-native-config';
-import useAppStore from '../../store/appStore';
-import {CHAINS} from '../../utils/constants';
-import {Navigation} from '../../types/Navigation';
+import useAppStore from '@/store/appStore';
+import {CHAINS} from '@/utils/constants';
+import {Navigation} from '@/types/Navigation';
 import ChainItem from './components/ChainItem';
-import {Wallet} from '../../types/Wallet';
+import {Wallet} from '@/types/Wallet';
 
 const styles = StyleSheet.create({
     container: {

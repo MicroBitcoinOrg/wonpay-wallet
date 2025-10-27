@@ -1,7 +1,12 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {Header, IconButton, WalletItem} from '../../components/extended';
+import {
+    BottomSheetPicker,
+    Header,
+    IconButton,
+    WalletItem,
+} from '@/components/extended';
 import {
     Deposit,
     Settings,
@@ -10,16 +15,16 @@ import {
     Wallet as WalletScreen,
     Withdraw,
     TokenSettings,
-} from '../../screens';
+} from '@/screens';
 import {Platform, StyleSheet} from 'react-native';
-import {Image} from '../../components/common';
+import {Image} from '@/components/common';
 import Config from 'react-native-config';
-import {Navigation} from '../../types/Navigation';
+import {Navigation} from '@/types/Navigation';
 import {useNavigation} from '@react-navigation/native';
 
-import {defaultOptions} from '../config';
-import useAppStore from '../../store/appStore';
-import {Wallet} from '../../types/Wallet';
+import {defaultOptions} from '@/routes/config';
+import useAppStore from '@/store/appStore';
+import {Wallet} from '@/types/Wallet';
 
 const styles = StyleSheet.create({
     logoImage: {
@@ -35,45 +40,31 @@ const WalletStack: React.FC = () => {
     const appNavigation = useNavigation<Navigation.AppNavigationProp>();
     const store = useAppStore();
 
-    const chooseWallet = (uuid: string, nav: Navigation.AppNavigationProp) => {
+    const chooseWallet = (uuid: string) => {
         store.setUUID(uuid);
-        nav.goBack();
     };
 
-    const openWalletList = () => {
-        appNavigation.navigate('ChooseList', {
-            data: store.wallets,
-            keyExtractor: (item: Wallet.Wallet) => item.uuid,
-            renderItem: (
-                item: Wallet.Wallet,
-                nav: Navigation.AppNavigationProp,
-            ) => {
-                return (
-                    <WalletItem
-                        {...item}
-                        onPress={() => chooseWallet(item.uuid, nav)}
-                    />
-                );
-            },
-            headerRight: (
-                <IconButton
-                    onPress={() =>
-                        appNavigation.navigateDeprecated('RootStack', {
-                            screen: 'OnboardingStack',
-                            params: {
-                                screen: 'Welcome',
-                            },
-                        })
-                    }
-                    name="add"
-                    iconSet="ionicons"
-                    color="textPrimary"
-                    transparent
-                />
-            ),
-            headerTitle: t('Choose Wallet'),
-        });
-    };
+    const mappedWallets = store.wallets.map(wallet => ({
+        label: wallet.title,
+        value: wallet.uuid,
+    }));
+
+    {
+        /* <IconButton
+        onPress={() =>
+            appNavigation.navigateDeprecated('RootStack', {
+                screen: 'OnboardingStack',
+                params: {
+                    screen: 'Welcome',
+                },
+            })
+        }
+        name="add"
+        iconSet="ionicons"
+        color="textPrimary"
+        transparent
+    /> */
+    }
 
     return (
         <Stack.Navigator
@@ -116,13 +107,18 @@ const WalletStack: React.FC = () => {
                     gestureEnabled: false,
                     headerRight: () => (
                         <>
-                            <IconButton
-                                onPress={openWalletList}
-                                name="list"
-                                iconSet="ionicons"
-                                color="white"
-                                transparent
-                            />
+                            <BottomSheetPicker
+                                selectedValue={store.uuid}
+                                options={mappedWallets}
+                                onValueChange={chooseWallet}>
+                                <IconButton
+                                    name="list"
+                                    iconSet="ionicons"
+                                    color="white"
+                                    transparent
+                                />
+                            </BottomSheetPicker>
+
                             <IconButton
                                 onPress={() =>
                                     appNavigation.navigate('RootStack', {

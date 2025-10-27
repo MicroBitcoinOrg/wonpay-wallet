@@ -18,10 +18,10 @@ import {
     Table,
     Text,
     VStack,
-} from '../../components/common';
-import {Button, TableItem} from '../../components/extended';
-import {Colors} from '../../theme';
-import useAppStore from '../../store/appStore';
+} from '@/components/common';
+import {Button, TableItem} from '@/components/extended';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
 
 const styles = StyleSheet.create({
     container: {

@@ -9,11 +9,11 @@ import {
 } from 'react-native';
 import {useTranslation} from 'react-i18next';
 
-import {Text} from '../../../../components/common';
-import {Colors} from '../../../../theme';
+import {Text} from '@/components/common';
+import {Colors} from '@/theme';
 import {useQuery, useQueryClient} from '@tanstack/react-query';
-import {useWallet, WalletContext} from '../../../../providers';
-import useMempoolUtils from '../../../../services/hooks/useMempoolUtils';
+import {useWallet, WalletContext} from '@/providers';
+import useMempoolUtils from '@/services/hooks/useMempoolUtils';
 
 const styles = StyleSheet.create({
     container: {

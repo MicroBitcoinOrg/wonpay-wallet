@@ -2,21 +2,21 @@ import React, {useContext, useState} from 'react';
 import {Alert, ScrollView, StyleSheet, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
-import {P2PContext} from '../../../providers';
+import {P2PContext} from '@/providers';
 import {
     Container,
     DismissKeyboard,
     KeyboardAvoidingView,
     VStack,
-} from '../../../components/common';
-import {Button} from '../../../components/extended';
+} from '@/components/common';
+import {Button} from '@/components/extended';
 import {Amount, OfferDetails, Total} from './layout';
-import {Colors} from '../../../theme';
-import useAppStore from '../../../store/appStore';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
 import {useQueryClient} from '@tanstack/react-query';
-import {useCreateTrade} from '../../../services/mex/hooks';
+import {useCreateTrade} from '@/services/mex/hooks';
 import {StackScreenProps} from '@react-navigation/stack';
-import {Navigation} from '../../../types/Navigation';
+import {Navigation} from '@/types/Navigation';
 
 const styles = StyleSheet.create({
     container: {
@@ -28,6 +28,8 @@ const styles = StyleSheet.create({
         borderTopWidth: 1,
         gap: 16,
         justifyContent: 'center',
+        paddingBottom: 16,
+        paddingTop: 16,
     },
 });
 
@@ -134,8 +136,6 @@ const NewTrade: React.FC<NewTradeProps> = ({navigation, route}) => {
                             styles.bottomContainer,
                             {
                                 borderColor: Colors[scheme!].border,
-                                paddingBottom: 16,
-                                paddingTop: 16,
                             },
                         ]}>
                         <Total amount={amount} offer={offer} />

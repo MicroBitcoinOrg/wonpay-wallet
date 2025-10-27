@@ -2,9 +2,9 @@ import React from 'react';
 
 import {RouteProp} from '@react-navigation/native';
 
-import {Container, Table} from '../../../components/common';
-import {Navigation} from '../../../types/Navigation';
-import {Wallet} from '../../../types/Wallet';
+import {Container, Table} from '@/components/common';
+import {Navigation} from '@/types/Navigation';
+import {Wallet} from '@/types/Wallet';
 import ChangeIcon from './layout/ChangeIcon';
 
 interface TokenSettingsProps {

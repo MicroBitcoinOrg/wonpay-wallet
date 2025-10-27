@@ -1,5 +1,5 @@
-import {Wallet} from '../../../types/Wallet';
-import {TRON} from '../../../utils/constants';
+import {Wallet} from '@/types/Wallet';
+import {TRON} from '@/utils/constants';
 import {
     fetchTrc10Transfers,
     fetchTrc20Transfers,

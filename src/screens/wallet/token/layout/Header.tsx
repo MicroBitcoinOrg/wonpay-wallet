@@ -1,10 +1,10 @@
 import React from 'react';
 import {Animated, Platform, StyleSheet} from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {Coin, HStack, Text, VStack} from '../../../../components/common';
+import {Coin, HStack, Text, VStack} from '@/components/common';
 import Config from 'react-native-config';
-import NumberFormat from 'react-number-format';
-import {Wallet} from '../../../../types/Wallet';
+import {NumericFormat} from 'react-number-format';
+import {Wallet} from '@/types/Wallet';
 
 const styles = StyleSheet.create({
     balanceContainer: {
@@ -38,7 +38,7 @@ const Header: React.FC<HeaderProps> = ({balance}: HeaderProps) => {
             ]}>
             <Animated.View style={[styles.balanceContainer]}>
                 <HStack alignItems="flex-end">
-                    <NumberFormat
+                    <NumericFormat
                         displayType="text"
                         value={balance.balance / 10 ** balance.currency.units}
                         decimalScale={2}

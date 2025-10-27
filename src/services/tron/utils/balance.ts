@@ -1,5 +1,5 @@
-import {Wallet} from '../../../types/Wallet';
-import {TRON} from '../../../utils/constants';
+import {Wallet} from '@/types/Wallet';
+import {TRON} from '@/utils/constants';
 import {getAddressTokens} from '../api/getBalance';
 
 const getTokenType = (tokenType: number) => {

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useTranslation} from 'react-i18next';
-import {NotFound} from '../../../components/extended';
+import {NotFound} from '@/components/extended';
 import {StyleSheet, View} from 'react-native';
 
 interface P2PProps {}

@@ -5,18 +5,18 @@ import MaterialIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useTranslation} from 'react-i18next';
 import {getVersion} from 'react-native-device-info';
 import {showMessage} from 'react-native-flash-message';
-import SInfo from '../../utils/keychain';
+import SInfo from '@/utils/keychain';
 import {
     Container,
     DismissKeyboard,
     Table,
     Text,
     VStack,
-} from '../../components/common';
-import {TableItem} from '../../components/extended';
-import {PasswordContext} from '../../providers';
-import {Colors} from '../../theme';
-import useAppStore from '../../store/appStore';
+} from '@/components/common';
+import {TableItem} from '@/components/extended';
+import {PasswordContext} from '@/providers';
+import {Colors} from '@/theme';
+import useAppStore from '@/store/appStore';
 
 const styles = StyleSheet.create({
     container: {

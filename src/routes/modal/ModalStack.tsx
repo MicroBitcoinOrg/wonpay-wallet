@@ -1,10 +1,10 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {ChooseList, ManageAddressBookItem} from '../../screens';
-import {RootStack} from '../';
-import {Navigation} from '../../types/Navigation';
-import {Text} from '../../components/common';
+import {ChooseList, ManageAddressBookItem} from '@/screens';
+import {RootStack} from '@/routes';
+import {Navigation} from '@/types/Navigation';
+import {Text} from '@/components/common';
 import {View} from 'react-native';
 
 const Stack = createStackNavigator<Navigation.ModalParamList>();

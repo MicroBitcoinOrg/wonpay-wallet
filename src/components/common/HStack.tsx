@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     },
 });
 
-interface HStackProps extends ViewStyle {
+export interface HStackProps extends ViewStyle {
     children?: any;
     style?: StyleProp<ViewStyle>;
 }

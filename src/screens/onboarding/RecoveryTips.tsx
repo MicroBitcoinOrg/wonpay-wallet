@@ -6,8 +6,8 @@ import {
     FocusAwareStatusBar,
     Image,
     Text,
-} from '../../components/common';
-import {Button} from '../../components/extended';
+} from '@/components/common';
+import {Button} from '@/components/extended';
 
 const styles = StyleSheet.create({
     tipBlockContainer: {

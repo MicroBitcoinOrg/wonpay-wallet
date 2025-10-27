@@ -1,15 +1,15 @@
-import {Avatar, HStack, Text, VStack} from '../../../../components/common';
+import {Avatar, HStack, Text, VStack} from '@/components/common';
 import {Pressable, useColorScheme, View} from 'react-native';
-import {Badge} from '../../../../components/extended';
-import {Colors} from '../../../../theme';
+import {Badge} from '@/components/extended';
+import {Colors} from '@/theme';
 import React, {useContext} from 'react';
-import {useWallet, WalletContext} from '../../../../providers';
+import {useWallet, WalletContext} from '@/providers';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
-import NumberFormat from 'react-number-format';
+import {NumericFormat} from 'react-number-format';
 import {format} from 'date-fns';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
-import {Navigation} from '../../../../types/Navigation';
-import {CryptoTradeResponse} from '../../../../services/mex/api/types';
+import {Navigation} from '@/types/Navigation';
+import {CryptoTradeResponse} from '@/services/mex/api/types';
 import {useTranslation} from 'react-i18next';
 
 interface Props extends CryptoTradeResponse {}
@@ -76,7 +76,7 @@ const Component = (props: Props) => {
                     </VStack>
                 </HStack>
                 <VStack alignItems="flex-end" gap={4} flex={1}>
-                    <NumberFormat
+                    <NumericFormat
                         displayType="text"
                         value={isMyOffer ? amount : amount * offer.price}
                         decimalScale={2}

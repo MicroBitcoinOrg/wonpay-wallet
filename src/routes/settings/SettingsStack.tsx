@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {Header, IconButton} from '../../components/extended';
-import {GlobalSettings, Language} from '../../screens';
+import {Header, IconButton} from '@/components/extended';
+import {GlobalSettings, Language} from '@/screens';
 import {Platform} from 'react-native';
 import Config from 'react-native-config';
-import {Navigation} from '../../types/Navigation';
-import {defaultOptions} from '../config';
+import {Navigation} from '@/types/Navigation';
+import {defaultOptions} from '@/routes/config';
 
 const Stack = createStackNavigator<Navigation.SettingsParamList>();
 

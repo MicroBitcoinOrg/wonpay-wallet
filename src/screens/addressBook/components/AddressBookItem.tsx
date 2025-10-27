@@ -7,11 +7,11 @@ import {
     View,
 } from 'react-native';
 import Ionicon from 'react-native-vector-icons/Ionicons';
-import {Avatar, HStack, Image, Text} from '../../../components/common';
-import {base64ToHex} from '../../../utils/common';
-import {Colors} from '../../../theme';
-import {Wallet} from '../../../types/Wallet';
-import {getChainByAddress} from '../../../utils/address';
+import {Avatar, HStack, Image, Text} from '@/components/common';
+import {base64ToHex} from '@/utils/common';
+import {Colors} from '@/theme';
+import {Wallet} from '@/types/Wallet';
+import {getChainByAddress} from '@/utils/address';
 
 const styles = StyleSheet.create({
     container: {

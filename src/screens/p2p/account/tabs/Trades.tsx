@@ -6,17 +6,17 @@ import {
     useColorScheme,
     View,
 } from 'react-native';
-import {Colors} from '../../../../theme';
-import {P2PContext} from '../../../../providers';
+import {Colors} from '@/theme';
+import {P2PContext} from '@/providers';
 import {
     useIncomingTrades,
     useOutgoingTrades,
     useTrades,
-} from '../../../../services/mex/hooks';
+} from '@/services/mex/hooks';
 import {useTranslation} from 'react-i18next';
-import {Button} from '../../../../components/extended';
-import {HStack} from '../../../../components/common';
-import {TradeItem} from '../components';
+import {Button} from '@/components/extended';
+import {HStack} from '@/components/common';
+import {TradeItem} from '@/screens/p2p/account/components';
 import {useFocusEffect} from '@react-navigation/native';
 
 const styles = StyleSheet.create({
