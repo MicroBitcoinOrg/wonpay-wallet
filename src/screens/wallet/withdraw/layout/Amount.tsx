@@ -40,7 +40,9 @@ const Amount = ({amount, fee, address, balance, setAmount}: AmountProps) => {
                 autoFocus={address !== undefined && address !== ''}
                 rightContent={
                     <HStack>
-                        <Text variant="body1">{balance.currency.ticker}</Text>
+                        <Text variant="body1" color="textSecondary">
+                            {balance.currency.ticker}
+                        </Text>
                         <Button
                             title="Max"
                             type="text"

@@ -34,7 +34,7 @@ interface CurrencyItemProps extends TouchableHighlightProps {
 const CurrencyItem = ({style, balance, ...props}: CurrencyItemProps) => {
     const scheme = useColorScheme();
     const {chainKey} = useContext(WalletContext);
-    const {getCurrencyIcon} = useBalanceUtils({chain: chainKey!});
+    const {getCurrencyIcon} = useBalanceUtils();
 
     return (
         // @ts-ignore
@@ -52,7 +52,7 @@ const CurrencyItem = ({style, balance, ...props}: CurrencyItemProps) => {
                 <HStack gap={16}>
                     <Avatar
                         source={{
-                            uri: getCurrencyIcon({
+                            uri: getCurrencyIcon(chainKey!)({
                                 currency: balance?.currency!,
                             }),
                         }}

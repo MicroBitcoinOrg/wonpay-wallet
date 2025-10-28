@@ -54,9 +54,8 @@ const WalletCard = () => {
     const formattedBalance =
         mainBalance!.balance / 10 ** mainBalance!.currency.units;
 
-    const {getBalance, registerAddress} = useBalanceUtils({
-        chain: chainKey!,
-    });
+    const {getBalance, registerAddress} = useBalanceUtils();
+
     const {
         data: balance,
         refetch: refetchBalance,
@@ -64,7 +63,8 @@ const WalletCard = () => {
         isRefetching: isBalanceRefetching,
     } = useQuery({
         queryKey: ['balance', wallet!.uuid],
-        queryFn: () => getBalance({addresses: walletChain!.addresses}),
+        queryFn: () =>
+            getBalance(chainKey!)({addresses: walletChain!.addresses}),
     });
 
     useEffect(() => {
@@ -82,8 +82,8 @@ const WalletCard = () => {
     }, [walletChain?.transactions]);
 
     useEffect(() => {
-        if (registerAddress && walletChain?.depositAddress) {
-            registerAddress({
+        if (registerAddress(chainKey!) && walletChain?.depositAddress) {
+            registerAddress(chainKey!)({
                 address: walletChain!.depositAddress,
                 service: 'wonpay',
             });

@@ -3,7 +3,7 @@ import {StyleSheet} from 'react-native';
 import {VStack, Text, HStack} from '@/components/common';
 import {useTranslation} from 'react-i18next';
 import {NumericFormat} from 'react-number-format';
-import {CryptoOfferResponse} from '@/services/mex/api/types';
+import {CryptoOfferResponse, SideEnum} from '@/services/mex/api/types';
 
 const styles = StyleSheet.create({
     container: {
@@ -24,7 +24,9 @@ const Total = ({amount, offer}: TotalProps) => {
         if (!amount || isNaN(numAmount)) {
             return 0;
         }
-        return numAmount * offer.price;
+        return offer.side === SideEnum.BUY
+            ? numAmount / offer.price
+            : numAmount * offer.price;
     };
 
     return (

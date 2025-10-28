@@ -8,9 +8,14 @@ import React, {
     useRef,
 } from 'react';
 
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {
+    ImageSourcePropType,
+    StyleSheet,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
-import {Avatar, HStack, Text, VStack} from '@/components/common';
+import {Avatar, AvatarProps, HStack, Text, VStack} from '@/components/common';
 import {Colors} from '@/theme';
 import {useColorScheme} from 'react-native';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
@@ -31,6 +36,7 @@ export interface PickerOption {
     description?: string;
     icon?: string; // Emoji or single character
     group?: string; // Group header for this option
+    avatarProps?: AvatarProps;
 }
 
 interface BottomSheetPickerProps {
@@ -146,6 +152,7 @@ const BottomSheetPicker = ({
                         title={avatarTitle}
                         backgroundColor="card"
                         color="textSecondary"
+                        {...item.avatarProps}
                     />
                     <VStack gap={4} flex={1}>
                         <Text variant="body1">{item.label}</Text>
@@ -230,9 +237,10 @@ const BottomSheetPicker = ({
                             backgroundColor={Colors[scheme!].card}
                             color="textSecondary"
                             size="sm"
+                            {...selectedOption?.avatarProps}
                         />
                         <Text
-                            variant="body2"
+                            variant="body1"
                             color={
                                 selectedOption ? 'textPrimary' : 'textSecondary'
                             }>

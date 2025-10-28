@@ -1,5 +1,11 @@
-import React, {useContext, useMemo} from 'react';
-import {Alert, ScrollView, StyleSheet, useColorScheme} from 'react-native';
+import React, {useContext, useMemo, useEffect} from 'react';
+import {
+    Alert,
+    ScrollView,
+    StyleSheet,
+    TouchableOpacity,
+    useColorScheme,
+} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
 import {useForm, Controller} from 'react-hook-form';
@@ -11,6 +17,7 @@ import {
     DismissKeyboard,
     KeyboardAvoidingView,
     VStack,
+    HStack,
     Text,
 } from '@/components/common';
 import {
@@ -22,11 +29,13 @@ import {
 import type {PickerOption} from '@/components/extended';
 import {Colors} from '@/theme';
 import useAppStore from '@/store/appStore';
-import {useCreateOffer} from '@/services/mex/hooks';
+import {useCreateOffer, useBalances} from '@/services/mex/hooks';
 import {StackScreenProps} from '@react-navigation/stack';
 import {Navigation} from '@/types/Navigation';
 import {Currency, SideEnum} from '@/services/mex/api/types';
-import {MEX_CURRENCIES} from '@/utils/constants';
+import {CHAINS, MEX_CURRENCIES} from '@/utils/constants';
+import {Wallet} from '@/types/Wallet';
+import useBalanceUtils from '@/services/hooks/useBalanceUtils';
 
 const styles = StyleSheet.create({
     container: {
@@ -53,7 +62,7 @@ const formSchema = z.object({
         network: z.string(),
         currency: z.string(),
     }),
-    side: z.nativeEnum(SideEnum),
+    side: z.enum(SideEnum),
     quantity: z.string().min(1),
     price: z.string().min(1),
     limit_min: z.string().min(1),
@@ -72,6 +81,17 @@ type FormData = {
 
 const createFormSchema = (t: (key: string) => string) =>
     formSchema
+        .refine(
+            data => {
+                const currencyKey = `${data.currency.network}:${data.currency.currency}`;
+                const sideCurrencyKey = `${data.side_currency.network}:${data.side_currency.currency}`;
+                return currencyKey !== sideCurrencyKey;
+            },
+            {
+                message: t('newOffer.errors.sameCurrency'),
+                path: ['side_currency'],
+            },
+        )
         .refine(
             data => {
                 const quantity = parseFloat(data.quantity);
@@ -161,6 +181,8 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
     const store = useAppStore();
     const {token} = useContext(P2PContext);
     const createOfferMutation = useCreateOffer(token || '');
+    const {data: balances} = useBalances(token);
+    const {getCurrencyIcon} = useBalanceUtils();
 
     const validationSchema = useMemo(() => createFormSchema(t), [t]);
     const sideOptions = useMemo(() => getSideOptions(t), [t]);
@@ -170,6 +192,7 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
         handleSubmit,
         formState: {errors, isValid},
         watch,
+        trigger,
     } = useForm({
         resolver: zodResolver(validationSchema),
         mode: 'onChange',
@@ -185,20 +208,49 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
     });
 
     const sideCurrency = watch('side_currency');
+    const currency = watch('currency');
+    const side = watch('side');
+
+    // Trigger validation when either currency changes
+    useEffect(() => {
+        trigger('side_currency');
+    }, [currency, sideCurrency, trigger]);
+
+    // Get the available balance for quantity
+    // For SELL offers (offeror buying): use side_currency balance
+    // For BUY offers (offeror selling): use currency balance
+    const getAvailableBalance = useMemo(() => {
+        if (!balances) return 0;
+
+        const targetCurrency = side === SideEnum.SELL ? sideCurrency : currency;
+        const balance = balances.find(
+            b =>
+                b.currency === targetCurrency.currency &&
+                b.network === targetCurrency.network,
+        );
+
+        return balance?.balance || 0;
+    }, [balances, side, sideCurrency, currency]);
 
     const currencyOptions: PickerOption[] = useMemo(
         () =>
             MEX_CURRENCIES.map(crypto => ({
                 label: crypto.currency!,
                 value: JSON.stringify(crypto),
-                description: crypto.network!,
+                description: CHAINS[crypto.network!].name,
+                avatarProps: {
+                    source: {
+                        uri: getCurrencyIcon(crypto.network)({
+                            currency: {
+                                ticker: crypto.currency,
+                                units: 0,
+                            },
+                        }),
+                    },
+                },
             })),
         [],
     );
-
-    const getCurrencyLabel = (crypto: Currency): string => {
-        return `${crypto.currency} (${crypto.network})`;
-    };
 
     const onSubmit = async (formData: any) => {
         const createOfferConfirmed = async () => {
@@ -245,9 +297,11 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
             t('newOffer.alerts.confirmation.description', {
                 side: formData.side,
                 quantity: formData.quantity,
-                currency: getCurrencyLabel(formData.currency),
+                currency: formData.currency.currency,
                 price: formData.price,
-                side_currency: getCurrencyLabel(formData.side_currency),
+                side_currency: formData.side_currency.currency,
+                limit_min: formData.limit_min,
+                limit_max: formData.limit_max,
             }),
             [
                 {
@@ -330,7 +384,10 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                             <Controller
                                 control={control}
                                 name="side_currency"
-                                render={({field: {onChange, value}}) => (
+                                render={({
+                                    field: {onChange, value},
+                                    fieldState: {error},
+                                }) => (
                                     <FormItem
                                         title={t(
                                             'newOffer.form.side_currency.title',
@@ -354,6 +411,14 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                                 'newOffer.form.side_currency.title',
                                             )}
                                         />
+                                        {error && (
+                                            <Text
+                                                variant="body3"
+                                                color="error"
+                                                style={{marginTop: 4}}>
+                                                {error.message}
+                                            </Text>
+                                        )}
                                     </FormItem>
                                 )}
                             />
@@ -380,6 +445,31 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                             value={value}
                                             onChangeText={onChange}
                                             keyboardType="decimal-pad"
+                                            rightContent={
+                                                <HStack>
+                                                    <Text
+                                                        variant="body1"
+                                                        color="textSecondary">
+                                                        {side === SideEnum.SELL
+                                                            ? sideCurrency.currency
+                                                            : currency.currency}
+                                                    </Text>
+                                                    <Button
+                                                        title="Max"
+                                                        type="text"
+                                                        color={
+                                                            scheme === 'dark'
+                                                                ? 'textPrimary'
+                                                                : 'primary'
+                                                        }
+                                                        onPress={() =>
+                                                            onChange(
+                                                                getAvailableBalance.toString(),
+                                                            )
+                                                        }
+                                                    />
+                                                </HStack>
+                                            }
                                         />
                                         {error && (
                                             <Text
@@ -405,9 +495,6 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                         title={t('newOffer.form.price.title')}
                                         description={t(
                                             'newOffer.form.price.description',
-                                            {
-                                                side_currency: `${sideCurrency.currency} (${sideCurrency.network})`,
-                                            },
                                         )}>
                                         <Input
                                             placeholder={t(
@@ -416,6 +503,13 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                             value={value}
                                             onChangeText={onChange}
                                             keyboardType="decimal-pad"
+                                            rightContent={
+                                                <Text
+                                                    variant="body1"
+                                                    color="textSecondary">
+                                                    {sideCurrency.currency}
+                                                </Text>
+                                            }
                                         />
                                         {error && (
                                             <Text
@@ -443,9 +537,6 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                         )}
                                         description={t(
                                             'newOffer.form.limit_min.description',
-                                            {
-                                                side_currency: `${sideCurrency.currency} (${sideCurrency.network})`,
-                                            },
                                         )}>
                                         <Input
                                             placeholder={t(
@@ -454,6 +545,13 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                             value={value}
                                             onChangeText={onChange}
                                             keyboardType="decimal-pad"
+                                            rightContent={
+                                                <Text
+                                                    variant="body1"
+                                                    color="textSecondary">
+                                                    {sideCurrency.currency}
+                                                </Text>
+                                            }
                                         />
                                         {error && (
                                             <Text
@@ -481,9 +579,6 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                         )}
                                         description={t(
                                             'newOffer.form.limit_max.description',
-                                            {
-                                                side_currency: `${sideCurrency.currency} (${sideCurrency.network})`,
-                                            },
                                         )}>
                                         <Input
                                             placeholder={t(
@@ -492,6 +587,13 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                                             value={value}
                                             onChangeText={onChange}
                                             keyboardType="decimal-pad"
+                                            rightContent={
+                                                <Text
+                                                    variant="body1"
+                                                    color="textSecondary">
+                                                    {sideCurrency.currency}
+                                                </Text>
+                                            }
                                         />
                                         {error && (
                                             <Text

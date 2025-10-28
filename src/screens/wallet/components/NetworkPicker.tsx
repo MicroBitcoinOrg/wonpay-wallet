@@ -20,6 +20,9 @@ const NetworkPicker = (props: HStackProps) => {
               label: CHAINS[_chain].name!,
               value: _chain,
               description: CHAINS[_chain].currency!.ticker,
+              avatarProps: {
+                  source: CHAINS[_chain].logo,
+              },
           }))
         : [];
 
@@ -48,11 +51,13 @@ const NetworkPicker = (props: HStackProps) => {
                     <HStack gap={8}>
                         <Avatar
                             source={chain?.logo}
-                            backgroundColor={chain?.color}
                             style={{width: 25, height: 25}}
                             size="sm"
                             imageProps={{
-                                tintColor: Colors[scheme!].white,
+                                style: {
+                                    width: 25,
+                                    height: 25,
+                                },
                             }}
                         />
                         <Text

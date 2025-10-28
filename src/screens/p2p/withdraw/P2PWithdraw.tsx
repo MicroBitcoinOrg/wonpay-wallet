@@ -246,10 +246,14 @@ const P2PWithdraw: React.FC<P2PWithdrawProps> = ({navigation}) => {
                                 options={mappedCurrencies}
                                 onValueChange={chooseCurrency}>
                                 <AnimatedPressable
+                                    disabled={mappedCurrencies.length === 0}
                                     style={[
                                         {backgroundColor: Colors[scheme!].card},
                                         styles.buttonContainer,
                                         animatedStyles,
+                                        mappedCurrencies.length === 0 && {
+                                            opacity: 0.5,
+                                        },
                                     ]}
                                     onPressIn={() =>
                                         (isPressed.value = withSpring(1, {
@@ -264,34 +268,38 @@ const P2PWithdraw: React.FC<P2PWithdrawProps> = ({navigation}) => {
                                         }))
                                     }>
                                     <HStack justifyContent="space-between">
-                                        <View>
+                                        <VStack gap={4}>
                                             <Text>
                                                 {selectedBalance
                                                     ? `${selectedBalance.currency} (${selectedBalance.network})`
                                                     : 'Select Currency'}
                                             </Text>
-                                            {selectedBalance && (
-                                                <HStack
-                                                    justifyContent="flex-start"
-                                                    alignItems="flex-end">
-                                                    <NumericFormat
-                                                        displayType="text"
-                                                        value={
-                                                            selectedBalance.balance
-                                                        }
-                                                        decimalScale={8}
-                                                        suffix={` ${selectedBalance.currency}`}
-                                                        thousandSeparator
-                                                        fixedDecimalScale
-                                                        renderText={value => (
-                                                            <Text variant="h2">
-                                                                {value}
-                                                            </Text>
-                                                        )}
-                                                    />
-                                                </HStack>
-                                            )}
-                                        </View>
+
+                                            <HStack
+                                                justifyContent="flex-start"
+                                                alignItems="flex-end">
+                                                <NumericFormat
+                                                    displayType="text"
+                                                    value={
+                                                        selectedBalance?.balance ??
+                                                        0
+                                                    }
+                                                    decimalScale={4}
+                                                    suffix={
+                                                        selectedBalance
+                                                            ? ` ${selectedBalance.currency}`
+                                                            : ''
+                                                    }
+                                                    thousandSeparator
+                                                    fixedDecimalScale
+                                                    renderText={value => (
+                                                        <Text variant="h2">
+                                                            {value}
+                                                        </Text>
+                                                    )}
+                                                />
+                                            </HStack>
+                                        </VStack>
                                         <IoniconsIcon
                                             name="ellipsis-horizontal-circle-outline"
                                             size={25}
@@ -358,7 +366,9 @@ const P2PWithdraw: React.FC<P2PWithdrawProps> = ({navigation}) => {
                                     rightContent={
                                         <HStack>
                                             {selectedBalance && (
-                                                <Text variant="body1">
+                                                <Text
+                                                    variant="body1"
+                                                    color="textSecondary">
                                                     {selectedBalance.currency}
                                                 </Text>
                                             )}

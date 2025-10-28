@@ -14,6 +14,7 @@ import {useTranslation} from 'react-i18next';
 import {Avatar, HStack, Text, VStack} from '@/components/common';
 import {NumericFormat} from 'react-number-format';
 import {NotFound} from '@/components/extended';
+import {CHAINS} from '@/utils/constants';
 
 const styles = StyleSheet.create({
     container: {
@@ -40,7 +41,18 @@ const Balances = () => {
     } = useBalances(token);
 
     if (!balances || balances.length === 0) {
-        return <NotFound description={t('account.noBalances')} />;
+        return (
+            <NotFound
+                style={{
+                    position: 'absolute',
+                    left: 0,
+                    right: 0,
+                    top: '20%',
+                    zIndex: -1,
+                }}
+                description={t('account.noBalances')}
+            />
+        );
     }
 
     return (
@@ -75,7 +87,7 @@ const Balances = () => {
                                 {item.currency}
                             </Text>
                             <Text variant="sub1" color="textSecondary">
-                                {item.network}
+                                {CHAINS[item.network].name}
                             </Text>
                         </VStack>
                     </HStack>

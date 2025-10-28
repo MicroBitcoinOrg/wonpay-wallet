@@ -44,7 +44,7 @@ export const MICROBITCOIN: Wallet.Chain = {
     minFee: 1,
     active: true,
     key: Wallet.ChainEnum.MICROBITCOIN,
-    logo: require('../assets/chains/microbitcoin/microbitcoin-logo.png'),
+    logo: require('../assets/chains/microbitcoin/MBC.jpg'),
     color: '#0214B0',
 };
 
@@ -97,7 +97,7 @@ export const TRON: Wallet.Chain = {
     minFee: 0,
     active: true,
     key: Wallet.ChainEnum.TRON,
-    logo: require('../assets/chains/tron/tron-logo.png'),
+    logo: require('../assets/chains/tron/TRON.jpg'),
     color: '#FF060A',
 };
 

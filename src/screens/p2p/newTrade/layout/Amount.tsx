@@ -43,14 +43,14 @@ const Amount = ({amount, offer, setAmount}: AmountProps) => {
         if (tradeValue < offer.limit_min) {
             return t('newTrade.amount.errors.belowMinLimit', {
                 min: offer.limit_min.toFixed(2),
-                currency: offer.side_currency,
+                currency: offer.side_currency.currency,
             });
         }
 
         if (tradeValue > offer.limit_max) {
             return t('newTrade.amount.errors.aboveMaxLimit', {
                 max: offer.limit_max.toFixed(2),
-                currency: offer.side_currency,
+                currency: offer.side_currency.currency,
             });
         }
 

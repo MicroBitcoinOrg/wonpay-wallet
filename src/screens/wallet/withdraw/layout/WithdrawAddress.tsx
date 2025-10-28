@@ -5,16 +5,20 @@ import {
     Input,
     IconButton,
     BottomSheetPicker,
+    PickerOption,
 } from '@/components/extended';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Navigation} from '@/types/Navigation';
-import {useColorScheme} from 'react-native';
+import {Image, useColorScheme} from 'react-native';
 import useAppStore from '@/store/appStore';
 import {useWallet} from '@/providers';
 import {isMatchAddress} from '@/utils/address';
 import {Wallet} from '@/types/Wallet';
+import {Colors} from '@/theme';
+import {CHAINS} from '@/utils/constants';
+import {base64ToHex} from '@/utils/common';
 
 interface WithdrawAddressProps {
     address: string;
@@ -34,7 +38,7 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
         return 0;
     };
 
-    const sortedAddresses = [
+    const sortedAddresses: PickerOption[] = [
         ...store.addressBook.filter(a => a.favorite).sort(sortFunc),
         ...store.addressBook.filter(a => !a.favorite).sort(sortFunc),
     ].map(addr => ({
@@ -42,6 +46,19 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
         description: addr.address,
         value: addr.address,
         group: 'Address Book',
+        avatarProps: {
+            additional: (
+                <Image
+                    source={CHAINS[addr.chain].logo}
+                    style={{
+                        width: 20,
+                        height: 20,
+                    }}
+                />
+            ),
+            backgroundColor: `#${base64ToHex(addr.address).substring(0, 6)}`,
+            color: 'white',
+        },
     }));
 
     const getFromQRCode = () => {

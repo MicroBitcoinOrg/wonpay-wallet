@@ -38,16 +38,14 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
             <HStack justifyContent="space-between" width="100%">
                 <VStack>
                     <HStack gap={4}>
-                        <Text variant="body1">
-                            {offer.trader_currency.currency}
-                        </Text>
+                        <Text variant="body1">{offer.currency.currency}</Text>
                         <IoniconsIcon
                             size={16}
                             color={Colors[scheme!].textPrimary}
                             name="swap-horizontal"
                         />
                         <Text variant="body1">
-                            {offer.offeror_currency.currency}
+                            {offer.side_currency.currency}
                         </Text>
                     </HStack>
                 </VStack>
@@ -56,7 +54,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                         displayType="text"
                         value={offer.price}
                         decimalScale={4}
-                        suffix={` ${offer.offeror_currency.currency}`}
+                        suffix={` ${offer.side_currency.currency}`}
                         thousandSeparator
                         fixedDecimalScale
                         renderText={value => (
@@ -90,7 +88,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                         displayType="text"
                         value={offer.limit_max}
                         decimalScale={2}
-                        suffix={` ${offer.offeror_currency.currency}`}
+                        suffix={` ${offer.side_currency.currency}`}
                         thousandSeparator
                         fixedDecimalScale
                         renderText={value => (
@@ -109,7 +107,7 @@ const OfferDetails = ({offer}: OfferDetailsProps) => {
                 </Text>
                 <NumericFormat
                     displayType="text"
-                    value={offer.quantity}
+                    value={offer.quantity - offer.filled}
                     decimalScale={2}
                     suffix={` ${offer.offeror_currency.currency}`}
                     thousandSeparator

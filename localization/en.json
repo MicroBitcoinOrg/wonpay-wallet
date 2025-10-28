@@ -266,37 +266,37 @@
         "newOffer": {
             "form": {
                 "side": {
-                    "title": "Offer type",
-                    "description": "Choose whether you want to buy or sell cryptocurrency",
+                    "title": "What do you want to do?",
+                    "description": "Select whether you want to buy or sell currency from traders",
                     "buy": "Buy",
                     "sell": "Sell"
                 },
                 "currency": {
-                    "title": "Currency to trade",
-                    "description": "Select the cryptocurrency you want to trade"
+                    "title": "Currency",
+                    "description": "The currency you want to buy or sell"
                 },
                 "side_currency": {
-                    "title": "Payment currency",
-                    "description": "Select the cryptocurrency users will pay"
+                    "title": "Payment Currency",
+                    "description": "The currency you'll exchange for the main currency"
                 },
                 "quantity": {
-                    "title": "Quantity",
-                    "description": "Total amount of cryptocurrency you want to trade",
+                    "title": "Available Quantity",
+                    "description": "Maximum amount of currency available for this offer",
                     "placeholder": "0.00"
                 },
                 "price": {
-                    "title": "Price per Unit",
-                    "description": "Price per 1 unit of cryptocurrency in {{side_currency}}",
+                    "title": "Exchange Rate",
+                    "description": "Price per 1 unit of currency",
                     "placeholder": "0.00"
                 },
                 "limit_min": {
-                    "title": "Minimum trade limit",
-                    "description": "Minimum trade amount in {{side_currency}}",
+                    "title": "Minimum Per Trade",
+                    "description": "Minimum amount traders can trade per transaction",
                     "placeholder": "0.00"
                 },
                 "limit_max": {
-                    "title": "Maximum trade limit",
-                    "description": "Maximum trade amount in {{side_currency}}",
+                    "title": "Maximum Per Trade",
+                    "description": "Maximum amount traders can trade per transaction",
                     "placeholder": "0.00"
                 }
             },
@@ -308,6 +308,7 @@
                 "invalidLimitMax": "Please enter a valid maximum limit",
                 "limitMaxLessThanMin": "Maximum limit must be greater than minimum limit",
                 "limitMaxExceedsTotal": "Maximum limit cannot exceed total offer value",
+                "sameCurrency": "Currency and Payment Currency must be different",
                 "invalidSnsName": "Please select a contact method",
                 "invalidSnsId": "Please enter your contact ID"
             },
@@ -318,7 +319,7 @@
                 },
                 "confirmation": {
                     "message": "Create Offer",
-                    "description": "You are about to create a {{side}} offer for {{quantity}} {{currency}} at {{price}} {{sideCurrency}} per unit. Confirm?",
+                    "description": "You will {{side}} up to {{quantity}} {{currency}} at {{price}} {{side_currency}} per unit. Traders can trade between {{limit_min}} - {{limit_max}} {{side_currency}} per transaction.",
                     "cancel": "Cancel",
                     "confirm": "Confirm"
                 },

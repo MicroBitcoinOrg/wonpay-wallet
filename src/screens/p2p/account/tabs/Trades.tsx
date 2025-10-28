@@ -14,7 +14,7 @@ import {
     useTrades,
 } from '@/services/mex/hooks';
 import {useTranslation} from 'react-i18next';
-import {Button} from '@/components/extended';
+import {Button, NotFound} from '@/components/extended';
 import {HStack} from '@/components/common';
 import {TradeItem} from '@/screens/p2p/account/components';
 import {useFocusEffect} from '@react-navigation/native';
@@ -40,6 +40,7 @@ const Trades = () => {
         isRefetching: tradesRefetching,
         isLoading: tradesLoading,
         refetch: tradesRefetch,
+        error,
     } = useTrades(token, {direction: 'any'}, {page: 1});
 
     useFocusEffect(
@@ -50,22 +51,37 @@ const Trades = () => {
 
     return (
         <View style={styles.container}>
-            <FlatList
-                style={{flex: 1}}
-                contentContainerStyle={{paddingBottom: 90}}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={tradesLoading || tradesRefetching}
-                        onRefresh={() => {
-                            tradesRefetch();
-                        }}
-                        tintColor={Colors[scheme!].textPrimary}
-                    />
-                }
-                data={trades?.list}
-                keyExtractor={item => item.reference}
-                renderItem={({item}) => <TradeItem {...item} />}
-            />
+            {trades && (
+                <FlatList
+                    style={{flex: 1}}
+                    contentContainerStyle={{paddingBottom: 90}}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={tradesLoading || tradesRefetching}
+                            onRefresh={() => {
+                                tradesRefetch();
+                            }}
+                            tintColor={Colors[scheme!].textPrimary}
+                        />
+                    }
+                    data={trades?.list}
+                    keyExtractor={item => item.reference}
+                    renderItem={({item}) => <TradeItem {...item} />}
+                />
+            )}
+            {trades && trades.list.length === 0 && (
+                <NotFound
+                    size="sm"
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: '20%',
+                        zIndex: -1,
+                    }}
+                    description="You haven't traded yet"
+                />
+            )}
         </View>
     );
 };

@@ -15,8 +15,9 @@ import {HStack, VStack, Text} from '@/components/common';
 import {useOffers} from '@/services/mex/hooks';
 import {SideEnum, Currency as CurrencyType} from '@/services/mex/api/types';
 import {useTranslation} from 'react-i18next';
-import {MEX_CURRENCIES} from '@/utils/constants';
+import {CHAINS, MEX_CURRENCIES} from '@/utils/constants';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
+import useBalanceUtils from '@/services/hooks/useBalanceUtils';
 
 const styles = StyleSheet.create({
     container: {
@@ -26,6 +27,7 @@ const styles = StyleSheet.create({
 });
 
 const Component = () => {
+    const {getCurrencyIcon} = useBalanceUtils();
     const [isManualRefreshing, setIsManualRefreshing] = useState(false);
     const {t} = useTranslation('p2p');
     const [side, setSide] = useState<SideEnum>(SideEnum.BUY);
@@ -47,7 +49,17 @@ const Component = () => {
             MEX_CURRENCIES.map(crypto => ({
                 label: crypto.currency!,
                 value: JSON.stringify(crypto),
-                description: crypto.network!,
+                description: CHAINS[crypto.network!].name,
+                avatarProps: {
+                    source: {
+                        uri: getCurrencyIcon(crypto.network)({
+                            currency: {
+                                ticker: crypto.currency,
+                                units: 0,
+                            },
+                        }),
+                    },
+                },
             })),
         [],
     );

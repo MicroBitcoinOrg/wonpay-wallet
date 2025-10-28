@@ -8,31 +8,41 @@ import {
     getCurrencyIcon as getTronCurrencyIcon,
 } from '../tron/utils/balance';
 
-interface Props {
-    chain: Wallet.ChainEnum;
-}
-
-const useBalanceUtils = ({chain}: Props) => {
-    const getBalanceUtils = () => {
+const useBalanceUtils = () => {
+    const getCurrencyIcon = (chain: Wallet.ChainEnum) => {
         switch (chain) {
             case Wallet.ChainEnum.MICROBITCOIN:
-                return {
-                    registerAddress: registerMicrobitcoinAddress,
-                    getBalance: getMicrobitcoinBalance,
-                    getCurrencyIcon: getMicrobitcoinCurrencyIcon,
-                };
+                return getMicrobitcoinCurrencyIcon;
             case Wallet.ChainEnum.TRON:
-                return {
-                    registerAddress: () => null,
-                    getBalance: getTronBalance,
-                    getCurrencyIcon: getTronCurrencyIcon,
-                };
+                return getTronCurrencyIcon;
             default:
                 throw new Error(`useBalanceUtils: unsupported chain: ${chain}`);
         }
     };
 
-    return getBalanceUtils();
+    const registerAddress = (chain: Wallet.ChainEnum) => {
+        switch (chain) {
+            case Wallet.ChainEnum.MICROBITCOIN:
+                return registerMicrobitcoinAddress;
+            case Wallet.ChainEnum.TRON:
+                return () => null;
+            default:
+                throw new Error(`useBalanceUtils: unsupported chain: ${chain}`);
+        }
+    };
+
+    const getBalance = (chain: Wallet.ChainEnum) => {
+        switch (chain) {
+            case Wallet.ChainEnum.MICROBITCOIN:
+                return getMicrobitcoinBalance;
+            case Wallet.ChainEnum.TRON:
+                return getTronBalance;
+            default:
+                throw new Error(`useBalanceUtils: unsupported chain: ${chain}`);
+        }
+    };
+
+    return {getCurrencyIcon, registerAddress, getBalance};
 };
 
 export default useBalanceUtils;

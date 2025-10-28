@@ -31,10 +31,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderWidth: 1,
         overflow: 'hidden',
+        position: 'relative',
     },
     image: {
-        width: '100%',
-        height: '100%',
+        top: 0,
+        left: 0,
+        position: 'absolute',
     },
     additionalContainer: {
         position: 'absolute',
@@ -50,7 +52,7 @@ const styles = StyleSheet.create({
     },
 });
 
-interface AvatarProps extends ViewProps {
+export interface AvatarProps extends ViewProps {
     backgroundColor?:
         | (keyof typeof Colors.dark & keyof typeof Colors.light)
         | string;
@@ -104,7 +106,13 @@ const Avatar: React.FC<AvatarProps> = ({
             <View style={containerStyle} {...props}>
                 {source && !imageError ? (
                     <Image
-                        style={styles.image}
+                        style={[
+                            styles.image,
+                            {
+                                width: sizeStyles[size].width,
+                                height: sizeStyles[size].height,
+                            },
+                        ]}
                         source={source}
                         onError={handleImageError}
                         resizeMode="contain"

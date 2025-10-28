@@ -1,71 +1,40 @@
 import * as React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useTranslation} from 'react-i18next';
-import {BottomSheetPicker, Header, IconButton} from '@/components/extended';
-import P2PList from '@/screens/p2p/account/tabs/P2PList';
+import {
+    BottomSheetPicker,
+    Header,
+    IconButton,
+    PickerOption,
+} from '@/components/extended';
 import NewOffer from '@/screens/p2p/newOffer/NewOffer';
 import NewTrade from '@/screens/p2p/newTrade/NewTrade';
 import Account from '@/screens/p2p/account/Account';
 import P2PWithdraw from '@/screens/p2p/withdraw/P2PWithdraw';
-// import TradeDetails from '@/screens/p2p/tradeDetails/TradeDetails';
-import {Platform, useColorScheme} from 'react-native';
+import {Platform} from 'react-native';
 import Config from 'react-native-config';
 import {Navigation} from '@/types/Navigation';
 import {defaultOptions} from '@/routes/config';
-import {P2PProvider} from '@/providers/P2PProvider';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {Colors, Typography} from '@/theme';
 import {useP2PNavigation, useRootNavigation} from '@/hooks/useTypedNavigation';
 import useAppStore from '@/store/appStore';
-import {Wallet} from '@/types/Wallet';
-import {WalletItem} from '@/components/extended';
 import {useNavigation} from '@react-navigation/native';
+import {base64ToHex} from '@/utils/common';
 
 const Stack = createStackNavigator<Navigation.P2PParamList>();
-const Tab = createMaterialTopTabNavigator();
-
-interface ListTabsProps {
-    navigation: any;
-    route: any;
-}
-
-const ListTabs = ({navigation, route}: ListTabsProps) => {
-    const scheme = useColorScheme();
-
-    return (
-        <Tab.Navigator
-            screenOptions={{
-                tabBarLabelStyle: {...Typography.body2, textTransform: 'none'},
-                tabBarStyle: {
-                    backgroundColor: Colors[scheme!].background,
-                    borderBottomColor: Colors[scheme!].border,
-                    shadowOpacity: 0,
-                    elevation: 0,
-                    borderBottomWidth: 1,
-                },
-                tabBarIndicatorStyle: {
-                    backgroundColor: Colors[scheme!].primaryLight,
-                },
-            }}>
-            <Tab.Screen name="Account" options={{title: 'Account'}}>
-                {() => <Account />}
-            </Tab.Screen>
-            <Tab.Screen name="P2PList" options={{title: 'Marketplace'}}>
-                {() => <P2PList />}
-            </Tab.Screen>
-        </Tab.Navigator>
-    );
-};
 
 const P2PStack: React.FC = () => {
     const {t} = useTranslation();
-    const appNavigation = useNavigation<Navigation.AppNavigationProp>();
-    const p2pNavigation = useP2PNavigation();
     const store = useAppStore();
 
-    const mappedWallets = store.wallets.map(wallet => ({
+    const mappedWallets: PickerOption[] = store.wallets.map(wallet => ({
         label: wallet.title,
         value: wallet.uuid,
+        avatarProps: {
+            backgroundColor: `#${base64ToHex(
+                wallet.chains.microbitcoin.depositAddress,
+            ).substring(0, 6)}`,
+            color: 'white',
+        },
     }));
 
     const chooseWallet = (uuid: string) => {

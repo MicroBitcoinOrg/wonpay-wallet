@@ -24,6 +24,7 @@ import {useWallet} from '@/providers';
 import {Wallet} from '@/types/Wallet';
 import useAppStore from '@/store/appStore';
 import {useNavigation} from '@react-navigation/native';
+import {CHAINS} from '@/utils/constants';
 
 const styles = StyleSheet.create({
     tabsContainer: {
@@ -56,9 +57,12 @@ const Account = () => {
         return addresses
             .filter(addr => addr.address) // Only show networks with addresses
             .map(addr => ({
-                label: addr.network.toUpperCase(),
+                label: CHAINS[addr.network].name!,
                 value: addr.network,
                 description: `${addr.supported_currencies.length} currencies`,
+                avatarProps: {
+                    source: CHAINS[addr.network].logo,
+                },
             }));
     }, [addresses]);
 

@@ -9,7 +9,7 @@ import {NumericFormat} from 'react-number-format';
 import {format} from 'date-fns';
 import {NavigationProp, useNavigation} from '@react-navigation/native';
 import {Navigation} from '@/types/Navigation';
-import {CryptoTradeResponse} from '@/services/mex/api/types';
+import {CryptoTradeResponse, SideEnum} from '@/services/mex/api/types';
 import {useTranslation} from 'react-i18next';
 
 interface Props extends CryptoTradeResponse {}
@@ -42,6 +42,9 @@ const Component = (props: Props) => {
         }
     };
 
+    const shouldMultiplyAmount = (offer.side === SideEnum.BUY) === isMyOffer;
+    const receivedAmount = amount * (shouldMultiplyAmount ? offer.price : 1);
+
     return (
         <Pressable
             style={{
@@ -63,23 +66,25 @@ const Component = (props: Props) => {
                     </Avatar>
                     <VStack gap={4}>
                         <Text variant="body1">
-                            {isMyOffer
-                                ? t('trades.selling')
-                                : t('trades.buying')}
+                            {t(`marketplace.${offer.side}`)}
                         </Text>
                         <Text
                             color="textSecondary"
                             variant="sub1"
                             numberOfLines={1}>
-                            {isMyOffer ? user.address : offer.user.address}
+                            {isMyOffer
+                                ? user.username ?? user.address
+                                : offer.user.username ?? offer.user.address}
                         </Text>
                     </VStack>
                 </HStack>
                 <VStack alignItems="flex-end" gap={4} flex={1}>
                     <NumericFormat
                         displayType="text"
-                        value={isMyOffer ? amount : amount * offer.price}
+                        value={receivedAmount}
                         decimalScale={2}
+                        allowNegative={false}
+                        prefix="+"
                         suffix={` ${
                             isMyOffer
                                 ? offer.trader_currency.currency

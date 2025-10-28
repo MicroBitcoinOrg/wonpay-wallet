@@ -17,6 +17,7 @@ import {useQueryClient} from '@tanstack/react-query';
 import {useCreateTrade} from '@/services/mex/hooks';
 import {StackScreenProps} from '@react-navigation/stack';
 import {Navigation} from '@/types/Navigation';
+import {SideEnum} from '@/services/mex/api';
 
 const styles = StyleSheet.create({
     container: {
@@ -66,7 +67,12 @@ const NewTrade: React.FC<NewTradeProps> = ({navigation, route}) => {
             try {
                 const trade = await createTradeMutation.mutateAsync({
                     reference: offer.reference,
-                    data: {amount: numAmount},
+                    data: {
+                        amount:
+                            offer.side === SideEnum.BUY
+                                ? numAmount / offer.price
+                                : numAmount,
+                    },
                 });
 
                 showMessage({

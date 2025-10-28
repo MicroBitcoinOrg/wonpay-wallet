@@ -19,6 +19,7 @@
 		84A35B332C2B793600ACC086 /* HelveticaNeueBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84A35B322C2B793000ACC086 /* HelveticaNeueBold.otf */; };
 		84A35B352C2B793600ACC086 /* HelveticaNeueRoman.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84A35B302C2B793000ACC086 /* HelveticaNeueRoman.otf */; };
 		84C112232E1DA7650082FC36 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C112222E1DA7650082FC36 /* AppDelegate.swift */; };
+		84DB92A22EB1882000E166AE /* HelveticaNeueMedium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 84A35B312C2B793000ACC086 /* HelveticaNeueMedium.otf */; };
 		8F15A0A8C79E657D97B97E52 /* libPods-WonpayWallet-WonpayWalletTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AC110DF649167C29A77B579 /* libPods-WonpayWallet-WonpayWalletTests.a */; };
 		F59840EB6E2E41BE9EAEAF0A /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = C341272B0AE5245350A432AF /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
@@ -122,6 +123,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4207193572F94B5B8FB0B0D8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +146,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				BBD78D7AC51CEA395F1C20DB /* Pods */,
+				4207193572F94B5B8FB0B0D8 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -272,6 +281,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84DB92A22EB1882000E166AE /* HelveticaNeueMedium.otf in Resources */,
 				84A35B332C2B793600ACC086 /* HelveticaNeueBold.otf in Resources */,
 				84A35B352C2B793600ACC086 /* HelveticaNeueRoman.otf in Resources */,
 				84A35B2B2C2B73DD00ACC086 /* AntDesign.ttf in Resources */,
@@ -312,9 +322,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet/Pods-WonpayWallet-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet/Pods-WonpayWallet-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -329,9 +343,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet/Pods-WonpayWallet-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet/Pods-WonpayWallet-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -346,9 +364,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet-WonpayWalletTests/Pods-WonpayWallet-WonpayWalletTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet-WonpayWalletTests/Pods-WonpayWallet-WonpayWalletTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -407,9 +429,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet-WonpayWalletTests/Pods-WonpayWallet-WonpayWalletTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-WonpayWallet-WonpayWalletTests/Pods-WonpayWallet-WonpayWalletTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

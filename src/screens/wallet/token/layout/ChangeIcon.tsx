@@ -40,7 +40,7 @@ const ChangeIcon: React.FC<ChangeIconProps> = ({balance}: ChangeIconProps) => {
     const scheme = useColorScheme();
     const {walletChain, chainKey} = useWallet();
     const {unlockedPassword} = useContext(PasswordContext);
-    const {getCurrencyIcon} = useBalanceUtils({chain: chainKey!});
+    const {getCurrencyIcon} = useBalanceUtils();
 
     const address = walletChain?.addresses.find(
         add => add.address === walletChain?.depositAddress,
@@ -240,7 +240,7 @@ const ChangeIcon: React.FC<ChangeIconProps> = ({balance}: ChangeIconProps) => {
                     <Avatar
                         backgroundColor={Colors[scheme!].card}
                         source={{
-                            uri: getCurrencyIcon({
+                            uri: getCurrencyIcon(chainKey!)({
                                 currency: balance.currency,
                             }),
                         }}

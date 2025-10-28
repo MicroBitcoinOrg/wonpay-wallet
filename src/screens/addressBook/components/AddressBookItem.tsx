@@ -72,11 +72,10 @@ const AddressBookItem: React.FC<AddressBookItemProps> = ({
                     additional={
                         !!chain && (
                             <Image
-                                tintColor={Colors[scheme!].textSecondary}
                                 source={chain.logo}
                                 style={{
-                                    width: 12,
-                                    height: 12,
+                                    width: 20,
+                                    height: 20,
                                 }}
                             />
                         )

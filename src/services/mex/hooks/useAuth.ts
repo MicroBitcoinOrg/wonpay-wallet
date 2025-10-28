@@ -15,10 +15,10 @@ import {QueryOptions, MutationOptions} from './types';
  * const { data: authMessage } = useAuthMessage();
  * ```
  */
-export function useAuthMessage(options?: QueryOptions<string>) {
-    return useQuery({
-        queryKey: mexKeys.auth.message(),
-        queryFn: () => MEX.getAuthMessage(),
+export function useAuthMessage(options?: MutationOptions<string, void>) {
+    return useMutation({
+        mutationKey: mexKeys.auth.message(),
+        mutationFn: () => MEX.getAuthMessage(),
         ...options,
     });
 }

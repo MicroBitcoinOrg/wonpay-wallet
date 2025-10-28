@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useContext} from 'react';
 import useAppStore from '../store/appStore';
 import {useAuthMessage, useLogin} from '../services/mex/hooks';
-import {WalletContext} from './WalletProvider';
+import {useWallet, WalletContext} from './WalletProvider';
 import {signMessage} from '../utils/address';
 import {PasswordContext} from './PasswordProvider';
 import {decryptData} from '../utils/common';
@@ -14,29 +14,27 @@ interface P2PProviderProps {
 type P2PContextType = {
     token: string | null;
     isAuthenticated: boolean;
-    isLoading: boolean;
     error: string | null;
 };
 
 const p2pContextState: P2PContextType = {
     token: null,
     isAuthenticated: false,
-    isLoading: false,
     error: null,
 };
 
 export const P2PContext = React.createContext<P2PContextType>(p2pContextState);
 
 export const P2PProvider = ({children}: P2PProviderProps) => {
-    const {wallet} = useContext(WalletContext);
+    const {wallet} = useWallet();
     const {unlockedPassword} = useContext(PasswordContext);
     const [token, setToken] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
 
-    const {data: authMessage} = useAuthMessage({
+    const {mutateAsync: mutateAuthMessageAsync} = useAuthMessage({
         retry: 1,
     });
+
     const loginMutation = useLogin();
 
     const login = async () => {
@@ -46,8 +44,9 @@ export const P2PProvider = ({children}: P2PProviderProps) => {
         }
 
         try {
-            setIsLoading(true);
             setError(null);
+
+            const authMessage = await mutateAuthMessageAsync();
 
             // Get the auth message
             if (!authMessage) {
@@ -73,28 +72,23 @@ export const P2PProvider = ({children}: P2PProviderProps) => {
                 address: wallet.chains.microbitcoin.addresses[0].address,
             });
 
-            console.log(response);
-
             setToken(response.secret);
-            setIsLoading(false);
         } catch (err: any) {
             setError(err.message || 'Authentication failed');
-            setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        if (authMessage) {
+        if (wallet) {
             login();
         }
-    }, [authMessage, wallet?.uuid]);
+    }, [wallet?.uuid]);
 
     return (
         <P2PContext.Provider
             value={{
                 token,
                 isAuthenticated: !!token,
-                isLoading,
                 error,
             }}>
             {children}

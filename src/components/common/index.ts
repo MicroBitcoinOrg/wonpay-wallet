@@ -1,6 +1,6 @@
 import VStack from './VStack';
 import HStack from './HStack';
-import Avatar from './Avatar';
+import Avatar, {AvatarProps} from './Avatar';
 import DismissKeyboard from './DismissKeyboard';
 import FocusAwareStatusBar from './FocusAwareStatusBar';
 import Coin from './Coin';
@@ -17,6 +17,7 @@ export {
     DismissKeyboard,
     FocusAwareStatusBar,
     Avatar,
+    type AvatarProps,
     Table,
     Coin,
     Container,

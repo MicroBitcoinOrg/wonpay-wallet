@@ -115,11 +115,6 @@ const Wallet = ({navigation}: WalletProps) => {
                     options={{title: t('tokens')}}
                     component={Tokens}
                 />
-                <Tab.Screen
-                    name={t('p2p')}
-                    options={{title: t('p2p')}}
-                    component={P2P}
-                />
             </Tab.Navigator>
         </Container>
     );

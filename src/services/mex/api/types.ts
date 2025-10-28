@@ -2,6 +2,8 @@
  * MicroBitcoin Exchange (MEX) API Types
  */
 
+import {Wallet} from '@/types/Wallet';
+
 // ============================================================================
 // Enums
 // ============================================================================
@@ -80,7 +82,7 @@ export interface BalanceResponse {
     balance: number;
     frozen: number;
     currency: string;
-    network: string;
+    network: Wallet.ChainEnum;
     type: string;
 }
 
@@ -99,12 +101,12 @@ export interface AddressResponse {
     address: string | null;
     confirmations: number;
     min_deposit: number;
-    network: string;
+    network: Wallet.ChainEnum;
 }
 
 export type Currency = {
     currency: string;
-    network: string;
+    network: Wallet.ChainEnum;
 };
 
 /**

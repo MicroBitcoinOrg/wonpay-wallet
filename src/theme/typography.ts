@@ -24,6 +24,7 @@ interface FontsProps {
 const fonts: FontsProps = {
     regular: 'HelveticaNeue-Roman',
     bold: 'HelveticaNeue-Bold',
+    medium: 'HelveticaNeueMedium',
 };
 
 interface TypographyProps {

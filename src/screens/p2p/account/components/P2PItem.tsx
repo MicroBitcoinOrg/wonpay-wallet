@@ -23,37 +23,23 @@ const Component = (props: Props) => {
     const {token} = useContext(P2PContext);
     const {
         quantity,
+        filled,
         user,
         price,
         reference,
         trader_currency,
         offeror_currency,
+        currency,
+        side_currency,
         limit_min,
         limit_max,
     } = props;
     const navigation = useNavigation<NavigationProp<Navigation.P2PParamList>>();
     const scheme = useColorScheme();
     const {wallet} = useWallet();
-    const deleteOfferMutation = useDeleteOffer(token || '');
 
     const navigateToCreateTrade = () => {
         navigation.navigate('NewTrade', props);
-    };
-
-    const handleDeleteOffer = async () => {
-        try {
-            await deleteOfferMutation.mutateAsync({reference});
-            showMessage({
-                message: t('marketplace.offerDeleted'),
-                type: 'success',
-            });
-        } catch (e) {
-            showMessage({
-                message: t('marketplace.deleteOfferFailed'),
-                description: String(e),
-                type: 'danger',
-            });
-        }
     };
 
     const isMyOffer =
@@ -73,7 +59,7 @@ const Component = (props: Props) => {
                 <HStack justifyContent="space-between" style={{width: '100%'}}>
                     <View style={{gap: 4}}>
                         <Text variant="sub1" color="textSecondary">
-                            {user.username || user.address}
+                            {user.username ?? user.address}
                         </Text>
 
                         <HStack style={{gap: 4}} justifyContent="flex-start">
@@ -81,7 +67,7 @@ const Component = (props: Props) => {
                                 displayType="text"
                                 value={price}
                                 decimalScale={2}
-                                suffix={` ${offeror_currency.currency}`}
+                                suffix={` ${side_currency.currency}`}
                                 thousandSeparator
                                 fixedDecimalScale
                                 renderText={value => (
@@ -94,7 +80,7 @@ const Component = (props: Props) => {
                                 name="swap-horizontal"
                             />
                             <Text variant="body1" color="textSecondary">
-                                1.00 {trader_currency.currency}
+                                1.00 {currency.currency}
                             </Text>
                         </HStack>
                     </View>
@@ -114,15 +100,13 @@ const Component = (props: Props) => {
                         />
                     )}
                 </HStack>
-                <HStack style={{gap: 16}}>
-                    <View
-                        style={{
-                            padding: 8,
-                            backgroundColor: Colors[scheme!].card,
-                            borderRadius: 8,
-                            gap: 4,
-                            flex: 1,
-                        }}>
+                <VStack
+                    backgroundColor={Colors[scheme!].card}
+                    gap={16}
+                    borderRadius={10}
+                    padding={16}
+                    width="100%">
+                    <HStack width="100%" justifyContent="space-between">
                         <Text variant="body3" color="textSecondary">
                             {t('marketplace.limit')}
                         </Text>
@@ -142,7 +126,7 @@ const Component = (props: Props) => {
                                 displayType="text"
                                 value={limit_max}
                                 decimalScale={2}
-                                suffix={` ${offeror_currency.currency}`}
+                                suffix={` ${side_currency.currency}`}
                                 thousandSeparator
                                 fixedDecimalScale
                                 renderText={value => (
@@ -150,21 +134,14 @@ const Component = (props: Props) => {
                                 )}
                             />
                         </HStack>
-                    </View>
-                    <View
-                        style={{
-                            padding: 8,
-                            backgroundColor: Colors[scheme!].card,
-                            borderRadius: 8,
-                            gap: 4,
-                            flex: 1,
-                        }}>
+                    </HStack>
+                    <HStack width="100%" justifyContent="space-between">
                         <Text variant="body3" color="textSecondary">
                             {t('marketplace.available')}
                         </Text>
                         <NumericFormat
                             displayType="text"
-                            value={quantity}
+                            value={quantity - filled}
                             decimalScale={2}
                             suffix={` ${offeror_currency.currency}`}
                             thousandSeparator
@@ -173,8 +150,8 @@ const Component = (props: Props) => {
                                 <Text variant="body3">{value}</Text>
                             )}
                         />
-                    </View>
-                </HStack>
+                    </HStack>
+                </VStack>
             </VStack>
         </Pressable>
     );

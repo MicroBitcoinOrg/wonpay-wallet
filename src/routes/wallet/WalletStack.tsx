@@ -5,6 +5,7 @@ import {
     BottomSheetPicker,
     Header,
     IconButton,
+    PickerOption,
     WalletItem,
 } from '@/components/extended';
 import {
@@ -25,6 +26,7 @@ import {useNavigation} from '@react-navigation/native';
 import {defaultOptions} from '@/routes/config';
 import useAppStore from '@/store/appStore';
 import {Wallet} from '@/types/Wallet';
+import {base64ToHex} from '@/utils/common';
 
 const styles = StyleSheet.create({
     logoImage: {
@@ -44,27 +46,16 @@ const WalletStack: React.FC = () => {
         store.setUUID(uuid);
     };
 
-    const mappedWallets = store.wallets.map(wallet => ({
+    const mappedWallets: PickerOption[] = store.wallets.map(wallet => ({
         label: wallet.title,
         value: wallet.uuid,
+        avatarProps: {
+            backgroundColor: `#${base64ToHex(
+                wallet.chains.microbitcoin.depositAddress,
+            ).substring(0, 6)}`,
+            color: 'white',
+        },
     }));
-
-    {
-        /* <IconButton
-        onPress={() =>
-            appNavigation.navigateDeprecated('RootStack', {
-                screen: 'OnboardingStack',
-                params: {
-                    screen: 'Welcome',
-                },
-            })
-        }
-        name="add"
-        iconSet="ionicons"
-        color="textPrimary"
-        transparent
-    /> */
-    }
 
     return (
         <Stack.Navigator

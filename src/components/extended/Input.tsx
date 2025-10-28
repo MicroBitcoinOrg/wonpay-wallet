@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
         borderBottomWidth: 0.5,
         color: 'black',
         alignItems: 'center',
-        marginTop: 5,
-        padding: 5,
     },
     inputContainer: {
         flex: 1,
@@ -116,7 +114,6 @@ const Base = ({
                             color === 'white'
                                 ? Colors[scheme!].white
                                 : Colors[scheme!].border,
-                        borderRadius: 10,
 
                         flexDirection: bottomContent ? 'column' : 'row',
                         // backgroundColor: Colors[scheme!].card,

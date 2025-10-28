@@ -7,7 +7,7 @@ import {Navigation} from '@/types/Navigation';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import {NumericFormat} from 'react-number-format';
 import {format} from 'date-fns';
-import {Button} from '@/components/extended';
+import {Badge, Button} from '@/components/extended';
 import OcticonsIcon from 'react-native-vector-icons/Octicons';
 import {showMessage} from 'react-native-flash-message';
 import {useQueryClient} from '@tanstack/react-query';
@@ -23,11 +23,14 @@ const Component = (props: Props) => {
     const queryClient = useQueryClient();
     const {token} = useContext(P2PContext);
     const {
+        side,
         quantity,
         created,
         price,
+        currency,
+        filled,
+        side_currency,
         offeror_currency,
-        trader_currency,
         limit_min,
         limit_max,
         reference,
@@ -69,47 +72,46 @@ const Component = (props: Props) => {
                 justifyContent="flex-start"
                 alignItems="flex-start">
                 <HStack justifyContent="space-between" style={{width: '100%'}}>
-                    <View>
-                        <HStack style={{gap: 4}}>
-                            <Text variant="body1">
-                                {offeror_currency.currency}
-                            </Text>
+                    <VStack gap={4}>
+                        <HStack style={{gap: 4}} justifyContent="flex-start">
+                            <NumericFormat
+                                displayType="text"
+                                value={price}
+                                decimalScale={2}
+                                suffix={` ${side_currency.currency}`}
+                                thousandSeparator
+                                fixedDecimalScale
+                                renderText={value => (
+                                    <Text variant="body1">{value}</Text>
+                                )}
+                            />
                             <IoniconsIcon
                                 size={16}
-                                color={Colors[scheme!].textPrimary}
+                                color={Colors[scheme!].textSecondary}
                                 name="swap-horizontal"
                             />
-                            <Text variant="body1">
-                                {trader_currency.currency}
+                            <Text variant="body1" color="textSecondary">
+                                1.00 {currency.currency}
                             </Text>
                         </HStack>
                         <Text color="textSecondary" variant="sub1">
                             {format(new Date(created * 1000), 'd MMM yyyy')}
                         </Text>
-                    </View>
-                    <View>
-                        <NumericFormat
-                            displayType="text"
-                            value={price}
-                            decimalScale={2}
-                            suffix={` ${trader_currency.currency}`}
-                            thousandSeparator
-                            fixedDecimalScale
-                            renderText={value => (
-                                <Text variant="body1">{value}</Text>
-                            )}
-                        />
-                    </View>
+                    </VStack>
+
+                    <Badge
+                        label={t(`marketplace.${side}`)}
+                        style={{backgroundColor: Colors[scheme!].card}}
+                    />
                 </HStack>
-                <HStack style={{gap: 16}}>
-                    <View
-                        style={{
-                            padding: 8,
-                            backgroundColor: Colors[scheme!].card,
-                            borderRadius: 8,
-                            gap: 4,
-                            flex: 1,
-                        }}>
+
+                <VStack
+                    backgroundColor={Colors[scheme!].card}
+                    gap={16}
+                    borderRadius={10}
+                    padding={16}
+                    width="100%">
+                    <HStack width="100%" justifyContent="space-between">
                         <Text variant="body3" color="textSecondary">
                             {t('marketplace.limit')}
                         </Text>
@@ -129,7 +131,7 @@ const Component = (props: Props) => {
                                 displayType="text"
                                 value={limit_max}
                                 decimalScale={2}
-                                suffix={` ${trader_currency.currency}`}
+                                suffix={` ${side_currency.currency}`}
                                 thousandSeparator
                                 fixedDecimalScale
                                 renderText={value => (
@@ -137,21 +139,14 @@ const Component = (props: Props) => {
                                 )}
                             />
                         </HStack>
-                    </View>
-                    <View
-                        style={{
-                            padding: 8,
-                            backgroundColor: Colors[scheme!].card,
-                            borderRadius: 8,
-                            gap: 4,
-                            flex: 1,
-                        }}>
+                    </HStack>
+                    <HStack width="100%" justifyContent="space-between">
                         <Text variant="body3" color="textSecondary">
                             {t('marketplace.available')}
                         </Text>
                         <NumericFormat
                             displayType="text"
-                            value={quantity}
+                            value={quantity - filled}
                             decimalScale={2}
                             suffix={` ${offeror_currency.currency}`}
                             thousandSeparator
@@ -160,8 +155,8 @@ const Component = (props: Props) => {
                                 <Text variant="body3">{value}</Text>
                             )}
                         />
-                    </View>
-                </HStack>
+                    </HStack>
+                </VStack>
                 <Button
                     onPress={handleDeleteOffer}
                     fullWidth

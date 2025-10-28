@@ -29,7 +29,7 @@ const Fee = ({fee, setFee}: FeeProps) => {
                 placeholder={t('fee.placeholder')}
                 rightContent={
                     <HStack>
-                        <Text variant="body1">
+                        <Text variant="body1" color="textSecondary">
                             {
                                 walletChain?.balances.find(b => b.main)
                                     ?.currency.ticker
