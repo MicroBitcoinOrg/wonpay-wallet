@@ -37,36 +37,57 @@ const AccountCard = () => {
 
     const {data: profile, isLoading: isProfileLoading} = useMyProfile(token);
 
-    if (!profile) return null;
-
     return (
         <VStack
             backgroundColor={Colors[scheme!].background}
             gap={16}
             borderRadius={10}
             padding={15}>
-            <HStack justifyContent="space-between" gap={16}>
-                <Avatar
-                    title={profile?.address}
-                    backgroundColor={`#${base64ToHex(profile.address).substring(
-                        0,
-                        6,
-                    )}`}
-                    color="white"
-                />
-                <VStack gap={4}>
-                    <Text variant="body1" numberOfLines={1}>
-                        {t('account.account')}
-                    </Text>
-                    <Text
-                        variant="sub1"
-                        color="textSecondary"
-                        numberOfLines={1}
-                        ellipsizeMode="middle">
-                        {profile?.address}
-                    </Text>
-                </VStack>
-            </HStack>
+            {!profile && (
+                <SkeletonPlaceholder
+                    backgroundColor={Colors[scheme!].background}
+                    highlightColor={Colors[scheme!].card}>
+                    <SkeletonPlaceholder.Item
+                        flexDirection="row"
+                        justifyContent="space-between"
+                        alignItems="center"
+                        gap={16}>
+                        <SkeletonPlaceholder.Item
+                            width={45}
+                            height={45}
+                            borderRadius={45}
+                        />
+                        <SkeletonPlaceholder.Item
+                            width={175}
+                            height={25}
+                            borderRadius={4}
+                        />
+                    </SkeletonPlaceholder.Item>
+                </SkeletonPlaceholder>
+            )}
+            {profile && (
+                <HStack justifyContent="space-between" gap={16}>
+                    <Avatar
+                        title={profile?.address}
+                        backgroundColor={`#${base64ToHex(
+                            profile.address,
+                        ).substring(0, 6)}`}
+                        color="white"
+                    />
+                    <VStack gap={4}>
+                        <Text variant="body1" numberOfLines={1}>
+                            {t('account.account')}
+                        </Text>
+                        <Text
+                            variant="sub1"
+                            color="textSecondary"
+                            numberOfLines={1}
+                            ellipsizeMode="middle">
+                            {profile?.address}
+                        </Text>
+                    </VStack>
+                </HStack>
+            )}
         </VStack>
     );
 };

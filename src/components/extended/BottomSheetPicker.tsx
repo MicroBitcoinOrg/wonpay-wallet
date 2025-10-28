@@ -224,13 +224,23 @@ const BottomSheetPicker = ({
                         styles.defaultTrigger,
                         {borderColor: Colors[scheme!].border},
                     ]}>
-                    <Text
-                        variant="body2"
-                        color={
-                            selectedOption ? 'textPrimary' : 'textSecondary'
-                        }>
-                        {selectedOption ? selectedOption.label : placeholder}
-                    </Text>
+                    <HStack gap={8} justifyContent="flex-start" flex={1}>
+                        <Avatar
+                            title={selectedOption?.label}
+                            backgroundColor={Colors[scheme!].card}
+                            color="textSecondary"
+                            size="sm"
+                        />
+                        <Text
+                            variant="body2"
+                            color={
+                                selectedOption ? 'textPrimary' : 'textSecondary'
+                            }>
+                            {selectedOption
+                                ? selectedOption.label
+                                : placeholder}
+                        </Text>
+                    </HStack>
                     <EntypoIcon
                         name="chevron-thin-right"
                         size={12}

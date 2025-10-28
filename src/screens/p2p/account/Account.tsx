@@ -120,7 +120,8 @@ const Account = () => {
                 <IconButton
                     iconColor="textPrimary"
                     name="chevron-up"
-                    iconSet="ionicons">
+                    iconSet="ionicons"
+                    onPress={() => navigation.navigate('Withdraw')}>
                     <Text variant="sub1" fontWeight={700} color="white">
                         {t('account.withdraw')}
                     </Text>

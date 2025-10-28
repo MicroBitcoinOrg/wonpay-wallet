@@ -6,6 +6,7 @@ import P2PList from '@/screens/p2p/account/tabs/P2PList';
 import NewOffer from '@/screens/p2p/newOffer/NewOffer';
 import NewTrade from '@/screens/p2p/newTrade/NewTrade';
 import Account from '@/screens/p2p/account/Account';
+import P2PWithdraw from '@/screens/p2p/withdraw/P2PWithdraw';
 // import TradeDetails from '@/screens/p2p/tradeDetails/TradeDetails';
 import {Platform, useColorScheme} from 'react-native';
 import Config from 'react-native-config';
@@ -134,6 +135,18 @@ const P2PStack: React.FC = () => {
                 component={NewOffer}
                 options={{
                     title: t('screenTitles.p2p.newOffer'),
+                    cardStyle: {
+                        paddingBottom: 90,
+                    },
+                }}
+            />
+            <Stack.Screen
+                name="Withdraw"
+                component={P2PWithdraw}
+                options={{
+                    title: t('screenTitles.p2p.withdraw', {
+                        defaultValue: 'Withdraw',
+                    }),
                     cardStyle: {
                         paddingBottom: 90,
                     },

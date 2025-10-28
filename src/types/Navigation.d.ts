@@ -44,6 +44,7 @@ declare namespace Navigation {
         TradeDetails: {trade_reference: string}; // Trade details
         Account: undefined; // P2P account screen
         Deposit: undefined; // P2P deposit screen
+        Withdraw: undefined; // P2P withdrawal screen
     };
 
     type OnboardingParamList = {

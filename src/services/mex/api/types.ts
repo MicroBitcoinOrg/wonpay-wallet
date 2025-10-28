@@ -317,7 +317,7 @@ export interface TradeArgs {
  * Withdrawal creation arguments
  */
 export interface WithdrawalArgs {
-    currency: string;
+    crypto_currency: string;
     network: string;
     amount: number | string;
     address: string;
