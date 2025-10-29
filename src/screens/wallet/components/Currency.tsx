@@ -49,7 +49,6 @@ interface CurrencyProps {
 const Currency = ({currencies, balance, setBalance}: CurrencyProps) => {
     const scheme = useColorScheme();
     const {t} = useTranslation('withdraw');
-    const navigation = useNavigation<Navigation.AppNavigationProp>();
     const isPressed = useSharedValue(0);
 
     const animatedStyles = useAnimatedStyle(() => {
@@ -78,6 +77,7 @@ const Currency = ({currencies, balance, setBalance}: CurrencyProps) => {
     return (
         <View style={styles.inputContainer}>
             <BottomSheetPicker
+                title={t('selectCurrency')}
                 options={mappedCurrencies}
                 onValueChange={chooseCurrency}>
                 <AnimatedPressable

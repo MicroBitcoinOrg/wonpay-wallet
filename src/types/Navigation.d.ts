@@ -45,6 +45,7 @@ declare namespace Navigation {
         Account: undefined; // P2P account screen
         Deposit: undefined; // P2P deposit screen
         Withdraw: undefined; // P2P withdrawal screen
+        Settings: undefined; // P2P settings screen
     };
 
     type OnboardingParamList = {

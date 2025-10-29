@@ -168,6 +168,10 @@ export function useDeleteOffer(
             queryClient.invalidateQueries({
                 queryKey: mexKeys.offers.detail(data.reference),
             });
+            queryClient.invalidateQueries({
+                queryKey: mexKeys.offers.list({}, {}),
+                exact: false,
+            });
             queryClient.invalidateQueries({queryKey: mexKeys.offers.all()});
             queryClient.invalidateQueries({queryKey: mexKeys.finance.all()});
         },

@@ -4,6 +4,8 @@ import {
     fetchTrc10Transfers,
     fetchTrc20Transfers,
     fetchTrxTransfers,
+    TRC20Transaction,
+    TRXTransaction,
 } from '../api/getTransactions';
 
 const extractWalletAddresses = (wallet: Wallet.Wallet): string[] => {
@@ -19,7 +21,7 @@ const extractWalletAddresses = (wallet: Wallet.Wallet): string[] => {
 };
 
 const mapTransaction = (
-    tx: any,
+    tx: TRC20Transaction | TRXTransaction,
     walletAddresses: string[],
     currency: Wallet.Currency,
 ): Wallet.Transaction => {
@@ -48,11 +50,11 @@ export const getWalletMainTransactions = async (data: {
     try {
         const responseData = await fetchTrxTransfers(address);
 
-        const txs = responseData.data || [];
+        const txs: TRXTransaction[] = responseData.data || [];
 
-        return txs.map((tx: any) =>
-            mapTransaction(tx, walletAddresses, TRON.currency),
-        );
+        return txs
+            .filter(tx => !tx.cheatStatus)
+            .map(tx => mapTransaction(tx, walletAddresses, TRON.currency));
     } catch (e) {
         console.error('Error fetching TRX transactions:', e);
         return [];
@@ -76,9 +78,9 @@ export const getWalletTokenTransactions = async (data: {
                 ? await fetchTrc20Transfers(address, contractAddress)
                 : await fetchTrc10Transfers(address, contractAddress);
 
-        const txs = responseData.token_transfers || [];
+        const txs: TRC20Transaction[] = responseData.data || [];
 
-        return txs.map((tx: any) =>
+        return txs.map(tx =>
             mapTransaction(tx, walletAddresses, data.currency),
         );
     } catch (e) {

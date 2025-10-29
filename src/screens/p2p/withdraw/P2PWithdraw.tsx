@@ -44,6 +44,7 @@ import useAppStore from '@/store/appStore';
 import Clipboard from '@react-native-clipboard/clipboard';
 import {Wallet} from '@/types/Wallet';
 import {BalanceResponse} from '@/services/mex/api';
+import WithdrawAddress from './layout/WithdrawAddress';
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
@@ -143,34 +144,6 @@ const P2PWithdraw: React.FC<P2PWithdrawProps> = ({navigation}) => {
         checkAmount(String(max.toFixed(8)));
     };
 
-    const getFromClipboard = () => {
-        Clipboard.getString().then(string => {
-            if (string && string.length > 20) {
-                setAddress(string);
-            }
-        });
-    };
-
-    const sortFunc = (a: Wallet.AddressBook, b: Wallet.AddressBook) => {
-        if (a.title > b.title) return 1;
-        if (a.title < b.title) return -1;
-        return 0;
-    };
-
-    const sortedAddresses = [
-        ...store.addressBook.filter(a => a.favorite).sort(sortFunc),
-        ...store.addressBook.filter(a => !a.favorite).sort(sortFunc),
-    ].map(addr => ({
-        label: addr.title,
-        description: addr.address,
-        value: addr.address,
-        group: 'Address Book',
-    }));
-
-    const chooseAddressBookItem = (address: string) => {
-        setAddress(address);
-    };
-
     const handleWithdraw = async () => {
         if (!selectedBalance) return;
 
@@ -243,6 +216,7 @@ const P2PWithdraw: React.FC<P2PWithdrawProps> = ({navigation}) => {
                         {/* Currency Picker - styled like wallet withdraw */}
                         <View style={styles.inputContainer}>
                             <BottomSheetPicker
+                                title={t('selectCurrency')}
                                 options={mappedCurrencies}
                                 onValueChange={chooseCurrency}>
                                 <AnimatedPressable
@@ -272,7 +246,7 @@ const P2PWithdraw: React.FC<P2PWithdrawProps> = ({navigation}) => {
                                             <Text>
                                                 {selectedBalance
                                                     ? `${selectedBalance.currency} (${selectedBalance.network})`
-                                                    : 'Select Currency'}
+                                                    : t('selectCurrency')}
                                             </Text>
 
                                             <HStack
@@ -317,44 +291,10 @@ const P2PWithdraw: React.FC<P2PWithdrawProps> = ({navigation}) => {
                             alignItems="flex-start"
                             flex={1}>
                             {/* Address Input with address book */}
-                            <FormItem title={t('withdrawAddress.title')}>
-                                <Input
-                                    placeholder={t(
-                                        'withdrawAddress.placeholder',
-                                    )}
-                                    autoFocus={!address || address === ''}
-                                    onChangeText={text => setAddress(text)}
-                                    onLongPress={getFromClipboard}
-                                    value={address}
-                                    returnKeyType={'next'}
-                                    rightContent={
-                                        <HStack>
-                                            <BottomSheetPicker
-                                                title="Choose address"
-                                                options={sortedAddresses}
-                                                onValueChange={
-                                                    chooseAddressBookItem
-                                                }>
-                                                <IconButton
-                                                    iconSet="ionicons"
-                                                    name="people-outline"
-                                                    disabled={
-                                                        !store.addressBook ||
-                                                        store.addressBook
-                                                            .length === 0
-                                                    }
-                                                    transparent
-                                                    color={
-                                                        scheme === 'dark'
-                                                            ? 'textPrimary'
-                                                            : 'primary'
-                                                    }
-                                                />
-                                            </BottomSheetPicker>
-                                        </HStack>
-                                    }
-                                />
-                            </FormItem>
+                            <WithdrawAddress
+                                address={address}
+                                setAddress={setAddress}
+                            />
 
                             {/* Amount Input */}
                             <FormItem title={t('amount.title')}>

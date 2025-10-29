@@ -116,6 +116,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                 prefix={transaction.type === 'sent' ? '-' : '+'}
                                 suffix={` ${transaction.currency.ticker}`}
                                 thousandSeparator
+                                allowNegative={false}
                                 fixedDecimalScale
                                 renderText={value => (
                                     <Text>
@@ -236,6 +237,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                     displayType="text"
                                     value={transaction.confirmations}
                                     decimalScale={0}
+                                    allowNegative={false}
                                     thousandSeparator
                                     fixedDecimalScale
                                     renderText={value => (
@@ -260,6 +262,7 @@ const TransactionDetails: React.FC<TransactionDetailsProps> = ({
                                         }
                                         suffix={` ${chain?.currency.ticker}`}
                                         decimalScale={8}
+                                        allowNegative={false}
                                         thousandSeparator
                                         fixedDecimalScale
                                         renderText={value => (

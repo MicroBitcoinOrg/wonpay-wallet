@@ -11,6 +11,7 @@ import NewOffer from '@/screens/p2p/newOffer/NewOffer';
 import NewTrade from '@/screens/p2p/newTrade/NewTrade';
 import Account from '@/screens/p2p/account/Account';
 import P2PWithdraw from '@/screens/p2p/withdraw/P2PWithdraw';
+import Settings from '@/screens/p2p/Settings';
 import {Platform} from 'react-native';
 import Config from 'react-native-config';
 import {Navigation} from '@/types/Navigation';
@@ -119,6 +120,13 @@ const P2PStack: React.FC = () => {
                     cardStyle: {
                         paddingBottom: 90,
                     },
+                }}
+            />
+            <Stack.Screen
+                name="Settings"
+                component={Settings}
+                options={{
+                    title: t('common:screenTitles.p2p.settings'),
                 }}
             />
         </Stack.Navigator>

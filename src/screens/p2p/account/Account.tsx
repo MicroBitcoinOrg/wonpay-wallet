@@ -105,7 +105,7 @@ const Account = () => {
         <Container paddingTop gradient style={{gap: 20}}>
             <FocusAwareStatusBar barStyle="light-content" />
             <AccountCard />
-            <HStack gap={64}>
+            <HStack gap={80}>
                 <BottomSheetPicker
                     options={networkOptions}
                     onValueChange={handleNetworkSelect}
@@ -128,6 +128,15 @@ const Account = () => {
                     onPress={() => navigation.navigate('Withdraw')}>
                     <Text variant="sub1" fontWeight={700} color="white">
                         {t('account.withdraw')}
+                    </Text>
+                </IconButton>
+                <IconButton
+                    iconSet="ionicons"
+                    name="options-outline"
+                    iconColor="textPrimary"
+                    onPress={() => navigation.navigate('Settings')}>
+                    <Text variant="sub1" fontWeight={700} color="white">
+                        {t('account.settings')}
                     </Text>
                 </IconButton>
             </HStack>

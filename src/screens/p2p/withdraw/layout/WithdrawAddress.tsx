@@ -28,7 +28,6 @@ interface WithdrawAddressProps {
 const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
     const scheme = useColorScheme();
     const {t} = useTranslation('withdraw');
-    const navigation = useNavigation<Navigation.AppNavigationProp>();
     const store = useAppStore();
     const {chain, wallet, chainKey} = useWallet();
 
@@ -97,15 +96,6 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
         )
         .flat();
 
-    const getFromQRCode = () => {
-        navigation.navigate('RootStack', {
-            screen: 'QRCodeScanner',
-            params: {
-                type: 'withdraw',
-            },
-        });
-    };
-
     const getFromClipboard = () => {
         Clipboard.getString().then(string => {
             const match = isMatchAddress(string, chain!.regex.address);
@@ -161,15 +151,6 @@ const WithdrawAddress = ({address, setAddress}: WithdrawAddressProps) => {
                                 }
                             />
                         </BottomSheetPicker>
-                        <IconButton
-                            transparent
-                            color={
-                                scheme === 'dark' ? 'textPrimary' : 'primary'
-                            }
-                            iconSet="ionicons"
-                            name="scan-outline"
-                            onPress={getFromQRCode}
-                        />
                     </HStack>
                 }
             />

@@ -37,7 +37,8 @@
                 "newTrade": "新交易",
                 "tradeDetails": "交易详情",
                 "account": "账户",
-                "deposit": "存款"
+                "deposit": "存款",
+                "settings": "P2P设置"
             }
         },
         "migration": {
@@ -158,7 +159,8 @@
             "confirmIOS": "确认",
             "headerIOS": "选择一个日期"
         },
-        "selectCurrency": "选择货币"
+        "selectCurrency": "选择货币",
+        "selectAddress": "选择地址"
     },
     "wallet": {
         "addNewWallet": "添加新钱包",
@@ -187,7 +189,7 @@
         "noTokens": "还没有代币。"
     },
     "p2p": {
-        "p2pCommingSoon": "P2P 功能即将推出.",
+        "p2pCommingSoon": "P2P功能即将推出。",
         "marketplace": {
             "buy": "购买",
             "sell": "出售",
@@ -196,15 +198,16 @@
             "available": "可用",
             "trade": "交易",
             "remove": "删除",
-            "offerDeleted": "报价删除成功",
+            "offerDeleted": "报价已成功删除",
             "deleteOfferFailed": "删除报价失败",
             "selectCurrency": "选择货币",
             "selectSideCurrency": "选择支付货币"
         },
         "trades": {
-            "incoming": "收到",
-            "outgoing": "发出",
-            "noTrades": "暂无交易",
+            "incoming": "收到的交易",
+            "outgoing": "发出的交易",
+            "noTrades": "还没有交易",
+            "noTradesYet": "您还没有进行过交易",
             "buying": "购买中",
             "selling": "出售中",
             "status": {
@@ -218,99 +221,17 @@
             "limit": "限额",
             "quantity": "数量",
             "remove": "删除",
-            "offerDeleted": "报价删除成功",
+            "offerDeleted": "报价已成功删除",
             "deleteOfferFailed": "删除报价失败"
-        },
-        "newOffer": {
-            "form": {
-                "side": {
-                    "title": "报价类型",
-                    "description": "选择您要购买还是出售加密货币",
-                    "buy": "购买",
-                    "sell": "出售"
-                },
-                "currency": {
-                    "title": "交易资产",
-                    "description": "选择您要交易的加密货币"
-                },
-                "side_currency": {
-                    "title": "支付货币",
-                    "description": "选择用于支付的加密货币"
-                },
-                "quantity": {
-                    "title": "数量",
-                    "description": "您要交易的加密货币总量",
-                    "placeholder": "0.00"
-                },
-                "price": {
-                    "title": "单价",
-                    "description": "每单位加密货币的价格（{{sideCurrency}}）",
-                    "placeholder": "0.00"
-                },
-                "limit_min": {
-                    "title": "最低交易限额",
-                    "description": "最低交易金额（{{sideCurrency}}）",
-                    "placeholder": "0.00"
-                },
-                "limit_max": {
-                    "title": "最高交易限额",
-                    "description": "最高交易金额（{{sideCurrency}}）",
-                    "placeholder": "0.00"
-                },
-                "sns_name": {
-                    "title": "联系方式",
-                    "description": "选择您首选的通讯平台"
-                },
-                "sns_id": {
-                    "title": "联系人ID",
-                    "description": "您在所选平台上的用户名/ID",
-                    "placeholder": "@用户名"
-                },
-                "memo": {
-                    "title": "附加说明",
-                    "description": "为交易者提供的任何附加信息或要求",
-                    "placeholder": "例如：接受的付款方式、交易时间等"
-                }
-            },
-            "createButton": "创建报价",
-            "errors": {
-                "invalidQuantity": "请输入有效的数量",
-                "invalidPrice": "请输入有效的价格",
-                "invalidLimitMin": "请输入有效的最低限额",
-                "invalidLimitMax": "请输入有效的最高限额",
-                "limitMaxLessThanMin": "最高限额必须大于最低限额",
-                "limitMaxExceedsTotal": "最高限额不能超过总报价价值",
-                "invalidSnsName": "请选择联系方式",
-                "invalidSnsId": "请输入您的联系人ID"
-            },
-            "alerts": {
-                "validationError": {
-                    "message": "表单无效",
-                    "description": "请在提交前修正表单中的错误"
-                },
-                "confirmation": {
-                    "message": "创建报价",
-                    "description": "您即将以每单位 {{price}} {{sideCurrency}} 的价格创建 {{quantity}} {{currency}} 的 {{side}} 报价。确认吗？",
-                    "cancel": "取消",
-                    "confirm": "确认"
-                },
-                "offerCreated": {
-                    "message": "报价已创建",
-                    "description": "您的报价已成功创建，现在已在市场上发布"
-                },
-                "error": {
-                    "message": "创建报价失败"
-                }
-            }
         },
         "newTrade": {
             "offerDetails": {
                 "title": "报价详情",
                 "price": "价格",
                 "available": "可用",
-                "limitMin": "最低限额",
-                "limitMax": "最高限额",
-                "memo": "备注",
+                "limitMin": "最小限额",
+                "limitMax": "最大限额",
+                "memo": "备忘录",
                 "seller": "卖家"
             },
             "amount": {
@@ -319,18 +240,19 @@
                 "max": "最大",
                 "errors": {
                     "exceedsAvailable": "数量超过可用量",
-                    "belowMinLimit": "交易价值必须至少为 {{min}} {{currency}}",
-                    "aboveMaxLimit": "交易价值不能超过 {{max}} {{currency}}"
+                    "belowMinLimit": "交易金额至少为 {{min}} {{currency}}",
+                    "aboveMaxLimit": "交易金额不能超过 {{max}} {{currency}}"
                 }
             },
             "total": {
-                "title": "总计"
+                "title": "总计",
+                "youReceive": "您将收到"
             },
             "confirmButton": "创建交易",
             "alerts": {
                 "tradeConfirmation": {
                     "message": "创建交易",
-                    "description": "您即将以 {{total}} {{sideCurrency}} 购买 {{amount}} {{currency}}。确认吗？",
+                    "description": "您将以 {{total}} {{sideCurrency}} 购买 {{amount}} {{currency}}。确认吗？",
                     "cancel": "取消",
                     "confirm": "确认"
                 },
@@ -343,6 +265,75 @@
                 }
             }
         },
+        "newOffer": {
+            "form": {
+                "side": {
+                    "title": "您想做什么？",
+                    "description": "选择您是想从交易者那里购买还是出售货币",
+                    "buy": "购买",
+                    "sell": "出售"
+                },
+                "currency": {
+                    "title": "货币",
+                    "description": "您想购买或出售的货币"
+                },
+                "side_currency": {
+                    "title": "支付货币",
+                    "description": "您将用于兑换主要货币的货币"
+                },
+                "quantity": {
+                    "title": "可用数量",
+                    "description": "此报价可用的最大货币金额",
+                    "placeholder": "0.00"
+                },
+                "price": {
+                    "title": "汇率",
+                    "description": "每1单位货币的价格",
+                    "placeholder": "0.00"
+                },
+                "limit_min": {
+                    "title": "每笔交易最小金额",
+                    "description": "交易者每笔交易可以交易的最小金额",
+                    "placeholder": "0.00"
+                },
+                "limit_max": {
+                    "title": "每笔交易最大金额",
+                    "description": "交易者每笔交易可以交易的最大金额",
+                    "placeholder": "0.00"
+                }
+            },
+            "createButton": "创建报价",
+            "errors": {
+                "invalidQuantity": "请输入有效的数量",
+                "invalidPrice": "请输入有效的价格",
+                "invalidLimitMin": "请输入有效的最小限额",
+                "invalidLimitMax": "请输入有效的最大限额",
+                "limitMaxLessThanMin": "最大限额必须大于最小限额",
+                "limitMaxExceedsTotal": "最大限额不能超过总报价价值",
+                "sameCurrency": "货币和支付货币必须不同",
+                "invalidSnsName": "请选择联系方式",
+                "invalidSnsId": "请输入您的联系ID"
+            },
+            "alerts": {
+                "validationError": {
+                    "message": "无效的表单",
+                    "description": "请在提交前修正表单中的错误"
+                },
+                "confirmation": {
+                    "message": "创建报价",
+                    "description": "您将以每单位 {{price}} {{side_currency}} 的价格{{side}}最多 {{quantity}} {{currency}}。交易者可以在每笔交易中交易 {{limit_min}} - {{limit_max}} {{side_currency}}。",
+                    "cancel": "取消",
+                    "confirm": "确认"
+                },
+                "offerCreated": {
+                    "message": "报价已创建",
+                    "description": "您的报价已成功创建，现已在市场上发布"
+                },
+                "error": {
+                    "message": "报价创建失败"
+                }
+            }
+        },
         "account": {
             "general": "常规",
             "username": "用户名",
@@ -350,18 +341,27 @@
             "actions": "操作",
             "deposit": "存款",
             "withdraw": "提款",
+            "settings": "设置",
             "balances": "余额",
             "trades": "交易",
             "offers": "报价",
             "frozen": "冻结",
-            "noBalances": "暂无余额",
+            "noBalances": "没有可用余额",
             "account": "账户",
             "market": "市场"
+        },
+        "p2pUsername": {
+            "title": "P2P用户名",
+            "placeholder": "输入用户名"
         },
         "deposit": {
             "loading": "加载中...",
             "selectNetwork": "选择网络",
             "noAddress": "此网络没有可用地址"
+        },
+        "withdraw": {
+            "selectCurrency": "选择货币",
+            "chooseAddress": "选择地址"
         }
     },
     "transactions": {
@@ -409,7 +409,15 @@
         "deleteHistoryCache": "删除钱包缓存",
         "copySeedPhrase": "复制恢复短语",
         "deleteWallet": "删除钱包",
-        "enter": "输入"
+        "enter": "输入",
+        "usernameChanged": {
+            "message": "用户名已更新",
+            "description": "您的用户名已成功更新。"
+        },
+        "usernameError": {
+            "message": "错误",
+            "description": "更新用户名失败。"
+        }
     },
     "changePasswordMethod": {
         "pinTitle": "6位PIN码",

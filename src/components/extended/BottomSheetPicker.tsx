@@ -196,30 +196,6 @@ const BottomSheetPicker = ({
         [scheme],
     );
 
-    const renderContent = useCallback(() => {
-        return (
-            <View style={[styles.contentContainer]}>
-                {title && (
-                    <HStack
-                        justifyContent="space-between"
-                        marginBottom={16}
-                        marginTop={8}
-                        paddingHorizontal={20}>
-                        <Text variant="h3">{title}</Text>
-                        {titleActions && titleActions(bottomSheetModalRef)}
-                    </HStack>
-                )}
-                <BottomSheetSectionList
-                    sections={groupedSections}
-                    keyExtractor={item => item.value}
-                    renderItem={renderItem}
-                    renderSectionHeader={renderSectionHeader}
-                    contentContainerStyle={{paddingBottom: bottom + 80}}
-                />
-            </View>
-        );
-    }, [title, groupedSections, renderItem, renderSectionHeader, bottom]);
-
     return (
         <Fragment>
             {children ? (
@@ -261,10 +237,28 @@ const BottomSheetPicker = ({
                 handleIndicatorStyle={handleIndicatorStyle}
                 backdropComponent={renderBackdrop}
                 ref={bottomSheetModalRef}
+                enableDynamicSizing={false}
                 snapPoints={['90%']}>
-                <BottomSheetView style={styles.sheetContent}>
-                    {renderContent()}
-                </BottomSheetView>
+                <View style={styles.sheetContent}>
+                    {title && (
+                        <HStack
+                            justifyContent="space-between"
+                            marginBottom={16}
+                            marginTop={8}
+                            paddingHorizontal={20}>
+                            <Text variant="h3">{title}</Text>
+                            {titleActions && titleActions(bottomSheetModalRef)}
+                        </HStack>
+                    )}
+                    <BottomSheetSectionList
+                        sections={groupedSections}
+                        keyExtractor={item => item.value}
+                        renderItem={renderItem}
+                        renderSectionHeader={renderSectionHeader}
+                        contentContainerStyle={{paddingBottom: bottom + 80}}
+                        style={styles.listContainer}
+                    />
+                </View>
             </BottomSheetModal>
         </Fragment>
     );
@@ -274,10 +268,9 @@ const styles = StyleSheet.create({
     sheetContent: {
         flex: 1,
     },
-    contentContainer: {
+    listContainer: {
         flex: 1,
     },
-
     optionItem: {
         paddingHorizontal: 20,
         paddingVertical: 10,

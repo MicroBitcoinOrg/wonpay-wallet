@@ -20,7 +20,7 @@ export const mexKeys = {
     // Users
     users: {
         all: () => [...mexKeys.all, 'users'] as const,
-        me: (token: string) => [...mexKeys.users.all(), 'me', token] as const,
+        me: (token?: string) => [...mexKeys.users.all(), 'me', token] as const,
         byUsername: (username: string) =>
             [...mexKeys.users.all(), 'username', username] as const,
     },

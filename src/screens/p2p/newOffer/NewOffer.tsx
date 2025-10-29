@@ -199,7 +199,7 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
         defaultValues: {
             currency: MEX_CURRENCIES[0] as Currency,
             side_currency: MEX_CURRENCIES[1] as Currency,
-            side: SideEnum.SELL,
+            side: SideEnum.BUY,
             quantity: '',
             price: '',
             limit_min: '',

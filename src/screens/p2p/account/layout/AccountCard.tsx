@@ -76,7 +76,7 @@ const AccountCard = () => {
                     />
                     <VStack gap={4}>
                         <Text variant="body1" numberOfLines={1}>
-                            {t('account.account')}
+                            {profile.username ?? t('account.account')}
                         </Text>
                         <Text
                             variant="sub1"

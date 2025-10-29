@@ -57,18 +57,24 @@ const Component = (props: Props) => {
             }}
             onPress={navigateToTradeDetails}>
             <HStack justifyContent="space-between" width="100%">
-                <HStack gap={16} justifyContent="flex-start" flex={1}>
+                <HStack
+                    gap={16}
+                    justifyContent="flex-start"
+                    minWidth={0}
+                    flex={1}>
                     <Avatar
                         size="sm"
                         backgroundColor="card"
                         color="textSecondary">
                         <IoniconsIcon size={20} name="swap-horizontal" />
                     </Avatar>
-                    <VStack gap={4}>
+                    <VStack gap={4} minWidth={0} flex={1}>
                         <Text variant="body1">
                             {t(`marketplace.${offer.side}`)}
                         </Text>
                         <Text
+                            ellipsizeMode="middle"
+                            style={{flexShrink: 1, width: '100%'}}
                             color="textSecondary"
                             variant="sub1"
                             numberOfLines={1}>
@@ -78,7 +84,7 @@ const Component = (props: Props) => {
                         </Text>
                     </VStack>
                 </HStack>
-                <VStack alignItems="flex-end" gap={4} flex={1}>
+                <VStack alignItems="flex-end" gap={4} minWidth={0} flex={1}>
                     <NumericFormat
                         displayType="text"
                         value={receivedAmount}

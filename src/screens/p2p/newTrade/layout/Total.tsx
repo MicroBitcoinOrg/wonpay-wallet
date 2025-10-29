@@ -31,7 +31,7 @@ const Total = ({amount, offer}: TotalProps) => {
 
     return (
         <HStack justifyContent="space-between" style={{width: '100%'}}>
-            <Text variant="body1">You receive</Text>
+            <Text variant="body1">{t('newTrade.total.youReceive')}</Text>
             <NumericFormat
                 displayType="text"
                 value={calculateTotal()}

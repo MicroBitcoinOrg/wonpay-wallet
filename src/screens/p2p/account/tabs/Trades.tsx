@@ -79,7 +79,7 @@ const Trades = () => {
                         top: '20%',
                         zIndex: -1,
                     }}
-                    description="You haven't traded yet"
+                    description={t('trades.noTradesYet')}
                 />
             )}
         </View>

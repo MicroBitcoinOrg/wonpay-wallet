@@ -31,10 +31,16 @@ export function useUpdateUsername(
     return useMutation({
         mutationFn: (args: MEX.UpdateUsername) =>
             MEX.updateUsername(token, args),
-        onSuccess: () => {
-            // Invalidate user profile queries
-            queryClient.invalidateQueries({queryKey: mexKeys.users.all()});
-        },
         ...options,
+        onSuccess: (data, variables, context) => {
+            // Invalidate user profile queries
+            queryClient.invalidateQueries({queryKey: mexKeys.users.me(token)});
+            queryClient.invalidateQueries({
+                queryKey: mexKeys.users.all(),
+                exact: false,
+            });
+
+            options?.onSuccess && options?.onSuccess(data, variables, context);
+        },
     });
 }

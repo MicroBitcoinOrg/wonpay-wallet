@@ -22,8 +22,33 @@ import useAppStore from '@/store/appStore';
 import {createNativeBottomTabNavigator} from '@bottom-tabs/react-navigation';
 import {P2PProvider} from '@/providers';
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const Stack = createStackNavigator<Navigation.RootParamList>();
 const Tab = createNativeBottomTabNavigator<Navigation.MainTabsParamList>();
+
+const addressBookIcon = FontAwesome.getImageSourceSync('address-book-o', 24);
+const addressBookFocusedIcon = FontAwesome.getImageSourceSync(
+    'address-book',
+    24,
+);
+
+const walletIcon = Ionicons.getImageSourceSync('wallet-outline', 24);
+const walletFocusedIcon = Ionicons.getImageSourceSync('wallet', 24);
+
+const p2pIcon = FontAwesome6.getImageSourceSync('arrow-right-arrow-left', 24);
+
+const settingsIcon = MaterialCommunityIcons.getImageSourceSync(
+    'cog-outline',
+    24,
+);
+const settingsFocusedIcon = MaterialCommunityIcons.getImageSourceSync(
+    'cog',
+    24,
+);
 
 const MainTabs = () => {
     const scheme = useColorScheme();
@@ -31,6 +56,8 @@ const MainTabs = () => {
     return (
         <P2PProvider>
             <Tab.Navigator
+                rippleColor={Colors[scheme!].primary}
+                activeIndicatorColor={Colors[scheme!].primaryLight}
                 initialRouteName="WalletStack"
                 tabBarActiveTintColor={Colors[scheme!].primaryLight}
                 tabBarStyle={{
@@ -39,11 +66,8 @@ const MainTabs = () => {
                 <Tab.Screen
                     name="AddressBookStack"
                     options={{
-                        tabBarIcon: ({focused}) => ({
-                            sfSymbol: focused
-                                ? 'book.pages.fill'
-                                : 'book.pages',
-                        }),
+                        tabBarIcon: ({focused}) =>
+                            focused ? addressBookFocusedIcon : addressBookIcon,
                         tabBarLabel: 'Address Book',
                     }}
                     component={AddressBookStack}
@@ -51,11 +75,8 @@ const MainTabs = () => {
                 <Tab.Screen
                     options={{
                         tabBarLabel: 'Wallet',
-                        tabBarIcon: ({focused}) => ({
-                            sfSymbol: focused
-                                ? 'wallet.bifold.fill'
-                                : 'wallet.bifold',
-                        }),
+                        tabBarIcon: ({focused}) =>
+                            focused ? walletFocusedIcon : walletIcon,
                     }}
                     name="WalletStack"
                     component={WalletStack}
@@ -64,11 +85,7 @@ const MainTabs = () => {
                     options={{
                         tabBarLabel: 'P2P',
 
-                        tabBarIcon: ({focused}) => ({
-                            sfSymbol: focused
-                                ? 'arrow.down.left.arrow.up.right.square.fill'
-                                : 'arrow.down.left.arrow.up.right.square',
-                        }),
+                        tabBarIcon: ({focused}) => p2pIcon,
                     }}
                     name="P2PStack"
                     component={P2PStack}
@@ -76,9 +93,8 @@ const MainTabs = () => {
                 <Tab.Screen
                     options={{
                         tabBarLabel: 'Settings',
-                        tabBarIcon: ({focused}) => ({
-                            sfSymbol: focused ? 'gearshape.fill' : 'gearshape',
-                        }),
+                        tabBarIcon: ({focused}) =>
+                            focused ? settingsFocusedIcon : settingsIcon,
                     }}
                     name="SettingsStack"
                     component={SettingsStack}

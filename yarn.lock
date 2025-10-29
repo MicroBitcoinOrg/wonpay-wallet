@@ -2353,12 +2353,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/netinfo@npm:11.3.2":
-  version: 11.3.2
-  resolution: "@react-native-community/netinfo@npm:11.3.2"
+"@react-native-community/netinfo@npm:11.4.1":
+  version: 11.4.1
+  resolution: "@react-native-community/netinfo@npm:11.4.1"
   peerDependencies:
     react-native: ">=0.59"
-  checksum: 10c0/1f54960ca49edbc226e48e7b7788e457e25d1a0770501c09f63e587873a905b80168231ebd13f4013bb34c865f5a36f26e330058c3e1be84e865c21b5aca92b6
+  checksum: 10c0/118ba6d495bd14c2dab3d228a0c1857620a293ae8592d170d70eaf88a6ac6a4e35c7f84527975a9054e36891a9694aacc8ec053326b5f05961459ed08a70dd35
   languageName: node
   linkType: hard
 
@@ -10889,9 +10889,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:^2.27.1":
-  version: 2.27.1
-  resolution: "react-native-gesture-handler@npm:2.27.1"
+"react-native-gesture-handler@npm:2.29.0":
+  version: 2.29.0
+  resolution: "react-native-gesture-handler@npm:2.29.0"
   dependencies:
     "@egjs/hammerjs": "npm:^2.0.17"
     hoist-non-react-statics: "npm:^3.3.0"
@@ -10899,7 +10899,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/0cfab31fdb3241ca7fd8a770d4701de067b237055e8a1e96bcce081606ea720fb05fc60c805c74149927a443b086f0c1d085550a6e3a964cad7af44885cf90b5
+  checksum: 10c0/53d299f93a3b41ad00f1d2bd0e5e71682a9e2cd29bb310b86517602fb327506a5cf13142c9f4a9452ae78944f7a1c53559c6647a2ff326b45c21abbb19054cde
   languageName: node
   linkType: hard
 
@@ -13502,7 +13502,7 @@ __metadata:
     "@react-native-community/cli-platform-android": "npm:^18.0.0"
     "@react-native-community/cli-platform-ios": "npm:^18.0.0"
     "@react-native-community/datetimepicker": "npm:8.1.0"
-    "@react-native-community/netinfo": "npm:11.3.2"
+    "@react-native-community/netinfo": "npm:11.4.1"
     "@react-native-documents/picker": "npm:^10.1.5"
     "@react-native-masked-view/masked-view": "npm:0.3.1"
     "@react-native-picker/picker": "npm:^2.11.1"
@@ -13570,7 +13570,7 @@ __metadata:
     react-native-crypto: "npm:2.2.1"
     react-native-device-info: "npm:11.1.0"
     react-native-flash-message: "npm:0.4.2"
-    react-native-gesture-handler: "npm:^2.27.1"
+    react-native-gesture-handler: "npm:2.29.0"
     react-native-get-random-values: "npm:^1.11.0"
     react-native-haptic-feedback: "npm:2.3.3"
     react-native-image-picker: "npm:^8.2.1"

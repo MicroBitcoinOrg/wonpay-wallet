@@ -38,7 +38,8 @@
                 "newTrade": "New Trade",
                 "tradeDetails": "Trade Details",
                 "account": "Account",
-                "deposit": "Deposit"
+                "deposit": "Deposit",
+                "settings": "P2P Settings"
             }
         },
         "migration": {
@@ -207,6 +208,7 @@
             "incoming": "Incoming",
             "outgoing": "Outgoing",
             "noTrades": "No trades yet",
+            "noTradesYet": "You haven't traded yet",
             "buying": "Buying",
             "selling": "Selling",
             "status": {
@@ -244,7 +246,8 @@
                 }
             },
             "total": {
-                "title": "Total"
+                "title": "Total",
+                "youReceive": "You receive"
             },
             "confirmButton": "Create Trade",
             "alerts": {
@@ -339,6 +342,7 @@
             "actions": "Actions",
             "deposit": "Deposit",
             "withdraw": "Withdraw",
+            "settings": "Settings",
             "balances": "Balances",
             "trades": "Trades",
             "offers": "Offers",
@@ -346,6 +350,10 @@
             "noBalances": "No balances available",
             "account": "Account",
             "market": "Market"
+        },
+        "p2pUsername": {
+            "title": "P2P Username",
+            "placeholder": "Enter username"
         },
         "deposit": {
             "loading": "Loading...",
@@ -398,7 +406,15 @@
         "enter": "Enter",
         "deleteHistoryCache": "Delete Wallet Cache",
         "copySeedPhrase": "Copy Recovery Phrase",
-        "deleteWallet": "Delete Wallet"
+        "deleteWallet": "Delete Wallet",
+        "usernameChanged": {
+            "message": "Username Updated",
+            "description": "Your username has been successfully updated."
+        },
+        "usernameError": {
+            "message": "Error",
+            "description": "Failed to update username."
+        }
     },
     "changePasswordMethod": {
         "description": "Please select the authentication method you want when using wallet.",
