@@ -102,10 +102,13 @@ const NewTrade: React.FC<NewTradeProps> = ({navigation, route}) => {
         Alert.alert(
             t('newTrade.alerts.tradeConfirmation.message'),
             t('newTrade.alerts.tradeConfirmation.description', {
-                amount,
-                currency: offer.trader_currency.currency,
-                total: (numAmount * offer.price).toFixed(2),
-                sideCurrency: offer.offeror_currency.currency,
+                amount: (offer.side === SideEnum.BUY
+                    ? numAmount / offer.price
+                    : numAmount * offer.price
+                ).toFixed(2),
+                currency: offer.offeror_currency.currency,
+                total: Number(amount).toFixed(2),
+                sideCurrency: offer.trader_currency.currency,
             }),
             [
                 {

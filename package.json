@@ -13,7 +13,7 @@
     "dependencies": {
         "@bitcoinerlab/secp256k1": "^1.1.1",
         "@bottom-tabs/react-navigation": "^1.0.0",
-        "@gorhom/bottom-sheet": "^5",
+        "@gorhom/bottom-sheet": "^5.2.6",
         "@hookform/resolvers": "^5.2.2",
         "@react-native-async-storage/async-storage": "^2.2.0",
         "@react-native-clipboard/clipboard": "^1.16.3",
@@ -84,7 +84,7 @@
         "react-native-skeleton-placeholder": "5.2.4",
         "react-native-svg": "^15.12.0",
         "react-native-tab-view": "3.5.2",
-        "react-native-vector-icons": "10.2.0",
+        "react-native-vector-icons": "10.3.0",
         "react-number-format": "5.4.4",
         "readable-stream": "4.5.2",
         "stream-browserify": "3.0.0",

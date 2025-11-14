@@ -269,18 +269,18 @@
         "newOffer": {
             "form": {
                 "side": {
-                    "title": "What do you want to do?",
-                    "description": "Select whether you want to buy or sell currency from traders",
+                    "title": "Offer side",
+                    "description": "Select whether the user wants to buy or sell the currency from your offer",
                     "buy": "Buy",
                     "sell": "Sell"
                 },
                 "currency": {
                     "title": "Currency",
-                    "description": "The currency you want to buy or sell"
+                    "description": "The currency the user will buy from you or sell to you"
                 },
                 "side_currency": {
                     "title": "Payment Currency",
-                    "description": "The currency you'll exchange for the main currency"
+                    "description": "The currency exchanged for the main currency"
                 },
                 "quantity": {
                     "title": "Available Quantity",
@@ -322,7 +322,7 @@
                 },
                 "confirmation": {
                     "message": "Create Offer",
-                    "description": "You will {{side}} up to {{quantity}} {{currency}} at {{price}} {{side_currency}} per unit. Traders can trade between {{limit_min}} - {{limit_max}} {{side_currency}} per transaction.",
+                    "description": "You will {{side}} up to {{quantity}} {{side_currency}} at {{price}} {{side_currency}} per 1 {{currency}}. Traders can trade between {{limit_min}} - {{limit_max}} {{side_currency}} per transaction.",
                     "cancel": "Cancel",
                     "confirm": "Confirm"
                 },

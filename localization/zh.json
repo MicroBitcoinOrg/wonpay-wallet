@@ -268,18 +268,18 @@
         "newOffer": {
             "form": {
                 "side": {
-                    "title": "您想做什么？",
-                    "description": "选择您是想从交易者那里购买还是出售货币",
+                    "title": "交易方向",
+                    "description": "选择用户想从您的报价中购买还是出售货币",
                     "buy": "购买",
                     "sell": "出售"
                 },
                 "currency": {
                     "title": "货币",
-                    "description": "您想购买或出售的货币"
+                    "description": "用户将从您这里购买或出售给您的货币"
                 },
                 "side_currency": {
                     "title": "支付货币",
-                    "description": "您将用于兑换主要货币的货币"
+                    "description": "用于兑换主货币的货币"
                 },
                 "quantity": {
                     "title": "可用数量",
@@ -321,7 +321,7 @@
                 },
                 "confirmation": {
                     "message": "创建报价",
-                    "description": "您将以每单位 {{price}} {{side_currency}} 的价格{{side}}最多 {{quantity}} {{currency}}。交易者可以在每笔交易中交易 {{limit_min}} - {{limit_max}} {{side_currency}}。",
+                    "description": "您将{{side}}最多 {{quantity}} {{side_currency}}，价格为每1个 {{currency}} {{price}} {{side_currency}}。交易者可以在每笔交易中交易 {{limit_min}} - {{limit_max}} {{side_currency}}。",
                     "cancel": "取消",
                     "confirm": "确认"
                 },

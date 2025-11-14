@@ -268,7 +268,11 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                     currency: formatCurrency(formData.currency),
                     side_currency: formatCurrency(formData.side_currency),
                     side: formData.side,
-                    quantity: parseFloat(formData.quantity),
+                    quantity:
+                        formData.side === SideEnum.BUY
+                            ? parseFloat(formData.quantity)
+                            : parseFloat(formData.quantity) /
+                              parseFloat(formData.price),
                     price: parseFloat(formData.price),
                     limit_min: parseFloat(formData.limit_min),
                     limit_max: parseFloat(formData.limit_max),
@@ -296,7 +300,10 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
             t('newOffer.alerts.confirmation.message'),
             t('newOffer.alerts.confirmation.description', {
                 side: formData.side,
-                quantity: formData.quantity,
+                quantity:
+                    formData.side === SideEnum.BUY
+                        ? formData.quantity * formData.price
+                        : formData.quantity / formData.price,
                 currency: formData.currency.currency,
                 price: formData.price,
                 side_currency: formData.side_currency.currency,
