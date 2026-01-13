@@ -193,6 +193,7 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
         formState: {errors, isValid},
         watch,
         trigger,
+        setValue,
     } = useForm({
         resolver: zodResolver(validationSchema),
         mode: 'onChange',
@@ -335,26 +336,59 @@ const NewOffer: React.FC<NewOfferProps> = ({navigation}) => {
                         contentContainerStyle={{paddingBottom: 20}}>
                         <VStack style={{gap: 8}}>
                             {/* Offer Type */}
-                            <Controller
-                                control={control}
-                                name="side"
-                                render={({field: {onChange, value}}) => (
-                                    <FormItem
-                                        title={t('newOffer.form.side.title')}
-                                        description={t(
-                                            'newOffer.form.side.description',
-                                        )}>
-                                        <BottomSheetPicker
-                                            options={sideOptions}
-                                            selectedValue={value}
-                                            onValueChange={onChange}
-                                            title={t(
-                                                'newOffer.form.side.title',
-                                            )}
-                                        />
-                                    </FormItem>
-                                )}
-                            />
+
+                            <FormItem
+                                title={t('newOffer.form.side.title')}
+                                description={t(
+                                    'newOffer.form.side.description',
+                                )}>
+                                <HStack>
+                                    <Button
+                                        onPress={() =>
+                                            setValue('side', SideEnum.BUY)
+                                        }
+                                        flex={1}
+                                        type={
+                                            side === SideEnum.BUY
+                                                ? 'contained'
+                                                : 'contained'
+                                        }
+                                        color={
+                                            side === SideEnum.BUY
+                                                ? 'primary'
+                                                : 'card'
+                                        }
+                                        title="Buy"
+                                        size="lg"
+                                        style={{
+                                            borderTopRightRadius: 0,
+                                            borderBottomRightRadius: 0,
+                                        }}
+                                    />
+                                    <Button
+                                        flex={1}
+                                        onPress={() =>
+                                            setValue('side', SideEnum.SELL)
+                                        }
+                                        type={
+                                            side === SideEnum.SELL
+                                                ? 'contained'
+                                                : 'contained'
+                                        }
+                                        color={
+                                            side === SideEnum.SELL
+                                                ? 'primary'
+                                                : 'card'
+                                        }
+                                        title="Sell"
+                                        size="lg"
+                                        style={{
+                                            borderTopLeftRadius: 0,
+                                            borderBottomLeftRadius: 0,
+                                        }}
+                                    />
+                                </HStack>
+                            </FormItem>
 
                             {/* Currency Pair */}
                             <Controller

@@ -2,6 +2,7 @@ import React, {useCallback, useEffect, useRef, useState, useMemo} from 'react';
 import {
     FlatList,
     RefreshControl,
+    ScrollView,
     StyleSheet,
     useColorScheme,
     View,
@@ -27,7 +28,6 @@ const styles = StyleSheet.create({
 });
 
 const Component = () => {
-    const {getCurrencyIcon} = useBalanceUtils();
     const [isManualRefreshing, setIsManualRefreshing] = useState(false);
     const {t} = useTranslation('p2p');
     const [side, setSide] = useState<SideEnum>(SideEnum.BUY);
@@ -35,34 +35,11 @@ const Component = () => {
     const [selectedCurrency, setSelectedCurrency] = useState<CurrencyType>(
         MEX_CURRENCIES[0],
     );
-    const [selectedSideCurrency, setSelectedSideCurrency] =
-        useState<CurrencyType>(MEX_CURRENCIES[1]);
 
     // Format currency for API
     const formatCurrency = (crypto: CurrencyType): string => {
         return `${crypto.network.toLowerCase()}:${crypto.currency}`;
     };
-
-    // Currency picker options
-    const currencyOptions: PickerOption[] = useMemo(
-        () =>
-            MEX_CURRENCIES.map(crypto => ({
-                label: crypto.currency!,
-                value: JSON.stringify(crypto),
-                description: CHAINS[crypto.network!].name,
-                avatarProps: {
-                    source: {
-                        uri: getCurrencyIcon(crypto.network)({
-                            currency: {
-                                ticker: crypto.currency,
-                                units: 0,
-                            },
-                        }),
-                    },
-                },
-            })),
-        [],
-    );
 
     const {
         data: offersData,
@@ -72,7 +49,6 @@ const Component = () => {
     } = useOffers(
         {
             currency: formatCurrency(selectedCurrency),
-            side_currency: formatCurrency(selectedSideCurrency),
             side: side,
         },
         {page: 1},
@@ -94,11 +70,12 @@ const Component = () => {
     return (
         <View style={styles.container}>
             <HStack
-                justifyContent="space-between"
-                style={{
-                    padding: 16,
-                }}>
-                <HStack justifyContent="flex-start">
+                width={'100%'}
+                justifyContent="flex-start"
+                alignItems="center"
+                paddingVertical={16}
+                gap={8}>
+                <HStack justifyContent="flex-start" paddingLeft={16}>
                     <Button
                         title={t('marketplace.buy')}
                         type={side === SideEnum.BUY ? 'contained' : 'contained'}
@@ -124,50 +101,37 @@ const Component = () => {
                         }}
                     />
                 </HStack>
-                <HStack justifyContent="flex-end" style={{gap: 8}}>
-                    <BottomSheetPicker
-                        options={currencyOptions}
-                        selectedValue={JSON.stringify(selectedCurrency)}
-                        onValueChange={(val: string) => {
-                            try {
-                                setSelectedCurrency(JSON.parse(val));
-                            } catch {
-                                // ignore
-                            }
-                        }}
-                        title={t('marketplace.selectCurrency')}>
+
+                <ScrollView
+                    style={{
+                        flex: 1,
+                        borderLeftWidth: 0.5,
+                        borderColor: Colors[scheme!].border,
+                    }}
+                    contentContainerStyle={{
+                        gap: 8,
+                        paddingHorizontal: 8,
+                        paddingRight: 16,
+                    }}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}>
+                    {MEX_CURRENCIES.map(currency => (
                         <Button
-                            title={selectedCurrency.currency!}
+                            title={currency.currency!}
                             type="contained"
-                            color="card"
-                            size="md"
-                        />
-                    </BottomSheetPicker>
-                    <IoniconsIcon
-                        size={16}
-                        color={Colors[scheme!].textSecondary}
-                        name="swap-horizontal"
-                    />
-                    <BottomSheetPicker
-                        options={currencyOptions}
-                        selectedValue={JSON.stringify(selectedSideCurrency)}
-                        onValueChange={(val: string) => {
-                            try {
-                                setSelectedSideCurrency(JSON.parse(val));
-                            } catch {
-                                // ignore
+                            color={
+                                selectedCurrency.currency === currency.currency
+                                    ? 'primary'
+                                    : 'card'
                             }
-                        }}
-                        title={t('marketplace.selectSideCurrency')}>
-                        <Button
-                            title={selectedSideCurrency.currency!}
-                            type="contained"
-                            color="card"
                             size="md"
+                            key={currency.currency!}
+                            onPress={() => setSelectedCurrency(currency)}
                         />
-                    </BottomSheetPicker>
-                </HStack>
+                    ))}
+                </ScrollView>
             </HStack>
+
             {offersData && (
                 <FlatList
                     style={{flex: 1, width: '100%'}}

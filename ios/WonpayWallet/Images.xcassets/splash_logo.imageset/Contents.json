@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Untitled-1.jpg",
+      "filename" : "wonpay_splash_sprite.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Untitled-2.jpg",
+      "filename" : "wonpay_splash_sprite 1.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Untitled-3.jpg",
+      "filename" : "wonpay_splash_sprite 2.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

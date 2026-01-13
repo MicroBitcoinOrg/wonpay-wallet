@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useEffect, useMemo, useState} from 'react';
 import {Alert, ScrollView, StyleSheet, useColorScheme} from 'react-native';
 import {useTranslation} from 'react-i18next';
 import {showMessage} from 'react-native-flash-message';
@@ -54,12 +54,16 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
         timelock: undefined,
         fee: String(chain!.minFee.toFixed(2)),
         token: undefined,
+        minAmount: undefined,
     };
     const params = route.params
         ? {...defaultParams, ...route.params}
         : defaultParams;
     const [address, setAddress] = useState<string>(params.address);
     const [amount, setAmount] = useState<string>(params.amount);
+    const [minAmount, setMinAmount] = useState<string | undefined>(
+        params.minAmount,
+    );
     const [fee, setFee] = useState<string>(params.fee);
     const [balance, setBalance] = useState<Wallet.Balance | undefined>(
         walletChain!.balances.find(
@@ -151,6 +155,10 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                 ) || walletChain?.balances.find(b => b.main),
             );
         }
+
+        if (route.params?.minAmount) {
+            setMinAmount(route.params.minAmount);
+        }
     }, [route.params]);
 
     useEffect(() => {
@@ -162,6 +170,24 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
             );
         }
     }, [chainKey]);
+
+    console.log('minAmount', minAmount);
+
+    const isMinAmountError = useMemo(() => {
+        if (!minAmount || !amount) {
+            return false;
+        }
+        const numAmount = parseFloat(amount);
+        const numMin = parseFloat(minAmount);
+        return !isNaN(numAmount) && !isNaN(numMin) && numAmount < numMin;
+    }, [amount, minAmount]);
+
+    const amountError = isMinAmountError
+        ? t('amount.minAmountError', {
+              minAmount,
+              coin: balance?.currency.ticker,
+          })
+        : undefined;
 
     return (
         <DismissKeyboard>
@@ -191,6 +217,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                                 address={address}
                                 setAmount={setAmount}
                                 balance={balance!}
+                                error={amountError}
                             />
                             {chain!.minFee > 0 && (
                                 <Fee fee={fee} setFee={setFee} />
@@ -215,6 +242,7 @@ const Send: React.FC<SendProps> = ({navigation, route}: SendProps) => {
                                 ) ||
                                 !amount ||
                                 amount === '' ||
+                                isMinAmountError ||
                                 Number(amount) >
                                     Number(balance!.balance) /
                                         10 ** Number(balance!.currency.units) -

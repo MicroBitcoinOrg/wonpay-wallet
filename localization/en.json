@@ -125,7 +125,8 @@
         "clipboard": "Clipboard",
         "amount": {
             "title": "Amount",
-            "placeholder": "0.00000000"
+            "placeholder": "0.00000000",
+            "minAmountError": "Minimum amount is {{minAmount}} {{coin}}"
         },
         "timelockDate": {
             "title": "Timelock Date",

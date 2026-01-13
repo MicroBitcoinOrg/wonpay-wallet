@@ -25,6 +25,7 @@ import {Wallet} from '@/types/Wallet';
 import useAppStore from '@/store/appStore';
 import {useNavigation} from '@react-navigation/native';
 import {CHAINS} from '@/utils/constants';
+import useBalanceUtils from '@/services/hooks/useBalanceUtils';
 
 const styles = StyleSheet.create({
     tabsContainer: {
@@ -41,6 +42,7 @@ const styles = StyleSheet.create({
 const Tab = createMaterialTopTabNavigator();
 
 const Account = () => {
+    const {getCurrencyIcon} = useBalanceUtils();
     const scheme = useColorScheme();
     const {t} = useTranslation('p2p');
     const navigation = useP2PNavigation();
@@ -49,50 +51,105 @@ const Account = () => {
     const {wallet} = useWallet();
     const store = useAppStore();
 
-    const {data: addresses, isLoading} = useAddresses(token);
+    const {data: addresses} = useAddresses(token);
 
-    // Create network options from addresses
-    const networkOptions: PickerOption[] = useMemo(() => {
+    // Create currency options from supported_currencies in addresses
+    const currencyOptions: PickerOption[] = useMemo(() => {
         if (!addresses) return [];
-        return addresses
-            .filter(addr => addr.address) // Only show networks with addresses
-            .map(addr => ({
-                label: CHAINS[addr.network].name!,
-                value: addr.network,
-                description: `${addr.supported_currencies.length} currencies`,
-                avatarProps: {
-                    source: CHAINS[addr.network].logo,
-                },
-            }));
-    }, [addresses]);
 
-    const handleNetworkSelect = useCallback(
-        (network: string) => {
+        const currencyMap = new Map<
+            string,
+            {
+                currency: string;
+                address: string;
+                network: Wallet.ChainEnum;
+                min_deposit: number;
+            }
+        >();
+
+        // Collect all currencies from all addresses
+        addresses.forEach(addr => {
+            if (!addr.address) return; // Skip addresses without address
+
+            addr.supported_currencies.forEach(supportedCurrency => {
+                // Use currency as key, prefer first occurrence or update if needed
+                const key = `${addr.network}:${supportedCurrency.currency}`;
+                if (!currencyMap.has(key)) {
+                    currencyMap.set(key, {
+                        currency: supportedCurrency.currency,
+                        address: addr.address!,
+                        network: addr.network,
+                        min_deposit: supportedCurrency.min_deposit,
+                    });
+                }
+            });
+        });
+
+        // Convert to picker options
+        return Array.from(currencyMap.values()).map(item => ({
+            label: item.currency,
+            value: `${item.network}:${item.currency}`,
+            description: CHAINS[item.network]?.name || item.network,
+            avatarProps: {
+                source: {
+                    uri: getCurrencyIcon(item.network)({
+                        currency: {ticker: item.currency, units: 0},
+                    }),
+                },
+            },
+        }));
+    }, [addresses, getCurrencyIcon]);
+
+    const handleCurrencySelect = useCallback(
+        (value: string) => {
+            // Parse the value to get network and currency
+            const [networkStr, currency] = value.split(':');
+
+            // Convert network string to ChainEnum for comparison
+            const network = networkStr.toLowerCase() as Wallet.ChainEnum;
+
+            // Find the address that supports this currency
             const selectedAddress = addresses?.find(
-                addr => addr.network === network,
+                addr =>
+                    addr.network === network &&
+                    addr.address &&
+                    addr.supported_currencies.some(
+                        sc => sc.currency === currency,
+                    ),
             );
 
             if (!selectedAddress || !selectedAddress.address) {
                 return;
             }
 
-            const chainKey = network.toLowerCase() as
+            // Find the specific currency info for min_deposit
+            const currencyInfo = selectedAddress.supported_currencies.find(
+                sc => sc.currency === currency,
+            );
+
+            if (!currencyInfo) {
+                return;
+            }
+
+            const chainKey = network as
                 | Wallet.ChainEnum.MICROBITCOIN
                 | Wallet.ChainEnum.TRON;
 
-            if (chainKey !== null && wallet) {
+            if (chainKey && wallet) {
                 // Update active chain in wallet
                 store.updateWallet(wallet.uuid, {
                     activeChain: chainKey,
                 });
 
-                // Navigate to Withdraw screen in WalletStack with deposit address
+                // Navigate to Withdraw screen in WalletStack with deposit address and minAmount
                 rootNavigation.navigate('MainTabs', {
                     screen: 'WalletStack',
                     params: {
                         screen: 'Withdraw',
                         params: {
+                            token: currency,
                             address: selectedAddress.address,
+                            minAmount: String(currencyInfo.min_deposit),
                         },
                     },
                 });
@@ -107,10 +164,10 @@ const Account = () => {
             <AccountCard />
             <HStack gap={80}>
                 <BottomSheetPicker
-                    options={networkOptions}
-                    onValueChange={handleNetworkSelect}
-                    title={t('account.selectNetwork', {
-                        defaultValue: 'Select Network',
+                    options={currencyOptions}
+                    onValueChange={handleCurrencySelect}
+                    title={t('account.selectCurrency', {
+                        defaultValue: 'Select Currency',
                     })}>
                     <IconButton
                         iconColor="textPrimary"

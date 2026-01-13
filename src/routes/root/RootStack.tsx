@@ -11,7 +11,7 @@ import {
     P2PStack,
 } from '@/routes';
 import Config from 'react-native-config';
-import {Platform, useColorScheme} from 'react-native';
+import {ImageSourcePropType, Platform, useColorScheme} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
 import {useTranslation} from 'react-i18next';
@@ -26,29 +26,72 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import FontAwesome6 from 'react-native-vector-icons/FontAwesome6';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import type {SFSymbol} from 'sf-symbols-typescript';
+import type {AppleIcon} from 'react-native-bottom-tabs';
 
 const Stack = createStackNavigator<Navigation.RootParamList>();
 const Tab = createNativeBottomTabNavigator<Navigation.MainTabsParamList>();
 
-const addressBookIcon = FontAwesome.getImageSourceSync('address-book-o', 24);
+// Android icons (ImageSource)
+const addressBookIcon = FontAwesome.getImageSourceSync('address-book-o', 20);
 const addressBookFocusedIcon = FontAwesome.getImageSourceSync(
     'address-book',
-    24,
+    20,
 );
 
-const walletIcon = Ionicons.getImageSourceSync('wallet-outline', 24);
-const walletFocusedIcon = Ionicons.getImageSourceSync('wallet', 24);
+const walletIcon = Ionicons.getImageSourceSync('wallet-outline', 20);
+const walletFocusedIcon = Ionicons.getImageSourceSync('wallet', 20);
 
-const p2pIcon = FontAwesome6.getImageSourceSync('arrow-right-arrow-left', 24);
+const p2pIcon = FontAwesome6.getImageSourceSync('arrow-right-arrow-left', 20);
 
 const settingsIcon = MaterialCommunityIcons.getImageSourceSync(
     'cog-outline',
-    24,
+    20,
 );
 const settingsFocusedIcon = MaterialCommunityIcons.getImageSourceSync(
     'cog',
-    24,
+    20,
 );
+
+const getAddressBookIcon = (
+    focused: boolean,
+): ImageSourcePropType | AppleIcon => {
+    if (Platform.OS === 'ios') {
+        return {sfSymbol: (focused ? 'person.2.fill' : 'person.2') as SFSymbol};
+    }
+    return focused ? addressBookFocusedIcon : addressBookIcon;
+};
+
+const getWalletIcon = (focused: boolean): ImageSourcePropType | AppleIcon => {
+    if (Platform.OS === 'ios') {
+        return {
+            sfSymbol: (focused
+                ? 'wallet.bifold.fill'
+                : 'wallet.bifold') as SFSymbol,
+        };
+    }
+    return focused ? walletFocusedIcon : walletIcon;
+};
+
+const getP2PIcon = (focused: boolean): ImageSourcePropType | AppleIcon => {
+    if (Platform.OS === 'ios') {
+        return {
+            sfSymbol: (focused
+                ? 'arrow.left.arrow.right.circle.fill'
+                : 'arrow.left.arrow.right.circle') as SFSymbol,
+        };
+    }
+    return p2pIcon;
+};
+
+const getSettingsIcon = (focused: boolean): ImageSourcePropType | AppleIcon => {
+    if (Platform.OS === 'ios') {
+        return {
+            sfSymbol: (focused ? 'gearshape.fill' : 'gearshape') as SFSymbol,
+        };
+    }
+    return focused ? settingsFocusedIcon : settingsIcon;
+};
 
 const MainTabs = () => {
     const scheme = useColorScheme();
@@ -66,8 +109,7 @@ const MainTabs = () => {
                 <Tab.Screen
                     name="AddressBookStack"
                     options={{
-                        tabBarIcon: ({focused}) =>
-                            focused ? addressBookFocusedIcon : addressBookIcon,
+                        tabBarIcon: ({focused}) => getAddressBookIcon(focused),
                         tabBarLabel: 'Address Book',
                     }}
                     component={AddressBookStack}
@@ -75,8 +117,7 @@ const MainTabs = () => {
                 <Tab.Screen
                     options={{
                         tabBarLabel: 'Wallet',
-                        tabBarIcon: ({focused}) =>
-                            focused ? walletFocusedIcon : walletIcon,
+                        tabBarIcon: ({focused}) => getWalletIcon(focused),
                     }}
                     name="WalletStack"
                     component={WalletStack}
@@ -84,8 +125,7 @@ const MainTabs = () => {
                 <Tab.Screen
                     options={{
                         tabBarLabel: 'P2P',
-
-                        tabBarIcon: ({focused}) => p2pIcon,
+                        tabBarIcon: ({focused}) => getP2PIcon(focused),
                     }}
                     name="P2PStack"
                     component={P2PStack}
@@ -93,8 +133,7 @@ const MainTabs = () => {
                 <Tab.Screen
                     options={{
                         tabBarLabel: 'Settings',
-                        tabBarIcon: ({focused}) =>
-                            focused ? settingsFocusedIcon : settingsIcon,
+                        tabBarIcon: ({focused}) => getSettingsIcon(focused),
                     }}
                     name="SettingsStack"
                     component={SettingsStack}

@@ -2,7 +2,6 @@ import React, {useContext} from 'react';
 import {HStack, Text} from '@/components/common';
 import {Button, FormItem, Input} from '@/components/extended';
 import {useTranslation} from 'react-i18next';
-import Config from 'react-native-config';
 import {WalletContext} from '@/providers';
 import {useColorScheme} from 'react-native';
 import {Wallet} from '@/types/Wallet';
@@ -13,9 +12,17 @@ interface AmountProps {
     fee: string;
     balance: Wallet.Balance;
     setAmount: any;
+    error?: string | null;
 }
 
-const Amount = ({amount, fee, address, balance, setAmount}: AmountProps) => {
+const Amount = ({
+    amount,
+    fee,
+    address,
+    balance,
+    setAmount,
+    error,
+}: AmountProps) => {
     const scheme = useColorScheme();
     const {t} = useTranslation('withdraw');
     const {wallet} = useContext(WalletContext);
@@ -57,6 +64,11 @@ const Amount = ({amount, fee, address, balance, setAmount}: AmountProps) => {
                 value={amount}
                 keyboardType="numeric"
             />
+            {error && (
+                <Text variant="body3" color="error" style={{marginTop: 4}}>
+                    {error}
+                </Text>
+            )}
         </FormItem>
     );
 };

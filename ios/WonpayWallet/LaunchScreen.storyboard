@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22154" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait" appearance="light"/>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24128" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22130"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24063"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,21 +13,24 @@
             <objects>
                 <viewController id="hKD-oG-Hw3" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="0RV-Eh-t7C">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="back_splash" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFr-Yb-IRV">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_logo" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aFr-Yb-IRV">
+                                <rect key="frame" x="23" y="166.5" width="274" height="235"/>
                                 <color key="tintColor" red="0.34607094529999999" green="0.29660052059999997" blue="0.35855120419999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="235" id="36m-J6-plF"/>
+                                    <constraint firstAttribute="width" secondItem="aFr-Yb-IRV" secondAttribute="height" multiplier="274:235" id="9BY-dJ-mfd"/>
+                                    <constraint firstAttribute="width" constant="274" id="s6B-7S-2EC"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="UeK-Lu-O85"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="aFr-Yb-IRV" firstAttribute="centerX" secondItem="0RV-Eh-t7C" secondAttribute="centerX" id="2gx-ue-aRJ"/>
-                            <constraint firstItem="aFr-Yb-IRV" firstAttribute="width" secondItem="0RV-Eh-t7C" secondAttribute="width" id="T4f-Lr-nxS"/>
                             <constraint firstItem="aFr-Yb-IRV" firstAttribute="centerY" secondItem="0RV-Eh-t7C" secondAttribute="centerY" id="haK-C0-teZ"/>
-                            <constraint firstItem="aFr-Yb-IRV" firstAttribute="height" secondItem="0RV-Eh-t7C" secondAttribute="height" id="xhy-Vo-eI3"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -37,6 +40,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="back_splash" width="585" height="1266"/>
+        <image name="splash_logo" width="380" height="298"/>
     </resources>
 </document>
